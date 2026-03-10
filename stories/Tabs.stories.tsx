@@ -24,7 +24,7 @@ export const ControlledTabs: Story = {
   args: {
     items: []
   },
-  render: () => {
+  render: function Render() {
     const [activeTabId, setActiveTabId] = useState('one');
 
     return (

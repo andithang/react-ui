@@ -1,4 +1,4 @@
-import { type HTMLAttributes, type KeyboardEvent, type ReactNode, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { type HTMLAttributes, type KeyboardEvent, type ReactNode, useId, useMemo, useRef, useState } from 'react';
 import { cn } from '../../utils';
 import './Tabs.scss';
 
@@ -30,15 +30,10 @@ export function Tabs({
   const tabDomId = (tabId: string) => `${rootId}-tab-${tabId.replace(/[^a-zA-Z0-9_-]/g, '-')}`;
   const panelDomId = (tabId: string) => `${rootId}-panel-${tabId.replace(/[^a-zA-Z0-9_-]/g, '-')}`;
   const [uncontrolledTabId, setUncontrolledTabId] = useState<string | undefined>(() => defaultTabId ?? items[0]?.id);
-
-  useEffect(() => {
-    if (activeTabId !== undefined || !items.length) return;
-    if (!items.some((item) => item.id === uncontrolledTabId)) {
-      setUncontrolledTabId(defaultTabId ?? items[0]?.id);
-    }
-  }, [activeTabId, defaultTabId, items, uncontrolledTabId]);
-
-  const selectedTabId = activeTabId ?? uncontrolledTabId ?? items[0]?.id;
+  const normalizedUncontrolledTabId = items.some((item) => item.id === uncontrolledTabId)
+    ? uncontrolledTabId
+    : defaultTabId ?? items[0]?.id;
+  const selectedTabId = activeTabId ?? normalizedUncontrolledTabId;
   const active = useMemo(() => items.find((item) => item.id === selectedTabId) ?? items[0], [items, selectedTabId]);
 
   if (!items.length) return null;

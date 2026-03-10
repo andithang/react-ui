@@ -34,14 +34,14 @@ export function Modal({ open, onClose, title, ariaLabel, children, className }: 
   if (!open || typeof document === 'undefined') return null;
 
   return createPortal(
-    <div className="ui-modal" role="presentation" onClick={onClose}>
+    <div className="ui-modal" role="presentation">
+      <button type="button" className="ui-modal__backdrop" onClick={onClose} aria-label="Close dialog" />
       <div
         className={cn('ui-modal__content', className)}
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
         aria-label={title ? undefined : ariaLabel ?? 'Dialog'}
-        onClick={(event) => event.stopPropagation()}
       >
         <div className="ui-modal__header">
           {title ? <h3 id={titleId}>{title}</h3> : <span />}
