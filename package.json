@@ -29,8 +29,10 @@
     "prepublishOnly": "npm run typecheck && npm run build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
+    "build-storybook:cname": "cross-env STORYBOOK_BASE_URL=/ storybook build",
     "build-storybook:gh": "cross-env STORYBOOK_BASE_URL=/react-ui/ storybook build",
-    "deploy:storybook": "npm run build-storybook:gh && gh-pages -d storybook-static"
+    "deploy:storybook": "npm run build-storybook:gh && gh-pages -d storybook-static",
+    "deploy:storybook:cname": "npm run build-storybook:cname && gh-pages -d storybook-static"
   },
   "publishConfig": {
     "access": "public"
