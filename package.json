@@ -31,8 +31,9 @@
     "build-storybook": "storybook build",
     "build-storybook:cname": "cross-env STORYBOOK_BASE_URL=/ storybook build",
     "build-storybook:gh": "cross-env STORYBOOK_BASE_URL=/react-ui/ storybook build",
-    "deploy:storybook": "npm run build-storybook:gh && gh-pages -d storybook-static",
-    "deploy:storybook:cname": "npm run build-storybook:cname && gh-pages -d storybook-static"
+    "prepare-storybook:static": "node scripts/prepare-storybook-static.mjs",
+    "deploy:storybook": "npm run build-storybook:gh && npm run prepare-storybook:static && gh-pages -d storybook-static --dotfiles",
+    "deploy:storybook:cname": "npm run build-storybook:cname && cross-env STORYBOOK_INCLUDE_CNAME=1 npm run prepare-storybook:static && gh-pages -d storybook-static --dotfiles"
   },
   "publishConfig": {
     "access": "public"

@@ -1,89 +1,121 @@
-# React UI Library
+# @new-vts-kit/react-ui
 
-React component library powered by SCSS and global CSS variables, with Storybook documentation and GitHub Pages deployment support.
+A reusable React UI component library built with TypeScript, SCSS, CSS variables, and Storybook.
 
-## Features
+## Tech Stack
 
-- Theme switch (`ThemeProvider` + `ThemeSwitch`) with persisted light/dark mode
-- SCSS styling and tokenized design system via CSS variables
-- Components:
-  - Button
-  - Icon
-  - Input
-  - Form
-  - Spinner
-  - Typography
-  - Flex/Grid Box
-  - Checkbox
-  - Select
-  - Radio
-  - Switch
-  - Textarea
-  - Modal
-  - Tooltip
-  - Tabs
-- Storybook docs page (`stories/Introduction.mdx`) and component stories
-- GitHub Pages publish command for Storybook
+- React
+- TypeScript
+- Vite (library mode + declaration generation)
+- SCSS + CSS variables (token-first styling)
+- Storybook
 
-## Getting started
+## What This Package Provides
+
+- Theme-aware components with light/dark mode via `ThemeProvider`
+- Primitive layout components (`Box`, `Flex`, `Grid`)
+- Form and feedback components
+- Storybook docs and examples for all components
+- Package-ready build output (`es`, `cjs`, types, styles)
+
+## Installation
+
+```bash
+npm install @new-vts-kit/react-ui
+```
+
+Peer dependencies:
+
+- `react` `^18.0.0 || ^19.0.0`
+- `react-dom` `^18.0.0 || ^19.0.0`
+
+## Quick Start
+
+```tsx
+import { ThemeProvider, ThemeSwitch, Button, Input } from '@new-vts-kit/react-ui';
+import '@new-vts-kit/react-ui/styles.css';
+
+export function App() {
+  return (
+    <ThemeProvider>
+      <ThemeSwitch />
+      <Button variant="primary">Save</Button>
+      <Input label="Name" placeholder="Enter your name" />
+    </ThemeProvider>
+  );
+}
+```
+
+## Exports
+
+Components:
+
+- `Button`
+- `Icon`
+- `Input`
+- `Form`
+- `Spinner`
+- `Typography`
+- `Box`
+- `Flex`
+- `Grid`
+- `Checkbox`
+- `Select`
+- `Radio`
+- `Switch`
+- `Textarea`
+- `Modal`
+- `Tooltip`
+- `Tabs`
+- `ThemeSwitch`
+
+Theme:
+
+- `ThemeProvider`
+- `useThemeContext`
+
+Styles:
+
+- `@new-vts-kit/react-ui/styles.css`
+
+## Development
 
 ```bash
 npm install
 npm run dev
 ```
 
-## Install as a package
+Useful scripts:
 
-```bash
-npm install @new-vts-kit/react-ui
-```
+- `npm run lint`
+- `npm run lint:fix`
+- `npm run typecheck`
+- `npm run build`
+- `npm run storybook`
+- `npm run build-storybook`
 
-## Usage
+## Storybook Deployment (GitHub Pages)
 
-```tsx
-import { ThemeProvider, Button, Input } from '@new-vts-kit/react-ui';
-import '@new-vts-kit/react-ui/styles.css';
+Build/deploy commands:
 
-export function App() {
-  return (
-    <ThemeProvider>
-      <Button>Save</Button>
-      <Input label="Name" placeholder="Type here" />
-    </ThemeProvider>
-  );
-}
-```
+- `npm run deploy:storybook` for project path base (`/react-ui/`)
+- `npm run deploy:storybook:cname` for custom domain base (`/`)
 
-## Build library
+Notes:
 
-```bash
-npm run build
-```
+- Deployment is executed from your current branch (usually `main`).
+- Static files are published to the `gh-pages` branch automatically.
+- Deploy step creates `.nojekyll` and includes `CNAME` (custom domain flow) to avoid missing underscore-prefixed assets.
 
-## Storybook
-
-```bash
-npm run storybook
-npm run build-storybook
-```
-
-## Deploy Storybook to GitHub Pages
-
-```bash
-npm run deploy:storybook
-```
-
-This publishes `storybook-static` to the `gh-pages` branch.
-
-## Publish package
-
-Package name: `@new-vts-kit/react-ui` (public scoped package).
-
-You can publish after authenticating to npm:
+## Publishing
 
 ```bash
 npm login
 npm publish
 ```
 
-`prepublishOnly` runs typecheck and build automatically before publish.
+`prepublishOnly` runs:
+
+```bash
+npm run typecheck && npm run build
+```
