@@ -1,0 +1,58 @@
+.ui-typography {
+  color: var(--ui-text);
+  margin: 0;
+}
+
+.ui-typography--display {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.ui-typography--title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.ui-typography--subtitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.ui-typography--body {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.ui-typography--caption {
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.ui-typography--code {
+  font-family: var(--ui-font-mono);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  background: var(--ui-surface-raised);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-xs);
+  padding: 0.1rem 0.3rem;
+}
+
+.ui-typography--muted {
+  color: var(--ui-text-muted);
+}
+
+.ui-typography--primary {
+  color: var(--ui-primary);
+}
+
+.ui-typography--danger {
+  color: var(--ui-danger);
+}
+
+.ui-typography--success {
+  color: var(--ui-success);
+}

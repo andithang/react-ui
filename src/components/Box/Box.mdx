@@ -1,0 +1,44 @@
+# Box spec
+
+## Purpose
+Provide foundational layout primitives for spacing and structure: `Box`, `Flex`, and `Grid`.
+
+## Visual variants
+- Box surface: off/on (`surface?: boolean`)
+- Radius: none, sm, md, lg
+- Padding scale: none, xs, sm, md, lg, xl, 2xl
+
+## Props
+- `BoxProps`
+- padding?: `SpaceScale`
+- radius?: `'none' | 'sm' | 'md' | 'lg'`
+- surface?: `boolean`
+- Inherits native div props via `HTMLAttributes<HTMLDivElement>`
+- `FlexProps` adds:
+- direction?: `'row' | 'column'`
+- align?: `'start' | 'center' | 'end' | 'stretch'`
+- justify?: `'start' | 'center' | 'end' | 'between' | 'around' | 'evenly'`
+- gap?: `SpaceScale`
+- wrap?: `boolean`
+- `GridProps` adds:
+- columns?: `number`
+- minColumnWidth?: `string`
+- gap?: `SpaceScale`
+
+## Behavior
+- `Box` maps spacing/radius props to CSS custom properties.
+- `Flex` composes `Box` and sets flex layout CSS variables.
+- `Grid` composes `Box` and sets grid layout CSS variables.
+
+## Accessibility
+- Non-interactive layout primitives; semantics come from passed native props.
+
+## Styling
+- Uses `.ui-box`, `.ui-box--surface`, `.ui-flex`, `.ui-grid`.
+- Uses shared spacing tokens from `src/styles/tokens.ts`.
+- Surface/text colors come from CSS variables.
+
+## Deliverables
+- React components (`Box`, `Flex`, `Grid`)
+- SCSS style file
+- Storybook stories

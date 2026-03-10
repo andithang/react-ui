@@ -1,0 +1,28 @@
+# Checkbox spec
+
+## Purpose
+Used for boolean on/off selection with optional helper text.
+
+## Props
+- label?: `string`
+- hint?: `string`
+- Inherits native checkbox input props via `InputHTMLAttributes<HTMLInputElement>`
+
+## Behavior
+- Renders a labeled checkbox with custom visual box.
+- Uses hidden native input with styled indicator.
+- Supports all native checkbox props (`checked`, `defaultChecked`, `onChange`, `disabled`, etc.).
+
+## Accessibility
+- Uses native `<input type="checkbox">`.
+- Label click toggles checkbox.
+- Keyboard accessible by default.
+
+## Styling
+- Uses `.ui-check`, `.ui-check__input`, `.ui-check__box`, `.ui-check__text`.
+- Label and hint typography use shared `.ui-label` and `.ui-helptext`.
+
+## Deliverables
+- React component
+- SCSS style file
+- Storybook stories

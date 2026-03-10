@@ -1,0 +1,43 @@
+# Typography spec
+
+## Purpose
+Render text with consistent type scale and semantic tone tokens.
+
+## Variants
+- display
+- title
+- subtitle
+- body
+- caption
+- code
+
+## Tones
+- default
+- muted
+- primary
+- danger
+- success
+
+## Props
+- as?: `ElementType`
+- variant?: `TypographyVariant`
+- tone?: `TypographyTone`
+- Inherits native element props via `HTMLAttributes<HTMLElement>`
+
+## Behavior
+- Renders the element specified by `as` (default `p`).
+- Applies variant and tone classes.
+- Forwards remaining HTML props.
+
+## Accessibility
+- Semantic meaning depends on `as` prop chosen by consumer.
+- Use heading elements (`h1`-`h6`) where document structure requires.
+
+## Styling
+- Uses `.ui-typography` with modifier classes for variant and tone.
+- Code variant uses mono font token.
+
+## Deliverables
+- React component
+- SCSS style file
+- Storybook typography scale story

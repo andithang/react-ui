@@ -1,0 +1,40 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Docs/Introduction" />
+
+# React UI Library
+
+A React component library built around SCSS and global CSS variables. Every component consumes shared design tokens from [`src/styles/index.scss`](../src/styles/index.scss).
+
+## Included components
+
+- Button
+- Icon
+- Input
+- Form
+- Spinner
+- Typography
+- Flex and Grid box utilities
+- Checkbox
+- Select
+- Radio
+- Switch
+- Textarea
+- Modal
+- Tooltip
+- Tabs
+- Theme switch
+
+## Theming strategy
+
+- Use `ThemeProvider` to manage the active mode.
+- Light and dark tokens live in root-level CSS variables.
+- Components reference semantic variables (`--ui-primary`, `--ui-surface`, `--ui-text`) instead of hard-coded values.
+
+## Deploy Storybook to GitHub Pages
+
+```bash
+npm run deploy:storybook
+```
+
+The deploy script builds Storybook with a repo-aware base path (`/$npm_package_name/`) and publishes `storybook-static` to the `gh-pages` branch.

@@ -1,0 +1,15 @@
+.ui-form {
+  display: grid;
+}
+
+.ui-form--sm {
+  gap: var(--ui-space-sm);
+}
+
+.ui-form--md {
+  gap: var(--ui-space-md);
+}
+
+.ui-form--lg {
+  gap: var(--ui-space-lg);
+}

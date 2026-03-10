@@ -1,0 +1,30 @@
+# Input spec
+
+## Purpose
+Render a text input with optional label, hint, and error messaging.
+
+## Props
+- label?: `string`
+- hint?: `string`
+- error?: `string`
+- Inherits native input props via `InputHTMLAttributes<HTMLInputElement>`
+
+## Behavior
+- Renders label wrapper, input control, and helper/error text.
+- If `id` is missing, generates a runtime id for label association.
+- Error state applies `.ui-control--error`.
+- Error text takes precedence over hint text.
+
+## Accessibility
+- Uses native `<input>`.
+- Label is associated via `htmlFor` and input id.
+- Keyboard accessible by default.
+
+## Styling
+- Uses `.ui-input`, `.ui-input__error`, and shared `.ui-control`.
+- Label and helper text use shared typography helper classes.
+
+## Deliverables
+- React component
+- SCSS style file
+- Storybook coverage in Inputs stories

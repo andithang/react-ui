@@ -1,0 +1,27 @@
+# Form spec
+
+## Purpose
+Wrap form controls in a simple vertical layout with configurable gap.
+
+## Props
+- gap?: `'sm' | 'md' | 'lg'`
+- children: `ReactNode`
+- Inherits native form props via `FormHTMLAttributes<HTMLFormElement>`
+
+## Behavior
+- Renders native `<form>`.
+- Applies `.ui-form` and `.ui-form--<gap>` classes.
+- Default gap is `md`.
+
+## Accessibility
+- Native form semantics are preserved.
+- Keyboard behavior follows browser defaults.
+
+## Styling
+- Uses `.ui-form`, `.ui-form--sm`, `.ui-form--md`, `.ui-form--lg`.
+- Gap values come from shared spacing variables.
+
+## Deliverables
+- React component
+- SCSS style file
+- Storybook usage via input stories

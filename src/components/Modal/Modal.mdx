@@ -1,0 +1,34 @@
+# Modal spec
+
+## Purpose
+Display modal dialog content in a portal with overlay and close controls.
+
+## Props
+- open: `boolean`
+- onClose: `() => void`
+- title?: `string`
+- children: `ReactNode`
+- className?: `string`
+
+## Behavior
+- Returns `null` when `open` is false.
+- Renders in `document.body` via `createPortal`.
+- Closes on:
+- overlay click
+- Escape key
+- close button click
+- Locks body scroll while open.
+
+## Accessibility
+- Dialog container uses `role="dialog"` and `aria-modal="true"`.
+- Close button includes `aria-label="Close"`.
+- Escape key support is built in.
+
+## Styling
+- Uses `.ui-modal`, `.ui-modal__content`, `.ui-modal__header`, `.ui-modal__body`.
+- Surface and text colors come from theme tokens.
+
+## Deliverables
+- React component
+- SCSS style file
+- Storybook modal example

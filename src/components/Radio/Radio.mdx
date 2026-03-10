@@ -1,0 +1,27 @@
+# Radio spec
+
+## Purpose
+Render a single radio option with custom visual styling.
+
+## Props
+- label?: `string`
+- Inherits native radio input props via `InputHTMLAttributes<HTMLInputElement>`
+
+## Behavior
+- Renders native `<input type="radio">` with custom dot indicator.
+- Supports grouping through shared `name` prop.
+- Supports controlled and uncontrolled usage.
+
+## Accessibility
+- Uses native radio semantics.
+- Label click selects the option.
+- Keyboard navigation follows browser radio-group behavior.
+
+## Styling
+- Uses `.ui-radio`, `.ui-radio__input`, `.ui-radio__dot`.
+- Label text uses `.ui-label`.
+
+## Deliverables
+- React component
+- SCSS style file
+- Storybook usage in Inputs story
