@@ -1,0 +1,1 @@
+.ui-textarea{width:100%;display:grid;gap:var(--ui-space-xs)}.ui-textarea textarea{resize:vertical;min-height:5rem;border-radius:var(--ui-radius-sm)}.ui-textarea__error{color:var(--ui-danger);font-size:.8rem}
