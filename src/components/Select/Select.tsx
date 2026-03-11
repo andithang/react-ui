@@ -3,6 +3,7 @@ import {
   isValidElement,
   useEffect,
   useId,
+  useCallback,
   useMemo,
   useRef,
   useState,
@@ -125,6 +126,7 @@ export function Select({
   const [query, setQuery] = useState('');
   const [internalValues, setInternalValues] = useState<string[]>(toValueArray(defaultValue));
   const rootRef = useRef<HTMLLabelElement | null>(null);
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
   const loadLockRef = useRef(false);
 
   const { options, groups } = useMemo(() => getGroupsAndOptions(children), [children]);
@@ -169,6 +171,17 @@ export function Select({
   const allSelected = multiple && selectableValues.length > 0 && selectableValues.every((valueItem) => selectedLookup.has(valueItem));
   const hasSelection = selectedValues.length > 0;
 
+  const focusSearchInput = useCallback(() => {
+    if (!searchable) {
+      return;
+    }
+
+    window.setTimeout(() => {
+      searchInputRef.current?.focus();
+    }, 0);
+  }, [searchable]);
+
+
   useEffect(() => {
     const closeOnOutsideClick = (event: MouseEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) {
@@ -183,8 +196,11 @@ export function Select({
   useEffect(() => {
     if (!open) {
       setQuery('');
+      return;
     }
-  }, [open]);
+
+    focusSearchInput();
+  }, [focusSearchInput, open]);
 
   const emitChange = (nextValues: string[]) => {
     const nextValue = multiple ? nextValues : nextValues[0] ?? '';
@@ -229,6 +245,7 @@ export function Select({
   const clearAll = () => {
     updateValues([]);
   };
+
 
   const onTriggerKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     if (event.key === 'Escape') {
@@ -278,7 +295,10 @@ export function Select({
         <button
           type="button"
           className={cn('ui-control', 'ui-select__trigger', error && 'ui-control--error')}
-          onClick={() => setOpen((prev) => !prev)}
+          onClick={() => {
+            setOpen((prev) => !prev);
+            focusSearchInput();
+          }}
           onKeyDown={onTriggerKeyDown}
           aria-haspopup="listbox"
           aria-expanded={open}
@@ -306,10 +326,12 @@ export function Select({
                   placeholder={selectedOptions.length ? '' : triggerText}
                   value={query}
                   onChange={(event) => setQuery(event.target.value)}
+                  ref={searchInputRef}
                   onClick={(event) => {
                     event.preventDefault();
                     event.stopPropagation();
                     setOpen(true);
+                    focusSearchInput();
                   }}
                 />
               </span>
