@@ -10,7 +10,8 @@ import {
   type OptionHTMLAttributes,
   type ReactElement,
   type ReactNode,
-  type SelectHTMLAttributes
+  type SelectHTMLAttributes,
+  type UIEvent
 } from 'react';
 import { cn } from '../../utils';
 import './Select.scss';
@@ -19,6 +20,12 @@ interface SelectOption {
   value: string;
   label: string;
   disabled?: boolean;
+  groupLabel?: string;
+}
+
+interface SelectGroup {
+  label: string;
+  options: SelectOption[];
 }
 
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
@@ -29,19 +36,49 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   enableSelectAll?: boolean;
   selectAllValue?: string | number;
   selectAllLabel?: string;
+  maxSelectedItemsShown?: number;
+  onScrollToLoad?: () => void;
+  scrollLoadThreshold?: number;
 }
 
-function getOptions(children: SelectProps['children']): SelectOption[] {
-  return Children.toArray(children)
-    .filter((child) => isValidElement(child) && child.type === 'option')
-    .map((child) => {
-      const optionChild = child as ReactElement<OptionHTMLAttributes<HTMLOptionElement>>;
-      return {
-        value: String(optionChild.props.value ?? ''),
-        label: String(optionChild.props.children ?? ''),
-        disabled: optionChild.props.disabled
-      };
-    });
+function parseOption(optionChild: ReactElement<OptionHTMLAttributes<HTMLOptionElement>>, groupLabel?: string): SelectOption {
+  return {
+    value: String(optionChild.props.value ?? ''),
+    label: String(optionChild.props.children ?? ''),
+    disabled: optionChild.props.disabled,
+    groupLabel
+  };
+}
+
+function getGroupsAndOptions(children: SelectProps['children']) {
+  const groups: SelectGroup[] = [];
+  const ungrouped: SelectOption[] = [];
+
+  Children.toArray(children).forEach((child) => {
+    if (!isValidElement(child)) {
+      return;
+    }
+
+    if (child.type === 'option') {
+      ungrouped.push(parseOption(child as ReactElement<OptionHTMLAttributes<HTMLOptionElement>>));
+      return;
+    }
+
+    if (child.type === 'optgroup') {
+      const groupChild = child as ReactElement<{ label?: string; children?: ReactNode }>;
+      const groupLabel = String(groupChild.props.label ?? '');
+      const groupOptions = Children.toArray(groupChild.props.children)
+        .filter((optionChild) => isValidElement(optionChild) && optionChild.type === 'option')
+        .map((optionChild) => parseOption(optionChild as ReactElement<OptionHTMLAttributes<HTMLOptionElement>>, groupLabel));
+
+      groups.push({ label: groupLabel, options: groupOptions });
+    }
+  });
+
+  return {
+    groups,
+    options: [...ungrouped, ...groups.flatMap((group) => group.options)]
+  };
 }
 
 function toValueArray(input: SelectProps['value'] | SelectProps['defaultValue']) {
@@ -72,34 +109,60 @@ export function Select({
   enableSelectAll = false,
   selectAllValue = '-1',
   selectAllLabel = 'Select all',
+  maxSelectedItemsShown = 2,
+  onScrollToLoad,
+  scrollLoadThreshold = 24,
   ...props
 }: SelectProps) {
   const generatedId = useId();
   const selectId = id ?? generatedId;
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
   const [internalValues, setInternalValues] = useState<string[]>(toValueArray(defaultValue));
   const rootRef = useRef<HTMLLabelElement | null>(null);
-  const options = useMemo(() => getOptions(children), [children]);
+  const loadLockRef = useRef(false);
+
+  const { options, groups } = useMemo(() => getGroupsAndOptions(children), [children]);
   const isControlled = value !== undefined;
-  const selectedValues = useMemo(
-    () => (isControlled ? toValueArray(value) : internalValues),
-    [internalValues, isControlled, value]
-  );
+  const selectedValues = useMemo(() => (isControlled ? toValueArray(value) : internalValues), [internalValues, isControlled, value]);
   const selectableValues = useMemo(() => options.filter((option) => !option.disabled).map((option) => option.value), [options]);
   const hasSelectAll = multiple && enableSelectAll;
   const selectAllToken = String(selectAllValue);
 
-  const firstSelectedOption = options.find((option) => selectedValues.includes(option.value));
+  const selectedOptions = options.filter((option) => selectedValues.includes(option.value));
+  const selectedLookup = useMemo(() => new Set(selectedValues), [selectedValues]);
+  const firstSelectedOption = options.find((option) => selectedLookup.has(option.value));
+  const visibleTags = multiple ? selectedOptions.slice(0, maxSelectedItemsShown) : [];
+  const hiddenCount = multiple ? Math.max(0, selectedOptions.length - visibleTags.length) : 0;
+
+  const searchableGroups = useMemo(() => {
+    const keyword = query.trim().toLowerCase();
+
+    const filterOptions = (optionList: SelectOption[]) =>
+      keyword ? optionList.filter((option) => option.label.toLowerCase().includes(keyword)) : optionList;
+
+    if (groups.length === 0) {
+      return [
+        {
+          label: '',
+          options: filterOptions(options)
+        }
+      ];
+    }
+
+    return groups
+      .map((group) => ({ label: group.label, options: filterOptions(group.options) }))
+      .filter((group) => group.options.length > 0);
+  }, [groups, options, query]);
+
   const triggerText = multiple
-    ? selectedValues.length
-      ? options
-          .filter((option) => selectedValues.includes(option.value))
-          .map((option) => option.label)
-          .join(', ')
+    ? selectedOptions.length
+      ? selectedOptions.map((option) => option.label).join(', ')
       : 'Select options'
     : firstSelectedOption?.label ?? options[0]?.label;
 
-  const allSelected = multiple && selectableValues.length > 0 && selectableValues.every((valueItem) => selectedValues.includes(valueItem));
+  const allSelected = multiple && selectableValues.length > 0 && selectableValues.every((valueItem) => selectedLookup.has(valueItem));
+  const hasSelection = selectedValues.length > 0;
 
   useEffect(() => {
     const closeOnOutsideClick = (event: MouseEvent) => {
@@ -112,42 +175,54 @@ export function Select({
     return () => document.removeEventListener('mousedown', closeOnOutsideClick);
   }, []);
 
+  useEffect(() => {
+    if (!open) {
+      setQuery('');
+    }
+  }, [open]);
+
   const emitChange = (nextValues: string[]) => {
     const nextValue = multiple ? nextValues : nextValues[0] ?? '';
     onChange?.({ target: { value: nextValue } } as never);
   };
 
+  const updateValues = (nextValues: string[]) => {
+    if (!isControlled) {
+      setInternalValues(nextValues);
+    }
+
+    emitChange(nextValues);
+  };
+
   const selectOption = (nextValue: string) => {
     if (hasSelectAll && nextValue === selectAllToken) {
-      const nextValues = allSelected ? [] : selectableValues;
-
-      if (!isControlled) {
-        setInternalValues(nextValues);
-      }
-
-      emitChange(nextValues);
+      updateValues(allSelected ? [] : selectableValues);
       return;
     }
 
     if (multiple) {
-      const nextValues = selectedValues.includes(nextValue)
+      const nextValues = selectedLookup.has(nextValue)
         ? selectedValues.filter((valueItem) => valueItem !== nextValue)
         : [...selectedValues, nextValue];
 
-      if (!isControlled) {
-        setInternalValues(nextValues);
-      }
-
-      emitChange(nextValues);
+      updateValues(nextValues);
       return;
     }
 
-    if (!isControlled) {
-      setInternalValues([nextValue]);
+    updateValues([nextValue]);
+    setOpen(false);
+  };
+
+  const removeTag = (optionValue: string) => {
+    if (!multiple) {
+      return;
     }
 
-    emitChange([nextValue]);
-    setOpen(false);
+    updateValues(selectedValues.filter((valueItem) => valueItem !== optionValue));
+  };
+
+  const clearAll = () => {
+    updateValues([]);
   };
 
   const onTriggerKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
@@ -159,6 +234,23 @@ export function Select({
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       setOpen((prev) => !prev);
+    }
+  };
+
+  const handleDropdownScroll = (event: UIEvent<HTMLDivElement>) => {
+    if (!onScrollToLoad) {
+      return;
+    }
+
+    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
+    const remaining = scrollHeight - (scrollTop + clientHeight);
+
+    if (remaining <= scrollLoadThreshold && !loadLockRef.current) {
+      loadLockRef.current = true;
+      onScrollToLoad();
+      window.setTimeout(() => {
+        loadLockRef.current = false;
+      }, 300);
     }
   };
 
@@ -190,9 +282,56 @@ export function Select({
         >
           <span className="ui-select__trigger-text">
             {prefixTitle ? <span className="ui-select__prefix">{prefixTitle}</span> : null}
-            <span>{triggerText}</span>
+
+            {multiple ? (
+              selectedOptions.length ? (
+                <span className="ui-select__tags">
+                  {visibleTags.map((option) => (
+                    <span key={option.value} className="ui-select__tag">
+                      <span>{option.label}</span>
+                      <span
+                        className="ui-select__tag-remove"
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Remove ${option.label}`}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          event.stopPropagation();
+                          removeTag(option.value);
+                        }}
+                      >
+                        ×
+                      </span>
+                    </span>
+                  ))}
+                  {hiddenCount > 0 ? <span className="ui-select__tag ui-select__tag--more">+{hiddenCount}...</span> : null}
+                </span>
+              ) : (
+                <span>{triggerText}</span>
+              )
+            ) : (
+              <span>{triggerText}</span>
+            )}
           </span>
-          <span className={cn('ui-select__icon', open && 'ui-select__icon--open')} aria-hidden="true" />
+
+          <span className="ui-select__actions">
+            {hasSelection ? (
+              <span
+                className="ui-select__clear"
+                role="button"
+                tabIndex={0}
+                aria-label="Clear selection"
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  clearAll();
+                }}
+              >
+                ×
+              </span>
+            ) : null}
+            <span className={cn('ui-select__icon', open && 'ui-select__icon--open')} aria-hidden="true" />
+          </span>
         </button>
 
         {open ? (
@@ -201,7 +340,18 @@ export function Select({
             role="listbox"
             aria-multiselectable={multiple ? 'true' : undefined}
             className="ui-select__dropdown"
+            onScroll={handleDropdownScroll}
           >
+            <div className="ui-select__search-wrap">
+              <input
+                type="text"
+                className="ui-control ui-select__search"
+                placeholder="Search..."
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+              />
+            </div>
+
             {hasSelectAll ? (
               <button
                 key={selectAllToken}
@@ -212,42 +362,44 @@ export function Select({
                 onClick={() => selectOption(selectAllToken)}
               >
                 <span className="ui-select__option-content">
-                  <span
-                    className={cn('ui-select__option-checkbox', allSelected && 'ui-select__option-checkbox--checked')}
-                    aria-hidden="true"
-                  />
+                  <span className={cn('ui-select__option-checkbox', allSelected && 'ui-select__option-checkbox--checked')} aria-hidden="true" />
                   <span>{selectAllLabel}</span>
                 </span>
                 {allSelected ? <span className="ui-select__check ui-select__check--end" aria-hidden="true" /> : null}
               </button>
             ) : null}
 
-            {options.map((option) => {
-              const isSelected = selectedValues.includes(option.value);
+            {searchableGroups.map((group) => (
+              <div key={group.label || 'default-group'} className="ui-select__group">
+                {group.label ? <div className="ui-select__group-label">{group.label}</div> : null}
+                {group.options.map((option) => {
+                  const isSelected = selectedLookup.has(option.value);
 
-              return (
-                <button
-                  key={option.value}
-                  type="button"
-                  role="option"
-                  className={cn('ui-select__option', isSelected && 'ui-select__option--selected')}
-                  aria-selected={isSelected}
-                  disabled={option.disabled}
-                  onClick={() => selectOption(option.value)}
-                >
-                  <span className="ui-select__option-content">
-                    {multiple ? (
-                      <span
-                        className={cn('ui-select__option-checkbox', isSelected && 'ui-select__option-checkbox--checked')}
-                        aria-hidden="true"
-                      />
-                    ) : null}
-                    <span>{option.label}</span>
-                  </span>
-                  {isSelected ? <span className="ui-select__check ui-select__check--end" aria-hidden="true" /> : null}
-                </button>
-              );
-            })}
+                  return (
+                    <button
+                      key={`${group.label}-${option.value}`}
+                      type="button"
+                      role="option"
+                      className={cn('ui-select__option', isSelected && 'ui-select__option--selected')}
+                      aria-selected={isSelected}
+                      disabled={option.disabled}
+                      onClick={() => selectOption(option.value)}
+                    >
+                      <span className="ui-select__option-content">
+                        {multiple ? (
+                          <span
+                            className={cn('ui-select__option-checkbox', isSelected && 'ui-select__option-checkbox--checked')}
+                            aria-hidden="true"
+                          />
+                        ) : null}
+                        <span>{option.label}</span>
+                      </span>
+                      {isSelected ? <span className="ui-select__check ui-select__check--end" aria-hidden="true" /> : null}
+                    </button>
+                  );
+                })}
+              </div>
+            ))}
           </div>
         ) : null}
       </span>

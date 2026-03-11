@@ -61,14 +61,41 @@ export const MultipleWithSelectAll: Story = {
     multiple: true,
     enableSelectAll: true,
     selectAllValue: -1,
+    maxSelectedItemsShown: 1,
     defaultValue: ['react']
   },
   render: (args) => (
     <Select {...args}>
-      <option value="react">React</option>
-      <option value="typescript">TypeScript</option>
-      <option value="storybook">Storybook</option>
-      <option value="a11y">Accessibility</option>
+      <optgroup label="Frontend">
+        <option value="react">React</option>
+        <option value="typescript">TypeScript</option>
+      </optgroup>
+      <optgroup label="Tools">
+        <option value="storybook">Storybook</option>
+        <option value="a11y" disabled>
+          Accessibility (disabled)
+        </option>
+      </optgroup>
+    </Select>
+  )
+};
+
+export const InfiniteScrollHook: Story = {
+  args: {
+    label: 'Data source',
+    multiple: true,
+    onScrollToLoad: () => {
+      // eslint-disable-next-line no-console
+      console.log('load more options...');
+    }
+  },
+  render: (args) => (
+    <Select {...args}>
+      {Array.from({ length: 30 }, (_, index) => (
+        <option key={index} value={`item-${index + 1}`}>
+          Item {index + 1}
+        </option>
+      ))}
     </Select>
   )
 };
