@@ -3,11 +3,11 @@ import{j as r}from"./jsx-runtime-D_zvdyIk.js";import{B as a}from"./Button-DQYin6
     display: 'flex',
     gap: '0.75rem',
     flexWrap: 'wrap'
-  }}>\r
-      <Button variant="primary">Primary</Button>\r
-      <Button variant="secondary">Secondary</Button>\r
-      <Button variant="ghost">Ghost</Button>\r
-      <Button variant="danger">Danger</Button>\r
+  }}>
+      <Button variant="primary">Primary</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="danger">Danger</Button>
     </div>
 }`,...(m=(d=t.parameters)==null?void 0:d.docs)==null?void 0:m.source}}};var p,u,l;n.parameters={...n.parameters,docs:{...(p=n.parameters)==null?void 0:p.docs,source:{originalSource:`{
   render: () => <Button leftIcon={<Icon name="check" />}>Save</Button>

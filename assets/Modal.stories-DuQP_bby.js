@@ -3,7 +3,7 @@ import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{r as i}from"./index-oxIuDU2
     onClose: () => undefined,
     children: null
   },
-  render: args => <Modal {...args}>\r
-      <Typography>Run build, review docs, publish package.</Typography>\r
+  render: args => <Modal {...args}>
+      <Typography>Run build, review docs, publish package.</Typography>
     </Modal>
 }`,...(c=(t=s.parameters)==null?void 0:t.docs)==null?void 0:c.source}}};const R=["BasicModal"];export{s as BasicModal,R as __namedExportsOrder,B as default};
