@@ -15,9 +15,9 @@ Render select/dropdown controls with optional label, hint, and error state.
 - Uses a custom trigger button and an absolutely-positioned dropdown panel for options.
 - Keeps a hidden native `<select>` synchronized for form compatibility and native prop support.
 - Supports both single-select and `multiple` mode.
-- In multiple mode, selected options are shown as a comma-separated label in the trigger.
+- In multiple mode, selected options are shown as a comma-separated label in the trigger, and each option row shows a leading checkbox.
 - Chevron icon animates up/down based on open state.
-- Selected options render a trailing tick icon.
+- Selected options render a trailing tick icon that uses the theme primary color.
 - Applies `.ui-control--error` when `error` is provided.
 - Error message takes precedence over hint message.
 
@@ -28,7 +28,7 @@ Render select/dropdown controls with optional label, hint, and error state.
 - Supports keyboard toggle with Enter/Space and close with Escape.
 
 ## Styling
-- Uses `.ui-select`, `.ui-select__wrap`, `.ui-select__trigger`, `.ui-select__dropdown`, `.ui-select__option`, `.ui-select__check`, `.ui-select__error`.
+- Uses `.ui-select`, `.ui-select__wrap`, `.ui-select__trigger`, `.ui-select__dropdown`, `.ui-select__option`, `.ui-select__option-checkbox`, `.ui-select__check`, `.ui-select__error`.
 - Select control uses shared `.ui-control` class.
 - Chevron indicator animates from down to up while open.
 - Option hover/selected/disabled states are token-driven for light/dark theme consistency.

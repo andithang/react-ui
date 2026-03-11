@@ -187,8 +187,18 @@ export function Select({
                   disabled={option.disabled}
                   onClick={() => selectOption(option.value)}
                 >
-                  <span>{option.label}</span>
-                  {isSelected ? <span className="ui-select__check" aria-hidden="true" /> : null}
+                  <span className="ui-select__option-content">
+                    {multiple ? (
+                      <span
+                        className={cn('ui-select__option-checkbox', isSelected && 'ui-select__option-checkbox--checked')}
+                        aria-hidden="true"
+                      >
+                        {isSelected ? <span className="ui-select__check" aria-hidden="true" /> : null}
+                      </span>
+                    ) : null}
+                    <span>{option.label}</span>
+                  </span>
+                  {isSelected ? <span className="ui-select__check ui-select__check--end" aria-hidden="true" /> : null}
                 </button>
               );
             })}
