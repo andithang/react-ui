@@ -17,6 +17,7 @@
 
 .ui-select__trigger {
   width: 100%;
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
@@ -24,10 +25,22 @@
   text-align: left;
 }
 
+.ui-select__wrap:hover .ui-select__trigger:not(:disabled) {
+  cursor: pointer;
+}
+
 .ui-select__trigger-text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-2xs);
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.ui-select__prefix {
+  color: var(--ui-text-muted);
+  flex-shrink: 0;
 }
 
 .ui-select__icon {

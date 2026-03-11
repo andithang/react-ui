@@ -9,6 +9,7 @@ import {
   type KeyboardEvent,
   type OptionHTMLAttributes,
   type ReactElement,
+  type ReactNode,
   type SelectHTMLAttributes
 } from 'react';
 import { cn } from '../../utils';
@@ -24,6 +25,10 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   hint?: string;
   error?: string;
+  prefixTitle?: ReactNode;
+  enableSelectAll?: boolean;
+  selectAllValue?: string | number;
+  selectAllLabel?: string;
 }
 
 function getOptions(children: SelectProps['children']): SelectOption[] {
@@ -63,6 +68,10 @@ export function Select({
   onChange,
   disabled,
   multiple,
+  prefixTitle,
+  enableSelectAll = false,
+  selectAllValue = '-1',
+  selectAllLabel = 'Select all',
   ...props
 }: SelectProps) {
   const generatedId = useId();
@@ -76,6 +85,9 @@ export function Select({
     () => (isControlled ? toValueArray(value) : internalValues),
     [internalValues, isControlled, value]
   );
+  const selectableValues = useMemo(() => options.filter((option) => !option.disabled).map((option) => option.value), [options]);
+  const hasSelectAll = multiple && enableSelectAll;
+  const selectAllToken = String(selectAllValue);
 
   const firstSelectedOption = options.find((option) => selectedValues.includes(option.value));
   const triggerText = multiple
@@ -86,6 +98,8 @@ export function Select({
           .join(', ')
       : 'Select options'
     : firstSelectedOption?.label ?? options[0]?.label;
+
+  const allSelected = multiple && selectableValues.length > 0 && selectableValues.every((valueItem) => selectedValues.includes(valueItem));
 
   useEffect(() => {
     const closeOnOutsideClick = (event: MouseEvent) => {
@@ -104,6 +118,17 @@ export function Select({
   };
 
   const selectOption = (nextValue: string) => {
+    if (hasSelectAll && nextValue === selectAllToken) {
+      const nextValues = allSelected ? [] : selectableValues;
+
+      if (!isControlled) {
+        setInternalValues(nextValues);
+      }
+
+      emitChange(nextValues);
+      return;
+    }
+
     if (multiple) {
       const nextValues = selectedValues.includes(nextValue)
         ? selectedValues.filter((valueItem) => valueItem !== nextValue)
@@ -163,7 +188,10 @@ export function Select({
           aria-controls={`${selectId}-menu`}
           disabled={disabled}
         >
-          <span className="ui-select__trigger-text">{triggerText}</span>
+          <span className="ui-select__trigger-text">
+            {prefixTitle ? <span className="ui-select__prefix">{prefixTitle}</span> : null}
+            <span>{triggerText}</span>
+          </span>
           <span className={cn('ui-select__icon', open && 'ui-select__icon--open')} aria-hidden="true" />
         </button>
 
@@ -174,6 +202,26 @@ export function Select({
             aria-multiselectable={multiple ? 'true' : undefined}
             className="ui-select__dropdown"
           >
+            {hasSelectAll ? (
+              <button
+                key={selectAllToken}
+                type="button"
+                role="option"
+                className={cn('ui-select__option', allSelected && 'ui-select__option--selected')}
+                aria-selected={allSelected}
+                onClick={() => selectOption(selectAllToken)}
+              >
+                <span className="ui-select__option-content">
+                  <span
+                    className={cn('ui-select__option-checkbox', allSelected && 'ui-select__option-checkbox--checked')}
+                    aria-hidden="true"
+                  />
+                  <span>{selectAllLabel}</span>
+                </span>
+                {allSelected ? <span className="ui-select__check ui-select__check--end" aria-hidden="true" /> : null}
+              </button>
+            ) : null}
+
             {options.map((option) => {
               const isSelected = selectedValues.includes(option.value);
 

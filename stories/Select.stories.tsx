@@ -25,12 +25,43 @@ export const Basic: Story = {
   )
 };
 
+export const WithPrefixTitle: Story = {
+  args: {
+    prefixTitle: 'Role:'
+  },
+  render: (args) => (
+    <Select {...args}>
+      <option value="frontend">Frontend Engineer</option>
+      <option value="backend">Backend Engineer</option>
+      <option value="design">Product Designer</option>
+    </Select>
+  )
+};
+
 export const Multiple: Story = {
   args: {
     label: 'Skills',
     hint: 'Choose one or more skills.',
     multiple: true,
     defaultValue: ['react', 'typescript']
+  },
+  render: (args) => (
+    <Select {...args}>
+      <option value="react">React</option>
+      <option value="typescript">TypeScript</option>
+      <option value="storybook">Storybook</option>
+      <option value="a11y">Accessibility</option>
+    </Select>
+  )
+};
+
+export const MultipleWithSelectAll: Story = {
+  args: {
+    label: 'Skills',
+    multiple: true,
+    enableSelectAll: true,
+    selectAllValue: -1,
+    defaultValue: ['react']
   },
   render: (args) => (
     <Select {...args}>
