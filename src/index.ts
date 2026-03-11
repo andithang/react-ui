@@ -38,6 +38,9 @@ export type { SwitchProps } from './components/Switch/Switch';
 export { Textarea } from './components/Textarea/Textarea';
 export type { TextareaProps } from './components/Textarea/Textarea';
 
+export { Tag } from './components/Tag/Tag';
+export type { TagProps } from './components/Tag/Tag';
+
 export { Modal } from './components/Modal/Modal';
 export type { ModalProps } from './components/Modal/Modal';
 

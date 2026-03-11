@@ -13,6 +13,7 @@ import {
   type SelectHTMLAttributes,
   type UIEvent
 } from 'react';
+import { Tag } from '../Tag/Tag';
 import { cn } from '../../utils';
 import './Select.scss';
 
@@ -284,31 +285,30 @@ export function Select({
             {prefixTitle ? <span className="ui-select__prefix">{prefixTitle}</span> : null}
 
             {multiple ? (
-              selectedOptions.length ? (
-                <span className="ui-select__tags">
-                  {visibleTags.map((option) => (
-                    <span key={option.value} className="ui-select__tag">
-                      <span>{option.label}</span>
-                      <span
-                        className="ui-select__tag-remove"
-                        role="button"
-                        tabIndex={0}
-                        aria-label={`Remove ${option.label}`}
-                        onClick={(event) => {
-                          event.preventDefault();
-                          event.stopPropagation();
-                          removeTag(option.value);
-                        }}
-                      >
-                        ×
-                      </span>
-                    </span>
-                  ))}
-                  {hiddenCount > 0 ? <span className="ui-select__tag ui-select__tag--more">+{hiddenCount}...</span> : null}
-                </span>
-              ) : (
-                <span>{triggerText}</span>
-              )
+              <span className="ui-select__tags">
+                {selectedOptions.length ? (
+                  <>
+                    {visibleTags.map((option) => (
+                      <Tag key={option.value} closable closeAsSpan closeLabel={`Remove ${option.label}`} onClose={() => removeTag(option.value)}>
+                        {option.label}
+                      </Tag>
+                    ))}
+                    {hiddenCount > 0 ? <Tag className="ui-select__tag--more">+{hiddenCount}...</Tag> : null}
+                  </>
+                ) : null}
+                <input
+                  type="text"
+                  className="ui-select__inline-search"
+                  placeholder={selectedOptions.length ? '' : triggerText}
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    setOpen(true);
+                  }}
+                />
+              </span>
             ) : (
               <span>{triggerText}</span>
             )}
@@ -342,15 +342,17 @@ export function Select({
             className="ui-select__dropdown"
             onScroll={handleDropdownScroll}
           >
-            <div className="ui-select__search-wrap">
-              <input
-                type="text"
-                className="ui-control ui-select__search"
-                placeholder="Search..."
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-              />
-            </div>
+            {!multiple ? (
+              <div className="ui-select__search-wrap">
+                <input
+                  type="text"
+                  className="ui-control ui-select__search"
+                  placeholder="Search..."
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                />
+              </div>
+            ) : null}
 
             {hasSelectAll ? (
               <button

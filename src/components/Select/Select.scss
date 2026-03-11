@@ -84,17 +84,7 @@
   align-items: center;
   gap: var(--ui-space-2xs);
   overflow: hidden;
-}
-
-.ui-select__tag {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--ui-space-2xs);
-  border-radius: 999px;
-  background: var(--ui-control-option-selected-bg);
-  color: var(--ui-control-option-text);
-  padding: 0.1rem 0.4rem;
-  max-width: 10rem;
+  min-width: 0;
 }
 
 .ui-select__tag--more {
@@ -102,10 +92,14 @@
   color: var(--ui-text-muted);
 }
 
-.ui-select__tag-remove {
-  cursor: pointer;
-  font-size: 0.85rem;
-  line-height: 1;
+.ui-select__inline-search {
+  min-width: 2rem;
+  width: 6rem;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ui-text);
+  padding: 0;
 }
 
 .ui-select__dropdown {

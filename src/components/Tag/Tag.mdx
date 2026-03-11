@@ -1,0 +1,19 @@
+# Tag spec
+
+## Purpose
+Render compact token/tag UI for selected values, filters, or labels.
+
+## Props
+- children: `ReactNode`
+- closable?: `boolean`
+- onClose?: `() => void`
+- closeLabel?: `string`
+- closeAsSpan?: `boolean`
+- Inherits native span props via `HTMLAttributes<HTMLSpanElement>`
+
+## Behavior
+- Renders pill-style content with token-driven colors.
+- Optional close action can render as button or span-role-button for nested interactive contexts.
+
+## Styling
+- Uses `.ui-tag`, `.ui-tag__text`, `.ui-tag__close`.
