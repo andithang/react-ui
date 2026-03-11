@@ -4,5 +4,5 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
     hint?: string;
     error?: string;
 }
-export declare function Select({ label, hint, error, id, className, children, value, defaultValue, onChange, disabled, ...props }: SelectProps): import("react/jsx-runtime").JSX.Element;
+export declare function Select({ label, hint, error, id, className, children, value, defaultValue, onChange, disabled, multiple, ...props }: SelectProps): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=Select.d.ts.map
