@@ -7,6 +7,9 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
     enableSelectAll?: boolean;
     selectAllValue?: string | number;
     selectAllLabel?: string;
+    maxSelectedItemsShown?: number;
+    onScrollToLoad?: () => void;
+    scrollLoadThreshold?: number;
 }
-export declare function Select({ label, hint, error, id, className, children, value, defaultValue, onChange, disabled, multiple, prefixTitle, enableSelectAll, selectAllValue, selectAllLabel, ...props }: SelectProps): import("react/jsx-runtime").JSX.Element;
+export declare function Select({ label, hint, error, id, className, children, value, defaultValue, onChange, disabled, multiple, prefixTitle, enableSelectAll, selectAllValue, selectAllLabel, maxSelectedItemsShown, onScrollToLoad, scrollLoadThreshold, ...props }: SelectProps): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=Select.d.ts.map
