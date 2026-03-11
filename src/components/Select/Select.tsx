@@ -192,9 +192,7 @@ export function Select({
                       <span
                         className={cn('ui-select__option-checkbox', isSelected && 'ui-select__option-checkbox--checked')}
                         aria-hidden="true"
-                      >
-                        {isSelected ? <span className="ui-select__check" aria-hidden="true" /> : null}
-                      </span>
+                      />
                     ) : null}
                     <span>{option.label}</span>
                   </span>
