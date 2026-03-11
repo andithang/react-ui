@@ -40,6 +40,8 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   maxSelectedItemsShown?: number;
   onScrollToLoad?: () => void;
   scrollLoadThreshold?: number;
+  searchable?: boolean;
+  clearable?: boolean;
 }
 
 function parseOption(optionChild: ReactElement<OptionHTMLAttributes<HTMLOptionElement>>, groupLabel?: string): SelectOption {
@@ -113,6 +115,8 @@ export function Select({
   maxSelectedItemsShown = 2,
   onScrollToLoad,
   scrollLoadThreshold = 24,
+  searchable = true,
+  clearable = true,
   ...props
 }: SelectProps) {
   const generatedId = useId();
@@ -137,7 +141,7 @@ export function Select({
   const hiddenCount = multiple ? Math.max(0, selectedOptions.length - visibleTags.length) : 0;
 
   const searchableGroups = useMemo(() => {
-    const keyword = query.trim().toLowerCase();
+    const keyword = searchable ? query.trim().toLowerCase() : '';
 
     const filterOptions = (optionList: SelectOption[]) =>
       keyword ? optionList.filter((option) => option.label.toLowerCase().includes(keyword)) : optionList;
@@ -154,7 +158,7 @@ export function Select({
     return groups
       .map((group) => ({ label: group.label, options: filterOptions(group.options) }))
       .filter((group) => group.options.length > 0);
-  }, [groups, options, query]);
+  }, [groups, options, query, searchable]);
 
   const triggerText = multiple
     ? selectedOptions.length
@@ -315,7 +319,7 @@ export function Select({
           </span>
 
           <span className="ui-select__actions">
-            {hasSelection ? (
+            {clearable && hasSelection ? (
               <span
                 className="ui-select__clear"
                 role="button"
@@ -342,18 +346,6 @@ export function Select({
             className="ui-select__dropdown"
             onScroll={handleDropdownScroll}
           >
-            {!multiple ? (
-              <div className="ui-select__search-wrap">
-                <input
-                  type="text"
-                  className="ui-control ui-select__search"
-                  placeholder="Search..."
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                />
-              </div>
-            ) : null}
-
             {hasSelectAll ? (
               <button
                 key={selectAllToken}

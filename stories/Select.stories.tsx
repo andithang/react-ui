@@ -100,6 +100,33 @@ export const InfiniteScrollHook: Story = {
   )
 };
 
+
+export const NotSearchable: Story = {
+  args: {
+    searchable: false
+  },
+  render: (args) => (
+    <Select {...args}>
+      <option value="frontend">Frontend Engineer</option>
+      <option value="backend">Backend Engineer</option>
+      <option value="design">Product Designer</option>
+    </Select>
+  )
+};
+
+export const NotClearable: Story = {
+  args: {
+    clearable: false
+  },
+  render: (args) => (
+    <Select {...args}>
+      <option value="frontend">Frontend Engineer</option>
+      <option value="backend">Backend Engineer</option>
+      <option value="design">Product Designer</option>
+    </Select>
+  )
+};
+
 export const ErrorState: Story = {
   args: {
     error: 'Please select a role.'
