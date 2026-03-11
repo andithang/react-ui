@@ -39,6 +39,18 @@ function getOptions(children: SelectProps['children']): SelectOption[] {
     });
 }
 
+function toValueArray(input: SelectProps['value'] | SelectProps['defaultValue']) {
+  if (Array.isArray(input)) {
+    return input.map((value) => String(value));
+  }
+
+  if (input === undefined || input === null || input === '') {
+    return [];
+  }
+
+  return [String(input)];
+}
+
 export function Select({
   label,
   hint,
@@ -50,18 +62,30 @@ export function Select({
   defaultValue,
   onChange,
   disabled,
+  multiple,
   ...props
 }: SelectProps) {
   const generatedId = useId();
   const selectId = id ?? generatedId;
   const [open, setOpen] = useState(false);
-  const [internalValue, setInternalValue] = useState(String(defaultValue ?? ''));
+  const [internalValues, setInternalValues] = useState<string[]>(toValueArray(defaultValue));
   const rootRef = useRef<HTMLLabelElement | null>(null);
   const options = useMemo(() => getOptions(children), [children]);
   const isControlled = value !== undefined;
-  const selectedValue = String(isControlled ? value : internalValue);
+  const selectedValues = useMemo(
+    () => (isControlled ? toValueArray(value) : internalValues),
+    [internalValues, isControlled, value]
+  );
 
-  const selectedOption = options.find((option) => option.value === selectedValue) ?? options[0];
+  const firstSelectedOption = options.find((option) => selectedValues.includes(option.value));
+  const triggerText = multiple
+    ? selectedValues.length
+      ? options
+          .filter((option) => selectedValues.includes(option.value))
+          .map((option) => option.label)
+          .join(', ')
+      : 'Select options'
+    : firstSelectedOption?.label ?? options[0]?.label;
 
   useEffect(() => {
     const closeOnOutsideClick = (event: MouseEvent) => {
@@ -74,12 +98,30 @@ export function Select({
     return () => document.removeEventListener('mousedown', closeOnOutsideClick);
   }, []);
 
+  const emitChange = (nextValues: string[]) => {
+    const nextValue = multiple ? nextValues : nextValues[0] ?? '';
+    onChange?.({ target: { value: nextValue } } as never);
+  };
+
   const selectOption = (nextValue: string) => {
-    if (!isControlled) {
-      setInternalValue(nextValue);
+    if (multiple) {
+      const nextValues = selectedValues.includes(nextValue)
+        ? selectedValues.filter((valueItem) => valueItem !== nextValue)
+        : [...selectedValues, nextValue];
+
+      if (!isControlled) {
+        setInternalValues(nextValues);
+      }
+
+      emitChange(nextValues);
+      return;
     }
 
-    onChange?.({ target: { value: nextValue } } as never);
+    if (!isControlled) {
+      setInternalValues([nextValue]);
+    }
+
+    emitChange([nextValue]);
     setOpen(false);
   };
 
@@ -102,9 +144,10 @@ export function Select({
         <select
           id={selectId}
           className={cn('ui-select__native', 'ui-control', error && 'ui-control--error')}
-          value={selectedOption?.value}
+          value={multiple ? selectedValues : selectedValues[0] ?? ''}
           onChange={(event) => selectOption(event.target.value)}
           disabled={disabled}
+          multiple={multiple}
           {...props}
         >
           {children}
@@ -120,25 +163,35 @@ export function Select({
           aria-controls={`${selectId}-menu`}
           disabled={disabled}
         >
-          <span className="ui-select__trigger-text">{selectedOption?.label}</span>
+          <span className="ui-select__trigger-text">{triggerText}</span>
           <span className={cn('ui-select__icon', open && 'ui-select__icon--open')} aria-hidden="true" />
         </button>
 
         {open ? (
-          <div id={`${selectId}-menu`} role="listbox" className="ui-select__dropdown">
-            {options.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                role="option"
-                className={cn('ui-select__option', option.value === selectedValue && 'ui-select__option--selected')}
-                aria-selected={option.value === selectedValue}
-                disabled={option.disabled}
-                onClick={() => selectOption(option.value)}
-              >
-                {option.label}
-              </button>
-            ))}
+          <div
+            id={`${selectId}-menu`}
+            role="listbox"
+            aria-multiselectable={multiple ? 'true' : undefined}
+            className="ui-select__dropdown"
+          >
+            {options.map((option) => {
+              const isSelected = selectedValues.includes(option.value);
+
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="option"
+                  className={cn('ui-select__option', isSelected && 'ui-select__option--selected')}
+                  aria-selected={isSelected}
+                  disabled={option.disabled}
+                  onClick={() => selectOption(option.value)}
+                >
+                  <span>{option.label}</span>
+                  {isSelected ? <span className="ui-select__check" aria-hidden="true" /> : null}
+                </button>
+              );
+            })}
           </div>
         ) : null}
       </span>

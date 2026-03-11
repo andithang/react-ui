@@ -25,6 +25,23 @@ export const Basic: Story = {
   )
 };
 
+export const Multiple: Story = {
+  args: {
+    label: 'Skills',
+    hint: 'Choose one or more skills.',
+    multiple: true,
+    defaultValue: ['react', 'typescript']
+  },
+  render: (args) => (
+    <Select {...args}>
+      <option value="react">React</option>
+      <option value="typescript">TypeScript</option>
+      <option value="storybook">Storybook</option>
+      <option value="a11y">Accessibility</option>
+    </Select>
+  )
+};
+
 export const ErrorState: Story = {
   args: {
     error: 'Please select a role.'
