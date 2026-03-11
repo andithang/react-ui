@@ -320,21 +320,40 @@ export function Select({
                     {hiddenCount > 0 ? <Tag className="ui-select__tag--more">+{hiddenCount}...</Tag> : null}
                   </>
                 ) : null}
-                <input
-                  type="text"
-                  className="ui-select__inline-search"
-                  placeholder={selectedOptions.length ? '' : triggerText}
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  ref={searchInputRef}
-                  onClick={(event) => {
-                    event.preventDefault();
-                    event.stopPropagation();
-                    setOpen(true);
-                    focusSearchInput();
-                  }}
-                />
+                {searchable ? (
+                  <input
+                    type="text"
+                    className="ui-select__inline-search"
+                    placeholder={selectedOptions.length ? '' : triggerText}
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    ref={searchInputRef}
+                    onClick={(event) => {
+                      event.preventDefault();
+                      event.stopPropagation();
+                      setOpen(true);
+                      focusSearchInput();
+                    }}
+                  />
+                ) : selectedOptions.length === 0 ? (
+                  <span>{triggerText}</span>
+                ) : null}
               </span>
+            ) : searchable ? (
+              <input
+                type="text"
+                className="ui-select__inline-search ui-select__inline-search--single"
+                placeholder={triggerText}
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                ref={searchInputRef}
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  setOpen(true);
+                  focusSearchInput();
+                }}
+              />
             ) : (
               <span>{triggerText}</span>
             )}
