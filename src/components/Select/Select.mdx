@@ -11,20 +11,22 @@ Render select/dropdown controls with optional label, hint, and error state.
 - Inherits native select props via `SelectHTMLAttributes<HTMLSelectElement>`
 
 ## Behavior
-- Wraps native `<select>` with custom arrow decoration.
+- Uses a custom trigger button and an absolutely-positioned dropdown panel for options.
+- Keeps a hidden native `<select>` synchronized for form compatibility and native prop support.
+- Chevron icon animates up/down based on open state.
 - Applies `.ui-control--error` when `error` is provided.
 - Error message takes precedence over hint message.
 
 ## Accessibility
-- Uses native select semantics.
 - Label wraps the control for accessible naming.
-- Keyboard interactions are native.
+- Trigger exposes listbox semantics (`aria-haspopup`, `aria-expanded`, `role="listbox"`).
+- Supports keyboard toggle with Enter/Space and close with Escape.
 
 ## Styling
-- Uses `.ui-select`, `.ui-select__wrap`, `.ui-select__error`.
+- Uses `.ui-select`, `.ui-select__wrap`, `.ui-select__trigger`, `.ui-select__dropdown`, `.ui-select__option`, `.ui-select__error`.
 - Select control uses shared `.ui-control` class.
-- Custom chevron indicator animates on focus.
-- Option list colors are token-driven for light/dark theme consistency.
+- Chevron indicator animates from down to up while open.
+- Dropdown/option colors are token-driven for light/dark theme consistency.
 
 ## Deliverables
 - React component
