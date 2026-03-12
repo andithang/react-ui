@@ -1,26 +1,8 @@
-export type DatePickerPicker = 'date' | 'month' | 'year';
-export type DatePickerSize = 'small' | 'middle' | 'large';
-export type DatePickerStatus = 'error' | 'warning';
-export interface DatePickerProps {
-    id?: string;
-    className?: string;
-    label?: string;
-    hint?: string;
-    error?: string;
-    picker?: DatePickerPicker;
-    size?: DatePickerSize;
-    status?: DatePickerStatus;
-    allowClear?: boolean;
-    disabled?: boolean;
-    placeholder?: string;
-    format?: string;
-    value?: Date | null;
-    defaultValue?: Date;
-    open?: boolean;
-    defaultOpen?: boolean;
-    onOpenChange?: (open: boolean) => void;
-    onChange?: (date: Date | null, dateString: string) => void;
-    disabledDate?: (date: Date) => boolean;
-}
-export declare function DatePicker({ id, className, label, hint, error, picker, size, status, allowClear, disabled, placeholder, format, value, defaultValue, open, defaultOpen, onOpenChange, onChange, disabledDate }: DatePickerProps): import("react/jsx-runtime").JSX.Element;
+import { DatePickerProps as AntDatePickerProps, MonthPickerProps, RangePickerProps, WeekPickerProps } from 'antd/es/date-picker';
+import { Dayjs } from 'dayjs';
+export type DatePickerProps<ValueType = Dayjs, IsMultiple extends boolean = boolean> = AntDatePickerProps<ValueType, IsMultiple>;
+export type { RangePickerProps, MonthPickerProps, WeekPickerProps };
+export type YearPickerProps<ValueType = Dayjs | Dayjs> = Omit<DatePickerProps<ValueType>, 'picker'>;
+export type QuarterPickerProps<ValueType = Dayjs | Dayjs> = Omit<DatePickerProps<ValueType>, 'picker'>;
+export declare const DatePicker: import('antd/es/date-picker').DatePickerType;
 //# sourceMappingURL=DatePicker.d.ts.map

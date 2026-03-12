@@ -13,5 +13,5 @@ export interface InputNumberProps extends Omit<InputHTMLAttributes<HTMLInputElem
     controls?: boolean;
     onChange?: (value: number | null) => void;
 }
-export declare function InputNumber({ id, className, label, hint, error, min, max, step, precision, size, value, defaultValue, controls, onChange, disabled, ...props }: InputNumberProps): import("react/jsx-runtime").JSX.Element;
+export declare function InputNumber({ id, className, label, hint, error, min, max, step, precision, size, value, defaultValue, controls, onChange, ...props }: InputNumberProps): import("react/jsx-runtime").JSX.Element;
 //# sourceMappingURL=InputNumber.d.ts.map
