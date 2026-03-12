@@ -98,7 +98,6 @@ export function TreeSelect({
               {treeCheckable ? (
                 <span
                   className={cn(
-                    'ui-check__box',
                     'ui-tree-select__checkbox',
                     checked && 'ui-tree-select__checkbox--checked',
                     option.disabled && 'ui-tree-select__checkbox--disabled'

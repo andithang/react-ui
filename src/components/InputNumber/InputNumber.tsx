@@ -32,6 +32,7 @@ export function InputNumber({
   defaultValue,
   controls = true,
   onChange,
+  disabled,
   ...props
 }: InputNumberProps) {
   const generatedId = useId();
@@ -55,23 +56,31 @@ export function InputNumber({
     return next;
   };
 
+  const stepValue = (direction: 1 | -1) => {
+    if (disabled) return;
+    emit(clamp((currentValue ?? 0) + direction * step));
+  };
+
   return (
     <label className={cn('ui-input-number', className)} htmlFor={inputId}>
       {label ? <span className="ui-label">{label}</span> : null}
-      <span className="ui-input-number__wrap">
-        {controls ? (
-          <button type="button" className="ui-input-number__btn" onClick={() => emit(clamp((currentValue ?? 0) - step))}>
-            -
-          </button>
-        ) : null}
+      <span
+        className={cn(
+          'ui-input-number__affix',
+          `ui-input-number__affix--${size}`,
+          error && 'ui-control--error',
+          disabled && 'ui-input-number__affix--disabled'
+        )}
+      >
         <input
           id={inputId}
           type="number"
-          className={cn('ui-control', `ui-input-number--${size}`, error && 'ui-control--error')}
+          className="ui-input-number__input"
           min={min}
           max={max}
           step={step}
           value={currentValue ?? ''}
+          disabled={disabled}
           onChange={(event) => {
             const next = event.target.value === '' ? null : clamp(Number(event.target.value));
             emit(next);
@@ -79,9 +88,26 @@ export function InputNumber({
           {...props}
         />
         {controls ? (
-          <button type="button" className="ui-input-number__btn" onClick={() => emit(clamp((currentValue ?? 0) + step))}>
-            +
-          </button>
+          <span className="ui-input-number__handlers">
+            <button
+              type="button"
+              className="ui-input-number__handler ui-input-number__handler--up"
+              onClick={() => stepValue(1)}
+              disabled={disabled}
+              aria-label="Increase value"
+            >
+              <span className="ui-input-number__handler-icon" />
+            </button>
+            <button
+              type="button"
+              className="ui-input-number__handler ui-input-number__handler--down"
+              onClick={() => stepValue(-1)}
+              disabled={disabled}
+              aria-label="Decrease value"
+            >
+              <span className="ui-input-number__handler-icon" />
+            </button>
+          </span>
         ) : null}
       </span>
       {error ? <span className="ui-input__error">{error}</span> : hint ? <span className="ui-helptext">{hint}</span> : null}

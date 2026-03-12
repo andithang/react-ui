@@ -2,15 +2,124 @@
   display: grid;
   gap: var(--ui-space-xs);
 
-  &__wrap { display: grid; grid-template-columns: auto 1fr auto; }
-  &__btn {
-    width: 2rem;
+  &__affix {
+    position: relative;
+    display: flex;
+    width: 100%;
     border: 1px solid var(--ui-control-border);
+    border-radius: var(--ui-radius-sm);
     background: var(--ui-control-bg);
-    color: var(--ui-text);
-    cursor: pointer;
+    transition: border-color var(--ui-transition-fast), box-shadow var(--ui-transition-fast), background var(--ui-transition-fast);
+
+    &:hover {
+      border-color: var(--ui-control-border-hover);
+      background: var(--ui-control-bg-hover);
+    }
+
+    &:focus-within {
+      border-color: var(--ui-focus);
+      box-shadow: 0 0 0 3px var(--ui-focus-outline);
+    }
+
+    &.ui-control--error {
+      border-color: var(--ui-danger);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--ui-danger) 20%, transparent);
+    }
   }
 
-  &--small { min-height: 2rem; }
-  &--large { min-height: 2.75rem; }
+  &__affix--small { min-height: 2rem; }
+  &__affix--middle { min-height: 2.5rem; }
+  &__affix--large { min-height: 2.75rem; }
+
+  &__affix--disabled {
+    background: var(--ui-surface-raised);
+    border-color: var(--ui-border);
+    cursor: not-allowed;
+  }
+
+  &__input {
+    width: 100%;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--ui-text);
+    font: inherit;
+    padding: 0.5rem 2rem 0.5rem 0.75rem;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type='number'] {
+      -moz-appearance: textfield;
+    }
+
+    &:disabled {
+      color: var(--ui-text-muted);
+      cursor: not-allowed;
+    }
+  }
+
+  &__handlers {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    width: 1.5rem;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    border-left: 1px solid var(--ui-control-border);
+    border-radius: 0 calc(var(--ui-radius-sm) - 1px) calc(var(--ui-radius-sm) - 1px) 0;
+    overflow: hidden;
+    background: var(--ui-surface-raised);
+  }
+
+  &__handler {
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: var(--ui-text-muted);
+    cursor: pointer;
+    padding: 0;
+
+    &:hover:not(:disabled) {
+      color: var(--ui-primary);
+      background: color-mix(in srgb, var(--ui-primary) 10%, transparent);
+    }
+
+    &:active:not(:disabled) {
+      background: color-mix(in srgb, var(--ui-primary) 16%, transparent);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      color: var(--ui-text-muted);
+      opacity: 0.65;
+    }
+  }
+
+  &__handler--up {
+    border-bottom: 1px solid var(--ui-control-border);
+  }
+
+  &__handler-icon {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg);
+  }
+
+  &__handler--up &__handler-icon {
+    transform: rotate(-135deg);
+    margin-top: 0.15rem;
+  }
+
+  &__handler--down &__handler-icon {
+    transform: rotate(45deg);
+    margin-top: -0.15rem;
+  }
 }
