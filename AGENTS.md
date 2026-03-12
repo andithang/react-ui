@@ -4,7 +4,7 @@
 This repository is a React UI component library written in TypeScript and bundled with Vite.
 
 ## Goal
-Build reusable, accessible, theme-aware UI components that can be published as `@@andithang/react-ui`.
+Build reusable, accessible, theme-aware UI components that can be published as `@andithang/react-ui`.
 
 ## Tech stack
 - React

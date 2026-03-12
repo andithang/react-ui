@@ -1,4 +1,4 @@
-# @@andithang/react-ui
+# @andithang/react-ui
 
 A reusable React UI component library built with TypeScript, SCSS, CSS variables, and Storybook.
 
@@ -21,7 +21,7 @@ A reusable React UI component library built with TypeScript, SCSS, CSS variables
 ## Installation
 
 ```bash
-npm install @@andithang/react-ui
+npm install @andithang/react-ui
 ```
 
 Peer dependencies:
@@ -32,8 +32,8 @@ Peer dependencies:
 ## Quick Start
 
 ```tsx
-import { ThemeProvider, ThemeSwitch, Button, Input } from '@@andithang/react-ui';
-import '@@andithang/react-ui/styles.css';
+import { ThemeProvider, ThemeSwitch, Button, Input } from '@andithang/react-ui';
+import '@andithang/react-ui/styles.css';
 
 export function App() {
   return (
@@ -76,7 +76,7 @@ Theme:
 
 Styles:
 
-- `@@andithang/react-ui/styles.css`
+- `@andithang/react-ui/styles.css`
 
 ## Development
 
