@@ -71,9 +71,34 @@
 
   &__column {
     max-height: 13rem;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     display: grid;
     gap: 2px;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+
+    &:hover {
+      scrollbar-width: thin;
+      scrollbar-color: var(--ui-border-strong) transparent;
+
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: var(--ui-border-strong);
+        border-radius: 999px;
+      }
+    }
   }
 
   &__cell {

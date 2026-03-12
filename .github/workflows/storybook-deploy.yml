@@ -3,7 +3,7 @@ name: Storybook Deploy
 on:
   push:
     branches:
-      - codex/fix-ui-issues-and-adjust-dropdown-behavior
+      - codex/fix-ui-issues-and-adjust-dropdown-behavior-itfzgn
 
 permissions:
   contents: write
