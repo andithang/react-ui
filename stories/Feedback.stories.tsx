@@ -16,7 +16,7 @@ export const LoadingAndTooltips: Story = {
     <Flex gap="lg" align="center">
       <Spinner />
       <Tooltip content="Deploy latest preview">
-        <Button variant="secondary">Hover me</Button>
+        <Button variant="outlined">Hover me</Button>
       </Tooltip>
     </Flex>
   )

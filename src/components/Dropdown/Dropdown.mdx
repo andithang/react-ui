@@ -1,18 +1,29 @@
 # Dropdown spec
 
 ## Purpose
-Provide an Ant Design-inspired `Dropdown` primitive for common application flows.
+Provide an Ant Design-compatible `Dropdown` primitive for menu actions and contextual commands.
 
 ## Props
-- Includes common props aligned with Ant Design patterns (status/size/disabled/className and behavior-specific options).
-- Refer to `Dropdown.tsx` for the complete TypeScript prop interface used by this library build.
+- Mirrors Ant Design `Dropdown` configuration shape:
+  - `menu` with `items`/`onClick` and optional selection (`selectable`, `multiple`, `selectedKeys`).
+  - `trigger` as `('click' | 'hover' | 'contextMenu')[]`.
+  - `placement` with top/bottom left/center/right variants.
+  - `open` + `onOpenChange(open, { source })` controlled pattern.
+  - `arrow`, `popupRender`, `destroyOnHidden`, `autoAdjustOverflow`, `align`, `getPopupContainer`.
+  - Backward-compatible deprecated aliases: `dropdownRender`, `destroyPopupOnHide`, `overlayClassName`, `overlayStyle`, `visible`, `onVisibleChange`.
+
+- Includes `Dropdown.Button` with Ant Design-like props (`type`, `danger`, `loading`, `icon`, `buttonsRender`, etc.).
 
 ## Behavior
-- Uses token-based styling and supports light/dark themes.
-- Supports controlled/uncontrolled patterns where applicable.
+- Trigger interactions support hover, click, and context menu opening.
+- Popup can be rendered in a custom container via portal (`getPopupContainer`).
+- Placement auto-adjusts when enabled to prevent viewport overflow.
+- Menu-item click emits menu callbacks and closes by default (selection mode can keep it open).
 
 ## Accessibility
-- Uses semantic HTML and keyboard-friendly interactions for interactive controls.
+- Uses `role="menu"` / `role="menuitem"` semantics.
+- Supports Escape to close and optional focus transfer into first menu item (`autoFocus`).
 
 ## Styling
-- Main class follows the `ui-` prefix convention via the component stylesheet.
+- Main classes use the `ui-dropdown` namespace and token-based colors/spacings.
+- Hover/active/focus states use semantic primary tokens for theme alignment.

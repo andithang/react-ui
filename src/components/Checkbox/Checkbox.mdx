@@ -1,26 +1,43 @@
 # Checkbox spec
 
 ## Purpose
-Used for boolean on/off selection with optional helper text.
+Provides Ant Design-compatible checkbox behavior for single and grouped selections.
 
 ## Props
-- label?: `string`
-- hint?: `string`
-- Inherits native checkbox input props via `InputHTMLAttributes<HTMLInputElement>`
+- `CheckboxProps`
+- `indeterminate?: boolean`
+- `checked?: boolean`
+- `defaultChecked?: boolean`
+- `disabled?: boolean`
+- `onChange?: (event: CheckboxChangeEvent) => void`
+- `rootClassName?: string`
+- `classNames?: { root?: string; icon?: string; label?: string }`
+- `styles?: { root?: CSSProperties; icon?: CSSProperties; label?: CSSProperties }`
+- plus Ant-compatible core props (`prefixCls`, `skipGroup`, `required`, `autoFocus`, `name`, `value`, `tabIndex`, and input attributes)
+
+- `Checkbox.Group` props (`CheckboxGroupProps<T>`)
+- `options?: Array<CheckboxOptionType<T> | string | number>`
+- `value?: T[]`
+- `defaultValue?: T[]`
+- `onChange?: (checkedValues: T[]) => void`
+- `name?: string`
+- `disabled?: boolean`
 
 ## Behavior
-- Renders a labeled checkbox with custom visual box.
-- Uses hidden native input with styled indicator.
-- Supports all native checkbox props (`checked`, `defaultChecked`, `onChange`, `disabled`, etc.).
+- Uses native `<input type="checkbox">` and supports controlled/uncontrolled usage.
+- Supports `indeterminate` state with mixed aria state (`aria-checked="mixed"`).
+- Supports Ant-compatible group composition via `Checkbox.Group` and option arrays.
+- Checkbox inside a group syncs checked state by matching `value` against group values.
 
 ## Accessibility
-- Uses native `<input type="checkbox">`.
-- Label click toggles checkbox.
-- Keyboard accessible by default.
+- Native checkbox semantics with keyboard interaction and visible focus style.
+- Label click toggles checkbox through associated native control.
+- Group renders semantic container (`role="group"`).
 
 ## Styling
-- Uses `.ui-check`, `.ui-check__input`, `.ui-check__box`, `.ui-check__text`.
-- Label and hint typography use shared `.ui-label` and `.ui-helptext`.
+- Uses `.ui-checkbox*` classes in `Checkbox.ant.scss` for Ant-like visuals.
+- Checked and indeterminate states use theme primary color.
+- Dark-mode hover/active/focus borders stay neutral (`--ui-control-border-*`, `--ui-focus`) for control contrast.
 
 ## Deliverables
 - React component

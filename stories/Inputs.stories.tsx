@@ -24,7 +24,7 @@ export const Controls: Story = {
         <option value="design">Product Designer</option>
       </Select>
       <Textarea label="Description" placeholder="Short project note" />
-      <Checkbox label="Enable notifications" hint="You can disable this later." />
+      <Checkbox>Enable notifications</Checkbox>
       <Flex gap="lg">
         <Radio name="size" value="sm" label="Small" defaultChecked />
         <Radio name="size" value="md" label="Medium" />

@@ -313,7 +313,7 @@ export function Select({
                 {selectedOptions.length ? (
                   <>
                     {visibleTags.map((option) => (
-                      <Tag key={option.value} closable closeAsSpan closeLabel={`Remove ${option.label}`} onClose={() => removeTag(option.value)}>
+                      <Tag key={option.value} closable onClose={() => removeTag(option.value)}>
                         {option.label}
                       </Tag>
                     ))}

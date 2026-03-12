@@ -1,19 +1,52 @@
 # Tag spec
 
 ## Purpose
-Render compact token/tag UI for selected values, filters, or labels.
+Render Ant Design style tags for labels, categorization, and lightweight selection states.
 
-## Props
-- children: `ReactNode`
-- closable?: `boolean`
-- onClose?: `() => void`
-- closeLabel?: `string`
-- closeAsSpan?: `boolean`
+## Primary API (`Tag`)
 - Inherits native span props via `HTMLAttributes<HTMLSpanElement>`
+- `prefixCls?: string`
+- `rootClassName?: string`
+- `color?: TagColor`
+- `variant?: 'filled' | 'solid' | 'outlined'`
+- `closable?: boolean`
+- `closeIcon?: ReactNode | boolean`
+- `onClose?: (event: MouseEvent<HTMLElement>) => void`
+- `icon?: ReactNode`
+- `bordered?: boolean` (deprecated compatibility; use `variant`)
+- `href?: string`
+- `target?: string`
+- `rel?: string`
+- `disabled?: boolean`
+- `classNames?: { root?: string; icon?: string; content?: string; closeIcon?: string }`
+- `styles?: { root?: CSSProperties; icon?: CSSProperties; content?: CSSProperties; closeIcon?: CSSProperties }`
+
+## Compound API
+- `Tag.CheckableTag`
+  - `checked: boolean`
+  - `onChange?: (checked: boolean) => void`
+  - `icon?: ReactNode`
+  - `disabled?: boolean`
+  - Inherits native span props
+- `Tag.CheckableTagGroup`
+  - `options?: Array<{ value: string | number; label: ReactNode } | string | number>`
+  - `multiple?: boolean`
+  - Controlled/uncontrolled single mode: `value?: T | null`, `defaultValue?: T | null`
+  - Controlled/uncontrolled multiple mode: `value?: T[]`, `defaultValue?: T[]`
+  - `onChange?: (value) => void`
+  - `disabled?: boolean`
+  - `classNames?: { root?: string; item?: string }`
+  - `styles?: { root?: CSSProperties; item?: CSSProperties }`
 
 ## Behavior
-- Renders pill-style content with token-driven colors.
-- Optional close action can render as button or span-role-button for nested interactive contexts.
+- Supports Tag variants and preset/status/custom color tokens.
+- Supports closable behavior via `closable` or `closeIcon`; close hides tag unless `event.preventDefault()` is called in `onClose`.
+- Supports link rendering when `href` is provided.
+- Supports disabled state for both link and non-link tags.
+- Supports controlled checkable usage and controlled/uncontrolled group selection patterns.
 
 ## Styling
-- Uses `.ui-tag`, `.ui-tag__text`, `.ui-tag__close`.
+- Uses `.ui-tag` with variant/state/color modifiers.
+- Uses `.ui-tag__icon`, `.ui-tag__content`, `.ui-tag__close-icon`.
+- Uses `.ui-tag-checkable-group` and `.ui-tag-checkable-group__item`.
+- All hover/active/focus interactions are token-driven via theme CSS variables.

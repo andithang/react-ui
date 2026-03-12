@@ -1,27 +1,75 @@
 # Icon spec
 
 ## Purpose
-Render reusable SVG icons from an internal icon path map.
+Render reusable SVG icons from an internal icon map with per-icon `viewBox` support.
 
 ## Available icons
-- search
-- close
-- check
-- chevronDown
-- info
-- sun
-- moon
 - alert
+- arrowDown
+- arrowLeft
+- arrowRight
+- arrowUp
+- bell
+- calendar
+- check
+- checkCircle
+- chevronDown
+- chevronLeft
+- chevronRight
+- chevronUp
+- clock
+- close
+- closeCircle
+- copy
+- dotsHorizontal
+- dotsVertical
+- download
+- edit
+- externalLink
+- eye
+- eyeOff
+- file
+- filter
+- folder
+- heart
+- home
+- info
+- link
+- location
+- lock
+- mail
+- menu
+- minus
+- moon
+- pause
+- phone
+- play
+- plus
+- question
+- refresh
+- search
+- settings
+- star
+- stop
+- sun
+- tag
+- trash
+- unlock
+- upload
+- user
+- users
+- warningCircle
 
 ## Props
 - name: `IconName` (required)
-- size?: `number`
+- size?: `number | string`
 - Inherits native SVG props via `SVGProps<SVGSVGElement>`
 
 ## Behavior
 - Renders `<svg>` with `fill="currentColor"`.
+- Uses icon-specific `viewBox` values to keep each glyph fit to its own SVG bounds.
 - Uses `size` for both width and height.
-- Default size is `20`.
+- Default size is `1em` for CSS-friendly alignment and scaling.
 
 ## Accessibility
 - Sets `aria-hidden="true"` by default.
@@ -29,9 +77,10 @@ Render reusable SVG icons from an internal icon path map.
 
 ## Styling
 - Uses `.ui-icon` class and consumer-provided `className`.
+- Defaults to `width`/`height` of `1em` and inline alignment via component styles.
 - Color inherits from surrounding text unless overridden.
 
 ## Deliverables
 - React component
-- Internal icon path map
+- Internal icon definition map (`viewBox` + path list)
 - Story usage across component demos

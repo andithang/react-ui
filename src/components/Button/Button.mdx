@@ -1,45 +1,60 @@
 # Button spec
 
 ## Purpose
-Used for primary and secondary user actions.
+Ant Design-compatible action trigger with configurable type/color/variant, loading, icon placement, shape, and link rendering.
 
-## Visual variants
-- primary
-- secondary
-- ghost
-- danger
-
-## Sizes
-- sm
-- md
-- lg
+## Visual behavior
+- `type`: `default | primary | dashed | link | text`
+- `color`: `default | primary | danger | blue | purple | cyan | green | magenta | pink | red | orange | yellow | volcano | geekblue | lime | gold`
+- `variant`: `outlined | dashed | solid | filled | text | link`
+- `shape`: `default | circle | round | square`
+- `size`: `small | middle | medium | large`
+- Supports `ghost`, `danger`, `block`, `icon`, `iconPlacement`
 
 ## Props
-- variant?: `'primary' | 'secondary' | 'ghost' | 'danger'`
-- size?: `'sm' | 'md' | 'lg'`
-- loading?: `boolean`
-- leftIcon?: `ReactNode`
-- rightIcon?: `ReactNode`
-- Inherits native button props via `ButtonHTMLAttributes<HTMLButtonElement>`
+- `type?: ButtonType`
+- `color?: ButtonColorType`
+- `variant?: ButtonVariantType`
+- `icon?: ReactNode`
+- `iconPlacement?: 'start' | 'end'`
+- `iconPosition?: 'start' | 'end'` (deprecated compatibility alias)
+- `shape?: ButtonShape`
+- `size?: SizeType`
+- `loading?: boolean | { delay?: number; icon?: ReactNode }`
+- `disabled?: boolean`
+- `ghost?: boolean`
+- `danger?: boolean`
+- `block?: boolean`
+- `href?: string` (renders as anchor)
+- `htmlType?: 'submit' | 'button' | 'reset'`
+- `autoInsertSpace?: boolean`
+- `classNames?: { root?: string; icon?: string; content?: string } | ((info) => ...)`
+- `styles?: { root?: CSSProperties; icon?: CSSProperties; content?: CSSProperties } | ((info) => ...)`
+- `prefixCls?: string`
+- `rootClassName?: string`
+- `children?: ReactNode`
+- Inherits native `button` + `anchor` HTML attributes
 
 ## Behavior
-- Renders native `button`.
-- Applies `ui-button` + variant/size classes.
-- Loading state disables interaction and shows `Loading...` label.
-- `disabled` is true when `disabled || loading`.
+- Uses native `<button>` by default and `<a>` when `href` is provided.
+- Loading state supports immediate or delayed activation.
+- Clicks are blocked while `loading` or `disabled`.
+- Supports Ant-style icon rendering and icon end placement.
+- Supports Ant-style grouped buttons via `Button.Group`.
 
 ## Accessibility
-- Native button semantics are preserved.
-- Keyboard accessible by default.
-- For icon-only usage, provide an accessible name (for example `aria-label`).
+- Preserves native button semantics when rendered as `<button>`.
+- Anchor mode uses `aria-disabled` and removes tab focus when disabled.
+- Icon-only usage should include an accessible name (for example `aria-label`).
 
 ## Styling
-- Uses `.ui-button`.
-- Variant classes: `.ui-button--primary`, `.ui-button--secondary`, `.ui-button--ghost`, `.ui-button--danger`.
-- Size classes: `.ui-button--sm`, `.ui-button--md`, `.ui-button--lg`.
-- Colors come from CSS variables.
-
-## Deliverables
-- React component
-- SCSS style file
-- Storybook stories
+- Root class: `.ui-button`
+- Key state classes:
+  - `.ui-button-color-*`
+  - `.ui-button-variant-*`
+  - `.ui-button-loading`
+  - `.ui-button-background-ghost`
+  - `.ui-button-icon-only`
+  - `.ui-button-icon-end`
+  - `.ui-button-block`
+- Group class: `.ui-button-group`

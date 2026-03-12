@@ -1,26 +1,251 @@
+$ui-tag-preset-colors: (
+  'magenta': #eb2f96,
+  'red': #f5222d,
+  'volcano': #fa541c,
+  'orange': #fa8c16,
+  'gold': #faad14,
+  'lime': #a0d911,
+  'green': #52c41a,
+  'cyan': #13c2c2,
+  'blue': #1677ff,
+  'geekblue': #2f54eb,
+  'purple': #722ed1
+);
+
 .ui-tag {
+  --ui-tag-color: var(--ui-border-strong);
   display: inline-flex;
   align-items: center;
-  gap: var(--ui-space-xs);
-  border-radius: 999px;
-  padding: 0.2rem 0.5rem;
-  background: var(--ui-control-option-selected-bg);
-  color: var(--ui-control-option-text);
-  max-width: 11rem;
+  gap: 0.25rem;
+  max-width: 100%;
+  margin-inline-end: var(--ui-space-xs);
+  border: 1px solid var(--ui-border);
+  border-radius: var(--ui-radius-xs);
+  background: var(--ui-surface-raised);
+  color: var(--ui-text);
+  font-size: 0.75rem;
+  line-height: 1.375rem;
+  padding: 0 0.44rem;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: border-color var(--ui-transition-fast), color var(--ui-transition-fast), background var(--ui-transition-fast), box-shadow var(--ui-transition-fast);
 }
 
-.ui-tag__text {
+.ui-tag__icon,
+.ui-tag__close-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ui-tag__content {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-.ui-tag__close {
+.ui-tag__close-icon {
+  width: 0.9rem;
+  height: 0.9rem;
+  margin-inline-start: 0.125rem;
+  border-radius: 999px;
+  color: var(--ui-text-muted);
   cursor: pointer;
-  font-size: 0.8rem;
-  line-height: 1;
-  color: inherit;
+  transition: color var(--ui-transition-fast), background var(--ui-transition-fast);
+
+  &:hover {
+    color: var(--ui-primary-hover);
+    background: color-mix(in srgb, var(--ui-primary) 18%, transparent);
+  }
+
+  &:active {
+    color: var(--ui-primary-active);
+  }
+}
+
+.ui-tag--outlined {
+  border-color: var(--ui-border);
+  background: var(--ui-surface-raised);
+  color: var(--ui-text);
+}
+
+.ui-tag--filled {
+  border-color: transparent;
+  background: var(--ui-control-option-selected-bg);
+  color: var(--ui-control-option-text);
+}
+
+.ui-tag--solid {
+  border-color: var(--ui-primary);
+  background: var(--ui-primary);
+  color: var(--ui-primary-contrast);
+
+  .ui-tag__close-icon {
+    color: color-mix(in srgb, var(--ui-primary-contrast) 78%, transparent);
+
+    &:hover {
+      color: var(--ui-primary-contrast);
+      background: color-mix(in srgb, var(--ui-primary-contrast) 22%, transparent);
+    }
+
+    &:active {
+      color: var(--ui-primary-contrast);
+      background: color-mix(in srgb, var(--ui-primary-contrast) 32%, transparent);
+    }
+  }
+}
+
+.ui-tag--interactive {
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--ui-primary-outline);
+  }
+
+  &:hover {
+    border-color: var(--ui-primary-hover);
+    color: var(--ui-primary-hover);
+  }
+
+  &:active {
+    border-color: var(--ui-primary-active);
+    color: var(--ui-primary-active);
+  }
+
+  &.ui-tag--solid:hover {
+    border-color: var(--ui-primary-hover);
+    background: var(--ui-primary-hover);
+    color: var(--ui-primary-contrast);
+  }
+
+  &.ui-tag--solid:active {
+    border-color: var(--ui-primary-active);
+    background: var(--ui-primary-active);
+    color: var(--ui-primary-contrast);
+  }
+}
+
+.ui-tag--custom-color,
+.ui-tag[class*='ui-tag--color-'] {
+  --ui-tag-mix-bg: color-mix(in srgb, var(--ui-tag-color) 16%, var(--ui-surface));
+  --ui-tag-mix-border: color-mix(in srgb, var(--ui-tag-color) 35%, var(--ui-border));
+  --ui-tag-mix-text: color-mix(in srgb, var(--ui-tag-color) 74%, var(--ui-text));
+
+  &.ui-tag--outlined {
+    border-color: var(--ui-tag-mix-border);
+    background: var(--ui-tag-mix-bg);
+    color: var(--ui-tag-mix-text);
+  }
+
+  &.ui-tag--filled {
+    border-color: transparent;
+    background: color-mix(in srgb, var(--ui-tag-color) 20%, var(--ui-surface));
+    color: color-mix(in srgb, var(--ui-tag-color) 78%, var(--ui-text));
+  }
+
+  &.ui-tag--solid {
+    border-color: var(--ui-tag-color);
+    background: var(--ui-tag-color);
+    color: var(--ui-primary-contrast);
+  }
+}
+
+.ui-tag--custom-color {
+  --ui-tag-color: var(--ui-tag-custom-color);
+}
+
+@each $name, $color in $ui-tag-preset-colors {
+  .ui-tag--color-#{$name} {
+    --ui-tag-color: #{$color};
+  }
+}
+
+.ui-tag--color-success {
+  --ui-tag-color: var(--ui-success);
+}
+
+.ui-tag--color-processing {
+  --ui-tag-color: #1677ff;
+}
+
+.ui-tag--color-error {
+  --ui-tag-color: var(--ui-danger);
+}
+
+.ui-tag--color-warning {
+  --ui-tag-color: var(--ui-warning);
+}
+
+.ui-tag--color-default {
+  --ui-tag-color: var(--ui-text-muted);
+}
+
+.ui-tag--disabled {
+  cursor: not-allowed;
+  border-color: var(--ui-border);
+  background: var(--ui-surface-raised);
+  color: var(--ui-text-muted);
+
+  .ui-tag__close-icon {
+    color: var(--ui-text-muted);
+    cursor: not-allowed;
+
+    &:hover,
+    &:active {
+      color: var(--ui-text-muted);
+      background: transparent;
+    }
+  }
+}
+
+.ui-tag--checkable {
+  user-select: none;
+  cursor: pointer;
   background: transparent;
-  border: 0;
-  padding: 0;
+  border-color: transparent;
+
+  &:hover:not(.ui-tag--checkable-disabled) {
+    color: var(--ui-primary-hover);
+    background: color-mix(in srgb, var(--ui-primary) 12%, transparent);
+  }
+
+  &:active:not(.ui-tag--checkable-disabled) {
+    color: var(--ui-primary-active);
+    background: color-mix(in srgb, var(--ui-primary) 18%, transparent);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--ui-primary-outline);
+  }
+}
+
+.ui-tag--checkable-checked {
+  border-color: transparent;
+  background: var(--ui-control-option-selected-bg);
+  color: var(--ui-control-option-text);
+}
+
+.ui-tag--checkable-disabled {
+  cursor: not-allowed;
+  background: var(--ui-surface-raised);
+  color: var(--ui-text-muted);
+}
+
+.ui-tag-checkable-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--ui-space-xs);
+}
+
+.ui-tag-checkable-group--disabled {
+  opacity: 1;
+}
+
+.ui-tag-checkable-group__item {
+  margin-inline-end: 0;
 }

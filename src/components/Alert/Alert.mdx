@@ -1,0 +1,26 @@
+# Alert spec
+
+## Purpose
+Display concise, semantic status feedback inline in layouts, mirroring Ant Design `Alert` patterns.
+
+## Public API
+- `Alert` supports latest Ant Design-like props: `type`, `title`, `description`, `showIcon`, `icon`, `action`, `banner`, `closable`, semantic `classNames`/`styles`, and native `aria-*`/`data-*` attributes.
+- `Alert.ErrorBoundary` wraps child render errors and renders an error alert fallback.
+- Deprecated aliases supported for compatibility: `message`, `closeText`, `closeIcon`, `onClose`, `afterClose`.
+
+## Behavior
+- Defaults follow Ant Design behavior:
+  - `type` defaults to `warning` in `banner` mode, otherwise `info`.
+  - `showIcon` defaults to `true` when `banner` is enabled and not explicitly set.
+  - `title` has priority; `message` is a fallback alias.
+- Closing supports both boolean and object `closable` configuration and runs leave transition before after-close callbacks.
+
+## Accessibility
+- Uses `role="alert"` by default.
+- Close affordance uses native `<button>`.
+- Supports aria/data attributes on root and closable button configuration.
+
+## Styling
+- Uses `ui-alert` prefixed classes in `Alert.scss`.
+- Colors and states are token-driven and compatible with light/dark themes.
+

@@ -1,37 +1,27 @@
 # DatePicker spec
 
 ## Purpose
-Ant Design-style date input with trigger field, popup calendar panel, navigation, and clear action.
+Ant Design DatePicker wrapper with full AntD picker behavior and configurable props.
 
-## Props
-- `label?: string`
-- `hint?: string`
-- `error?: string`
-- `picker?: 'date' | 'month' | 'year'` (default: `date`)
-- `size?: 'small' | 'middle' | 'large'` (default: `middle`)
-- `status?: 'error' | 'warning'`
-- `allowClear?: boolean` (default: `true`)
-- `disabled?: boolean`
-- `placeholder?: string` (default: `Select date`)
-- `format?: string` (default: `YYYY-MM-DD`)
-- `value?: Date | null`
-- `defaultValue?: Date`
-- `open?: boolean`
-- `defaultOpen?: boolean`
-- `onOpenChange?: (open: boolean) => void`
-- `onChange?: (date: Date | null, dateString: string) => void`
-- `disabledDate?: (date: Date) => boolean`
-- `id?: string`
-- `className?: string`
+## API parity
+- `DatePicker` now uses Ant Design's DatePicker implementation directly.
+- Supports AntD date value model (`dayjs`) and all AntD configurable props.
+- Includes static pickers from AntD:
+  - `DatePicker.RangePicker`
+  - `DatePicker.WeekPicker`
+  - `DatePicker.MonthPicker`
+  - `DatePicker.YearPicker`
+  - `DatePicker.QuarterPicker`
 
-## Behavior
-- Uses a button-like control to open a popup panel.
-- Supports calendar day grid, month picker, and year picker.
-- Emits both raw `Date` and formatted date string in `onChange`.
-
-## Accessibility
-- Trigger is keyboard-focusable button with `aria-haspopup="dialog"`.
-- Panel closes on outside click.
+## Exported types
+- `DatePickerProps`
+- `RangePickerProps`
+- `MonthPickerProps`
+- `WeekPickerProps`
+- `YearPickerProps`
+- `QuarterPickerProps`
 
 ## Styling
-- Uses `ui-date-picker` namespace and token-based styling.
+- Uses Ant Design structural behavior.
+- Applies library token overrides for colors, borders, focus ring, selected states, and dropdown surfaces.
+- Primary interactive highlight is `var(--ui-primary)` (`#e03` in light theme).

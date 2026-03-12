@@ -45,7 +45,7 @@ export function Modal({ open, onClose, title, ariaLabel, children, className }: 
       >
         <div className="ui-modal__header">
           {title ? <h3 id={titleId}>{title}</h3> : <span />}
-          <Button variant="ghost" size="sm" onClick={onClose} aria-label="Close">
+          <Button variant="text" size="small" onClick={onClose} aria-label="Close">
             <Icon name="close" />
           </Button>
         </div>

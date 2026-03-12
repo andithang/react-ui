@@ -24,7 +24,7 @@ export const Basic: Story = {
   },
   render: ({ children: _children, ...args }) => (
     <Tooltip {...args}>
-      <Button variant="secondary">Hover me</Button>
+      <Button variant="outlined">Hover me</Button>
     </Tooltip>
   )
 };

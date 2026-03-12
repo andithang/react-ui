@@ -20,14 +20,24 @@ type ComponentApi = {
 const componentApis: ComponentApi[] = [
   {
     name: 'Button',
-    description: 'Action button with variant, size, and loading states.',
-    extendsType: 'ButtonHTMLAttributes<HTMLButtonElement>',
+    description: 'Ant Design-compatible action trigger with type/color/variant and anchor mode support.',
+    extendsType: 'HTMLAttributes + ButtonHTMLAttributes + AnchorHTMLAttributes',
     props: [
-      { name: 'variant', type: "'primary' | 'secondary' | 'ghost' | 'danger'", defaultValue: "'primary'", description: 'Visual style.' },
-      { name: 'size', type: "'sm' | 'md' | 'lg'", defaultValue: "'md'", description: 'Button size.' },
-      { name: 'loading', type: 'boolean', defaultValue: 'false', description: 'Disables interaction and shows Loading... label.' },
-      { name: 'leftIcon', type: 'ReactNode', description: 'Content rendered before label.' },
-      { name: 'rightIcon', type: 'ReactNode', description: 'Content rendered after label.' }
+      { name: 'type', type: "'default' | 'primary' | 'dashed' | 'link' | 'text'", defaultValue: "'default'", description: 'Quick style preset.' },
+      {
+        name: 'variant',
+        type: "'outlined' | 'dashed' | 'solid' | 'filled' | 'text' | 'link'",
+        description: 'Explicit variant override.'
+      },
+      { name: 'color', type: 'ButtonColorType', description: 'Semantic/preset color.' },
+      { name: 'shape', type: "'default' | 'circle' | 'round' | 'square'", defaultValue: "'default'", description: 'Button corner/icon shape.' },
+      { name: 'size', type: "'small' | 'middle' | 'medium' | 'large'", defaultValue: "'middle'", description: 'Button size.' },
+      { name: 'icon', type: 'ReactNode', description: 'Icon node content.' },
+      { name: 'iconPlacement', type: "'start' | 'end'", defaultValue: "'start'", description: 'Icon position relative to text.' },
+      { name: 'loading', type: "boolean | { delay?: number; icon?: ReactNode }", defaultValue: 'false', description: 'Loading state and optional delay/icon.' },
+      { name: 'href', type: 'string', description: 'Render as anchor when provided.' },
+      { name: 'ghost', type: 'boolean', defaultValue: 'false', description: 'Transparent ghost style.' },
+      { name: 'block', type: 'boolean', defaultValue: 'false', description: 'Full-width button.' }
     ]
   },
   {

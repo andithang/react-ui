@@ -1,30 +1,45 @@
 # Input spec
 
 ## Purpose
-Render a text input with optional label, hint, and error messaging.
+Render a configurable text input with Ant Design-like API support, while preserving local label, hint, and error messaging.
 
 ## Props
-- label?: `string`
-- hint?: `string`
-- error?: `string`
-- Inherits native input props via `InputHTMLAttributes<HTMLInputElement>`
+- `label?: string`
+- `hint?: string`
+- `error?: string`
+- `size?: 'small' | 'middle' | 'large'`
+- `status?: 'error' | 'warning'`
+- `variant?: 'outlined' | 'borderless' | 'filled' | 'underlined'`
+- `bordered?: boolean` (legacy alias; `false` maps to `borderless` when `variant` is not set)
+- `allowClear?: boolean | { clearIcon?: ReactNode }`
+- `showCount?: boolean | { formatter?: (info) => ReactNode }`
+- `prefix?: ReactNode`
+- `suffix?: ReactNode`
+- `addonBefore?: ReactNode`
+- `addonAfter?: ReactNode`
+- `onPressEnter?: KeyboardEventHandler<HTMLInputElement>`
+- `onClear?: () => void`
+- `rootClassName?: string`
+- `classNames?: Partial<Record<InputSemanticDOM, string>>`
+- `styles?: Partial<Record<InputSemanticDOM, CSSProperties>>`
+- Inherits native input props via `InputHTMLAttributes<HTMLInputElement>` (except `prefix` and `size`).
 
 ## Behavior
-- Renders label wrapper, input control, and helper/error text.
-- If `id` is missing, generates a runtime id for label association.
-- Error state applies `.ui-control--error`.
-- Error text takes precedence over hint text.
+- Generates an id with `useId` when `id` is not provided.
+- Supports both controlled and uncontrolled input state.
+- `allowClear` shows a clear button when value exists and input is interactive.
+- `showCount` displays character count; can be customized with a formatter.
+- Enter key triggers `onPressEnter` and still preserves `onKeyDown`.
+- `error` message has higher priority than `hint`.
 
 ## Accessibility
-- Uses native `<input>`.
-- Label is associated via `htmlFor` and input id.
-- Keyboard accessible by default.
+- Uses native `<input>` for text entry.
+- Label association is preserved via `htmlFor` and generated/provided input id.
+- Clear action uses a native `<button type="button">` with `aria-label`.
+- Keyboard behavior remains native, with explicit Enter callback support.
 
 ## Styling
-- Uses `.ui-input`, `.ui-input__error`, and shared `.ui-control`.
-- Label and helper text use shared typography helper classes.
-
-## Deliverables
-- React component
-- SCSS style file
-- Storybook coverage in Inputs stories
+- Uses `ui-input` prefixed classes in `Input.scss`.
+- Supports semantic class/style overrides through `classNames` and `styles`.
+- Aligns hover/active/focus behavior to tokenized theme variables and status tokens.
+- Dark mode uses neutral high-contrast control borders for interactive states.

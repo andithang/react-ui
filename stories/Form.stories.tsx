@@ -22,7 +22,7 @@ export const Basic: Story = {
     <Form {...args} style={{ width: 'min(24rem, 90vw)' }} onSubmit={(event) => event.preventDefault()}>
       <Input label="Email" placeholder="you@example.com" />
       <Input label="Name" placeholder="Alex Doe" />
-      <Button type="submit">Submit</Button>
+      <Button type="primary" htmlType="submit">Submit</Button>
     </Form>
   )
 };
