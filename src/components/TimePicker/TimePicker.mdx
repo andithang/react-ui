@@ -1,18 +1,39 @@
 # TimePicker spec
 
 ## Purpose
-Provide an Ant Design-inspired `TimePicker` primitive for common application flows.
+Ant Design-style time input with trigger field, popup time columns, and clear action.
 
 ## Props
-- Includes common props aligned with Ant Design patterns (status/size/disabled/className and behavior-specific options).
-- Refer to `TimePicker.tsx` for the complete TypeScript prop interface used by this library build.
+- `label?: string`
+- `hint?: string`
+- `error?: string`
+- `size?: 'small' | 'middle' | 'large'` (default: `middle`)
+- `status?: 'error' | 'warning'`
+- `allowClear?: boolean` (default: `true`)
+- `disabled?: boolean`
+- `placeholder?: string` (default: `Select time`)
+- `format?: 'HH:mm' | 'HH:mm:ss' | 'h:mm a'` (default: `HH:mm:ss`)
+- `value?: Date | null`
+- `defaultValue?: Date`
+- `open?: boolean`
+- `defaultOpen?: boolean`
+- `onOpenChange?: (open: boolean) => void`
+- `onChange?: (time: Date | null, timeString: string) => void`
+- `hourStep?: number` (default: `1`)
+- `minuteStep?: number` (default: `1`)
+- `secondStep?: number` (default: `1`)
+- `use12Hours?: boolean` (default: `false`)
+- `id?: string`
+- `className?: string`
 
 ## Behavior
-- Uses token-based styling and supports light/dark themes.
-- Supports controlled/uncontrolled patterns where applicable.
+- Uses popup panel with hour/minute/second columns.
+- Supports configurable interval steps.
+- Emits both raw `Date` and formatted time string.
 
 ## Accessibility
-- Uses semantic HTML and keyboard-friendly interactions for interactive controls.
+- Trigger is keyboard-focusable button with `aria-haspopup="dialog"`.
+- Panel closes on outside click.
 
 ## Styling
-- Main class follows the `ui-` prefix convention via the component stylesheet.
+- Uses `ui-time-picker` namespace and token-based styling.

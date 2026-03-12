@@ -1,18 +1,37 @@
 # DatePicker spec
 
 ## Purpose
-Provide an Ant Design-inspired `DatePicker` primitive for common application flows.
+Ant Design-style date input with trigger field, popup calendar panel, navigation, and clear action.
 
 ## Props
-- Includes common props aligned with Ant Design patterns (status/size/disabled/className and behavior-specific options).
-- Refer to `DatePicker.tsx` for the complete TypeScript prop interface used by this library build.
+- `label?: string`
+- `hint?: string`
+- `error?: string`
+- `picker?: 'date' | 'month' | 'year'` (default: `date`)
+- `size?: 'small' | 'middle' | 'large'` (default: `middle`)
+- `status?: 'error' | 'warning'`
+- `allowClear?: boolean` (default: `true`)
+- `disabled?: boolean`
+- `placeholder?: string` (default: `Select date`)
+- `format?: string` (default: `YYYY-MM-DD`)
+- `value?: Date | null`
+- `defaultValue?: Date`
+- `open?: boolean`
+- `defaultOpen?: boolean`
+- `onOpenChange?: (open: boolean) => void`
+- `onChange?: (date: Date | null, dateString: string) => void`
+- `disabledDate?: (date: Date) => boolean`
+- `id?: string`
+- `className?: string`
 
 ## Behavior
-- Uses token-based styling and supports light/dark themes.
-- Supports controlled/uncontrolled patterns where applicable.
+- Uses a button-like control to open a popup panel.
+- Supports calendar day grid, month picker, and year picker.
+- Emits both raw `Date` and formatted date string in `onChange`.
 
 ## Accessibility
-- Uses semantic HTML and keyboard-friendly interactions for interactive controls.
+- Trigger is keyboard-focusable button with `aria-haspopup="dialog"`.
+- Panel closes on outside click.
 
 ## Styling
-- Main class follows the `ui-` prefix convention via the component stylesheet.
+- Uses `ui-date-picker` namespace and token-based styling.
