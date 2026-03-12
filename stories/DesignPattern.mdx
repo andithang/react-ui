@@ -1,0 +1,226 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Docs/Design Pattern" />
+
+# Design Pattern
+
+This page defines the design system contract for this library: **tokens**, **semantic color roles**, and **type scales** used by components.
+
+## 1) Core principles
+
+- **Token-first**: components consume CSS variables, not raw values.
+- **Semantic naming**: tokens describe purpose (`--ui-control-border-hover`) rather than one-off appearance.
+- **Theme aware**: light (`:root`) and dark (`[data-theme='dark']`) provide matching semantic keys.
+- **Type-safe usage**: TS type unions (sizes, statuses, variants) model allowed API values.
+
+## 2) Token groups
+
+### 2.1 Typography & font
+
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>--ui-font-family</code></td><td><code>'Sarabun', 'Manrope', 'Segoe UI', sans-serif</code></td><td>Default UI text font stack</td></tr>
+    <tr><td><code>--ui-font-mono</code></td><td><code>'JetBrains Mono', Consolas, monospace</code></td><td>Monospace stack for code-like text</td></tr>
+  </tbody>
+</table>
+
+### 2.2 Surface & text colors (light)
+
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>--ui-bg</code></td><td><code>#ffffff</code></td><td>App background</td></tr>
+    <tr><td><code>--ui-surface</code></td><td><code>#ffffff</code></td><td>Primary surface/background for cards/controls</td></tr>
+    <tr><td><code>--ui-surface-raised</code></td><td><code>#f5f5f5</code></td><td>Raised/disabled surface</td></tr>
+    <tr><td><code>--ui-border</code></td><td><code>#e0e0e0</code></td><td>Standard low-contrast border</td></tr>
+    <tr><td><code>--ui-border-strong</code></td><td><code>#8f9294</code></td><td>Strong border and outlines</td></tr>
+    <tr><td><code>--ui-text</code></td><td><code>#000000</code></td><td>Primary text</td></tr>
+    <tr><td><code>--ui-text-muted</code></td><td><code>#73777a</code></td><td>Secondary/helper text</td></tr>
+  </tbody>
+</table>
+
+### 2.3 Brand & semantic colors (light)
+
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>--ui-primary</code></td><td><code>#e03</code></td><td>Brand primary (required)</td></tr>
+    <tr><td><code>--ui-primary-hover</code></td><td><code>#f8455b</code></td><td>Hover state for primary actions</td></tr>
+    <tr><td><code>--ui-primary-active</code></td><td><code>#cb002b</code></td><td>Active/pressed state</td></tr>
+    <tr><td><code>--ui-primary-soft</code></td><td><code>#ffe6eb</code></td><td>Soft primary-tint backgrounds</td></tr>
+    <tr><td><code>--ui-primary-outline</code></td><td><code>color-mix(in srgb, var(--ui-primary) 26%, transparent)</code></td><td>Focus/outline tint</td></tr>
+    <tr><td><code>--ui-primary-contrast</code></td><td><code>#ffffff</code></td><td>Text/icon on primary surfaces</td></tr>
+    <tr><td><code>--ui-danger</code></td><td><code>#d30330</code></td><td>Error/destructive semantic</td></tr>
+    <tr><td><code>--ui-danger-contrast</code></td><td><code>#ffffff</code></td><td>Contrast text on danger background</td></tr>
+    <tr><td><code>--ui-success</code></td><td><code>#006339</code></td><td>Success semantic</td></tr>
+    <tr><td><code>--ui-warning</code></td><td><code>#a74200</code></td><td>Warning semantic</td></tr>
+  </tbody>
+</table>
+
+### 2.4 Focus, overlay, elevation
+
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>--ui-focus</code></td><td><code>color-mix(in srgb, var(--ui-border-strong) 62%, white)</code></td><td>Focus border color</td></tr>
+    <tr><td><code>--ui-focus-outline</code></td><td><code>color-mix(in srgb, var(--ui-focus) 30%, transparent)</code></td><td>Focus ring shadow</td></tr>
+    <tr><td><code>--ui-overlay</code></td><td><code>rgba(0, 0, 0, 0.45)</code></td><td>Modal/backdrop overlay</td></tr>
+    <tr><td><code>--ui-shadow</code></td><td><code>0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05)</code></td><td>Default elevated shadow</td></tr>
+  </tbody>
+</table>
+
+### 2.5 Control tokens
+
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>--ui-control-bg</code></td><td><code>var(--ui-surface)</code></td><td>Base control background</td></tr>
+    <tr><td><code>--ui-control-bg-hover</code></td><td><code>var(--ui-surface)</code></td><td>Control hover background</td></tr>
+    <tr><td><code>--ui-control-bg-active</code></td><td><code>var(--ui-surface)</code></td><td>Control active background</td></tr>
+    <tr><td><code>--ui-control-text</code></td><td><code>var(--ui-text)</code></td><td>Control text color</td></tr>
+    <tr><td><code>--ui-control-border</code></td><td><code>var(--ui-border-strong)</code></td><td>Base control border</td></tr>
+    <tr><td><code>--ui-control-border-hover</code></td><td><code>color-mix(in srgb, var(--ui-border-strong) 82%, var(--ui-text))</code></td><td>Hover border</td></tr>
+    <tr><td><code>--ui-control-border-active</code></td><td><code>var(--ui-focus)</code></td><td>Active/focus border</td></tr>
+    <tr><td><code>--ui-control-option-bg</code></td><td><code>var(--ui-surface)</code></td><td>Option row background</td></tr>
+    <tr><td><code>--ui-control-option-hover-bg</code></td><td><code>color-mix(in srgb, var(--ui-primary) 14%, var(--ui-surface))</code></td><td>Option row hover</td></tr>
+    <tr><td><code>--ui-control-option-selected-bg</code></td><td><code>color-mix(in srgb, var(--ui-primary) 22%, var(--ui-surface))</code></td><td>Option selected</td></tr>
+    <tr><td><code>--ui-control-option-text</code></td><td><code>var(--ui-text)</code></td><td>Option text</td></tr>
+    <tr><td><code>--ui-control-thumb-bg</code></td><td><code>#ffffff</code></td><td>Switch/range thumb</td></tr>
+    <tr><td><code>--ui-control-thumb-shadow</code></td><td><code>0 2px 4px rgba(0, 35, 11, 0.2)</code></td><td>Thumb shadow</td></tr>
+  </tbody>
+</table>
+
+### 2.6 Button semantic tokens
+
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>--ui-button-primary-bg</code></td><td><code>var(--ui-primary)</code></td><td>Primary button background</td></tr>
+    <tr><td><code>--ui-button-primary-bg-hover</code></td><td><code>var(--ui-primary-hover)</code></td><td>Primary hover background</td></tr>
+    <tr><td><code>--ui-button-primary-bg-active</code></td><td><code>var(--ui-primary-active)</code></td><td>Primary active background</td></tr>
+    <tr><td><code>--ui-button-primary-border</code></td><td><code>var(--ui-primary)</code></td><td>Primary border</td></tr>
+    <tr><td><code>--ui-button-primary-border-hover</code></td><td><code>var(--ui-primary-hover)</code></td><td>Primary border hover</td></tr>
+    <tr><td><code>--ui-button-primary-border-active</code></td><td><code>var(--ui-primary-active)</code></td><td>Primary border active</td></tr>
+    <tr><td><code>--ui-button-primary-text</code></td><td><code>var(--ui-primary-contrast)</code></td><td>Primary text color</td></tr>
+    <tr><td><code>--ui-button-default-bg</code></td><td><code>var(--ui-surface)</code></td><td>Default button background</td></tr>
+    <tr><td><code>--ui-button-default-border</code></td><td><code>var(--ui-border-strong)</code></td><td>Default button border</td></tr>
+    <tr><td><code>--ui-button-default-text</code></td><td><code>var(--ui-text)</code></td><td>Default button text</td></tr>
+    <tr><td><code>--ui-button-default-hover-bg</code></td><td><code>var(--ui-surface)</code></td><td>Default hover background</td></tr>
+    <tr><td><code>--ui-button-default-hover-border</code></td><td><code>var(--ui-primary-hover)</code></td><td>Default hover border</td></tr>
+    <tr><td><code>--ui-button-default-hover-text</code></td><td><code>var(--ui-primary-hover)</code></td><td>Default hover text</td></tr>
+    <tr><td><code>--ui-button-default-active-bg</code></td><td><code>var(--ui-surface)</code></td><td>Default active background</td></tr>
+    <tr><td><code>--ui-button-default-active-border</code></td><td><code>var(--ui-primary-active)</code></td><td>Default active border</td></tr>
+    <tr><td><code>--ui-button-default-active-text</code></td><td><code>var(--ui-primary-active)</code></td><td>Default active text</td></tr>
+    <tr><td><code>--ui-button-danger-text</code></td><td><code>var(--ui-danger-contrast)</code></td><td>Danger text contrast</td></tr>
+  </tbody>
+</table>
+
+### 2.7 Radius, spacing, motion, size
+
+<table>
+  <thead>
+    <tr><th>Token</th><th>Value</th><th>Purpose</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>--ui-radius-xs</code></td><td><code>3px</code></td><td>Small corners</td></tr>
+    <tr><td><code>--ui-radius-sm</code></td><td><code>6px</code></td><td>Control corners</td></tr>
+    <tr><td><code>--ui-radius-md</code></td><td><code>8px</code></td><td>Medium corners</td></tr>
+    <tr><td><code>--ui-radius-lg</code></td><td><code>12px</code></td><td>Large corners</td></tr>
+    <tr><td><code>--ui-space-2xs</code></td><td><code>0.125rem</code></td><td>Minimal spacing</td></tr>
+    <tr><td><code>--ui-space-xs</code></td><td><code>0.25rem</code></td><td>XS spacing</td></tr>
+    <tr><td><code>--ui-space-sm</code></td><td><code>0.5rem</code></td><td>Small spacing</td></tr>
+    <tr><td><code>--ui-space-md</code></td><td><code>0.75rem</code></td><td>Medium spacing</td></tr>
+    <tr><td><code>--ui-space-lg</code></td><td><code>1rem</code></td><td>Large spacing</td></tr>
+    <tr><td><code>--ui-space-xl</code></td><td><code>1.5rem</code></td><td>XL spacing</td></tr>
+    <tr><td><code>--ui-space-2xl</code></td><td><code>2rem</code></td><td>2XL spacing</td></tr>
+    <tr><td><code>--ui-transition-fast</code></td><td><code>120ms ease</code></td><td>Fast transitions</td></tr>
+    <tr><td><code>--ui-transition-base</code></td><td><code>180ms ease</code></td><td>Standard transitions</td></tr>
+    <tr><td><code>--ui-spinner-size</code></td><td><code>1.5rem</code></td><td>Default spinner dimension</td></tr>
+  </tbody>
+</table>
+
+## 3) Dark theme overrides
+
+All keys above stay the same; only values change under <code>[data-theme='dark']</code>.
+
+### 3.1 Key dark values
+
+<table>
+  <thead>
+    <tr><th>Token</th><th>Dark Value</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>--ui-bg</code></td><td><code>#0f141c</code></td></tr>
+    <tr><td><code>--ui-surface</code></td><td><code>#171f29</code></td></tr>
+    <tr><td><code>--ui-surface-raised</code></td><td><code>#212c3a</code></td></tr>
+    <tr><td><code>--ui-border</code></td><td><code>#3e4f63</code></td></tr>
+    <tr><td><code>--ui-border-strong</code></td><td><code>#8ca2bf</code></td></tr>
+    <tr><td><code>--ui-text</code></td><td><code>#f8fbff</code></td></tr>
+    <tr><td><code>--ui-text-muted</code></td><td><code>#c9d6e7</code></td></tr>
+    <tr><td><code>--ui-primary</code></td><td><code>#e03</code></td></tr>
+    <tr><td><code>--ui-primary-hover</code></td><td><code>#ff3f65</code></td></tr>
+    <tr><td><code>--ui-primary-active</code></td><td><code>#c4002c</code></td></tr>
+    <tr><td><code>--ui-danger</code></td><td><code>#ff7082</code></td></tr>
+    <tr><td><code>--ui-success</code></td><td><code>#60d2a0</code></td></tr>
+    <tr><td><code>--ui-warning</code></td><td><code>#ffc76f</code></td></tr>
+    <tr><td><code>--ui-overlay</code></td><td><code>rgba(0, 4, 10, 0.72)</code></td></tr>
+    <tr><td><code>--ui-shadow</code></td><td><code>0 8px 24px rgba(0, 0, 0, 0.55)</code></td></tr>
+  </tbody>
+</table>
+
+### 3.2 Dark control behavior notes
+
+- Control borders remain neutral/high-contrast (`--ui-control-border*`), not primary-tinted.
+- Option hovers/selects still use primary-tinted semantic background tokens.
+- Primary button remains brand `#e03` with ant-style hover/active intensities.
+
+## 4) Type system and scales
+
+### 4.1 Shared spacing type
+
+`src/styles/tokens.ts` exports:
+
+- `spaceTokenMap`: `{ none, xs, sm, md, lg, xl, 2xl }`
+- `SpaceScale` type: `keyof typeof spaceTokenMap`
+
+### 4.2 Common component scales used in APIs
+
+<table>
+  <thead>
+    <tr><th>Type family</th><th>Values</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><code>size</code></td><td><code>'small' | 'middle' | 'large'</code> (where supported)</td></tr>
+    <tr><td><code>status</code></td><td><code>'error' | 'warning'</code> (where supported)</td></tr>
+    <tr><td><code>theme mode</code></td><td><code>'light' | 'dark'</code> (via ThemeProvider/context)</td></tr>
+  </tbody>
+</table>
+
+### 4.3 Color role usage guidance
+
+- **Text/labels**: `--ui-text`, `--ui-text-muted`
+- **Surfaces**: `--ui-bg`, `--ui-surface`, `--ui-surface-raised`
+- **Borders/focus**: `--ui-control-border*`, `--ui-focus*`
+- **Interactive states**: `--ui-primary*`, `--ui-control-option-hover-bg`, `--ui-control-option-selected-bg`
+- **Semantic feedback**: `--ui-danger`, `--ui-success`, `--ui-warning`
+
+## 5) Contract checklist for new components
+
+1. Use semantic tokens (no hardcoded one-off colors where token exists).
+2. Provide light + dark correctness through existing semantic keys.
+3. Prefer `className` extension and `ui-` prefixed class namespace.
+4. Keep states (`hover`, `active`, `focus-visible`, `disabled`, `error`) token-driven.
+5. Add Storybook examples for variant/size/state coverage.

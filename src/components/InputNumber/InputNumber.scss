@@ -1,0 +1,16 @@
+.ui-input-number {
+  display: grid;
+  gap: var(--ui-space-xs);
+
+  &__wrap { display: grid; grid-template-columns: auto 1fr auto; }
+  &__btn {
+    width: 2rem;
+    border: 1px solid var(--ui-control-border);
+    background: var(--ui-control-bg);
+    color: var(--ui-text);
+    cursor: pointer;
+  }
+
+  &--small { min-height: 2rem; }
+  &--large { min-height: 2.75rem; }
+}

@@ -1,0 +1,39 @@
+# TimePicker spec
+
+## Purpose
+Ant Design-style time input with trigger field, popup time columns, and clear action.
+
+## Props
+- `label?: string`
+- `hint?: string`
+- `error?: string`
+- `size?: 'small' | 'middle' | 'large'` (default: `middle`)
+- `status?: 'error' | 'warning'`
+- `allowClear?: boolean` (default: `true`)
+- `disabled?: boolean`
+- `placeholder?: string` (default: `Select time`)
+- `format?: 'HH:mm' | 'HH:mm:ss' | 'h:mm a'` (default: `HH:mm:ss`)
+- `value?: Date | null`
+- `defaultValue?: Date`
+- `open?: boolean`
+- `defaultOpen?: boolean`
+- `onOpenChange?: (open: boolean) => void`
+- `onChange?: (time: Date | null, timeString: string) => void`
+- `hourStep?: number` (default: `1`)
+- `minuteStep?: number` (default: `1`)
+- `secondStep?: number` (default: `1`)
+- `use12Hours?: boolean` (default: `false`)
+- `id?: string`
+- `className?: string`
+
+## Behavior
+- Uses popup panel with hour/minute/second columns.
+- Supports configurable interval steps.
+- Emits both raw `Date` and formatted time string.
+
+## Accessibility
+- Trigger is keyboard-focusable button with `aria-haspopup="dialog"`.
+- Panel closes on outside click.
+
+## Styling
+- Uses `ui-time-picker` namespace and token-based styling.

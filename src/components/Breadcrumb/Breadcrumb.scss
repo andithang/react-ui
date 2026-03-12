@@ -1,0 +1,7 @@
+.ui-breadcrumb {
+  &__list { display: flex; flex-wrap: wrap; gap: var(--ui-space-xs); list-style: none; padding: 0; margin: 0; }
+  &__item { display: inline-flex; align-items: center; color: var(--ui-text-muted); }
+  &__link { color: var(--ui-primary); text-decoration: none; }
+  &__separator { margin: 0 var(--ui-space-xs); color: var(--ui-text-muted); }
+  &__text { color: var(--ui-text); }
+}

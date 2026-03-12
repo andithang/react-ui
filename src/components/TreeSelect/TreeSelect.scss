@@ -1,0 +1,35 @@
+.ui-tree-select {
+  display: grid;
+  gap: var(--ui-space-xs);
+
+  &__trigger { display: flex; align-items: center; gap: var(--ui-space-xs); }
+  &__search { border: 0; background: transparent; color: inherit; width: 100%; outline: none; }
+  &__clear { border: 0; background: transparent; color: var(--ui-text-muted); cursor: pointer; }
+
+  &__dropdown {
+    border: 1px solid var(--ui-border-strong);
+    border-radius: var(--ui-radius-sm);
+    background: var(--ui-surface);
+    max-height: 14rem;
+    overflow: auto;
+    padding: var(--ui-space-xs);
+    display: grid;
+    gap: 2px;
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: var(--ui-space-sm);
+    border: 0;
+    border-radius: var(--ui-radius-xs);
+    background: transparent;
+    color: var(--ui-text);
+    padding: 0.35rem 0.5rem;
+    cursor: pointer;
+
+    &:hover:not(:disabled) { background: var(--ui-control-option-hover-bg); }
+  }
+
+  &__option--selected { background: var(--ui-control-option-selected-bg); }
+}
