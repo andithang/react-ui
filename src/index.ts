@@ -38,6 +38,9 @@ export type { SwitchProps } from './components/Switch/Switch';
 export { Textarea } from './components/Textarea/Textarea';
 export type { TextareaProps } from './components/Textarea/Textarea';
 
+export { Tag } from './components/Tag/Tag';
+export type { TagProps } from './components/Tag/Tag';
+
 export { Modal } from './components/Modal/Modal';
 export type { ModalProps } from './components/Modal/Modal';
 
@@ -52,5 +55,40 @@ export type { ThemeSwitchProps } from './components/ThemeSwitch/ThemeSwitch';
 
 export { ThemeProvider, useThemeContext } from './theme';
 export type { ThemeContextValue, ThemeMode, ThemeProviderProps } from './theme';
+
+
+
+export { DatePicker } from './components/DatePicker/DatePicker';
+export type { DatePickerProps, DatePickerPicker, DatePickerSize, DatePickerStatus } from './components/DatePicker/DatePicker';
+
+export { TimePicker } from './components/TimePicker/TimePicker';
+export type { TimePickerProps, TimePickerSize, TimePickerStatus } from './components/TimePicker/TimePicker';
+
+export { Result } from './components/Result/Result';
+export type { ResultProps, ResultStatus } from './components/Result/Result';
+
+export { Skeleton } from './components/Skeleton/Skeleton';
+export type { SkeletonProps } from './components/Skeleton/Skeleton';
+
+export { Breadcrumb } from './components/Breadcrumb/Breadcrumb';
+export type { BreadcrumbProps, BreadcrumbItem } from './components/Breadcrumb/Breadcrumb';
+
+export { Avatar } from './components/Avatar/Avatar';
+export type { AvatarProps, AvatarShape, AvatarSize } from './components/Avatar/Avatar';
+
+export { Toast } from './components/Toast/Toast';
+export type { ToastProps, ToastType } from './components/Toast/Toast';
+
+export { Dropdown } from './components/Dropdown/Dropdown';
+export type { DropdownProps, DropdownMenuItem } from './components/Dropdown/Dropdown';
+
+export { Steps } from './components/Steps/Steps';
+export type { StepsProps, StepItem, StepStatus } from './components/Steps/Steps';
+
+export { InputNumber } from './components/InputNumber/InputNumber';
+export type { InputNumberProps } from './components/InputNumber/InputNumber';
+
+export { TreeSelect } from './components/TreeSelect/TreeSelect';
+export type { TreeSelectProps, TreeSelectOption } from './components/TreeSelect/TreeSelect';
 
 import './styles/index.scss';

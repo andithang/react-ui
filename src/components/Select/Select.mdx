@@ -7,24 +7,45 @@ Render select/dropdown controls with optional label, hint, and error state.
 - label?: `string`
 - hint?: `string`
 - error?: `string`
-- children?: `ReactNode` (usually `option` elements)
+- prefixTitle?: `ReactNode` (string or template/node)
+- multiple?: `boolean`
+- enableSelectAll?: `boolean`
+- selectAllValue?: `string | number` (default `-1`)
+- selectAllLabel?: `string` (default `Select all`)
+- maxSelectedItemsShown?: `number` (default `2`)
+- onScrollToLoad?: `() => void`
+- scrollLoadThreshold?: `number` (default `24`)
+- searchable?: `boolean` (default `true`)
+- clearable?: `boolean` (default `true`)
+- children?: `ReactNode` (`option` and `optgroup` supported)
 - Inherits native select props via `SelectHTMLAttributes<HTMLSelectElement>`
 
 ## Behavior
-- Wraps native `<select>` with custom arrow decoration.
-- Applies `.ui-control--error` when `error` is provided.
-- Error message takes precedence over hint message.
+- Uses a custom trigger button and an absolutely-positioned dropdown panel for options.
+- Keeps a hidden native `<select>` synchronized for form compatibility and native prop support.
+- Supports optional trigger prefix title before selected text.
+- Supports single-select and `multiple` mode.
+- In multiple mode, selected items render as removable tags in trigger.
+- If selected tags exceed `maxSelectedItemsShown`, remaining count is shown as `+N...`.
+- Supports optional `select all` option in multiple mode (`enableSelectAll`) and configurable select-all token via `selectAllValue`.
+- Supports configurable search (`searchable`) filtering by option label.
+- Search input is positioned on the select component itself in both single and multiple modes; in multiple mode it sits next to selected tags.
+- Supports grouped options via native `optgroup` children.
+- Shows clear icon left of chevron when selection is non-empty (single/multiple) if `clearable` is true.
+- Supports scroll-to-load callback (`onScrollToLoad`) when dropdown reaches bottom threshold.
 
 ## Accessibility
-- Uses native select semantics.
 - Label wraps the control for accessible naming.
-- Keyboard interactions are native.
+- Trigger exposes listbox semantics (`aria-haspopup`, `aria-expanded`, `role="listbox"`).
+- Multi-select listbox exposes `aria-multiselectable="true"`.
+- Supports keyboard toggle with Enter/Space and close with Escape.
 
 ## Styling
-- Uses `.ui-select`, `.ui-select__wrap`, `.ui-select__error`.
+- Uses `.ui-select`, `.ui-select__trigger`, `.ui-select__prefix`, `.ui-select__tags`, `.ui-select__tag`, `.ui-select__clear`, `.ui-select__dropdown`, `.ui-select__inline-search`, `.ui-select__group-label`, `.ui-select__option`.
 - Select control uses shared `.ui-control` class.
-- Custom chevron indicator animates on focus.
-- Option list colors are token-driven for light/dark theme consistency.
+- Trigger/option rows use pointer cursor on hover.
+- Chevron indicator animates from down to up while open.
+- Option hover/selected/disabled states are token-driven for light/dark theme consistency.
 
 ## Deliverables
 - React component

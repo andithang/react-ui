@@ -1,0 +1,44 @@
+.ui-dropdown {
+  position: relative;
+  display: inline-block;
+
+  &__trigger {
+    border: 1px solid var(--ui-control-border);
+    border-radius: var(--ui-radius-sm);
+    background: var(--ui-control-bg);
+    color: var(--ui-control-text);
+    padding: 0.375rem 0.75rem;
+    cursor: pointer;
+  }
+
+  &__menu {
+    position: absolute;
+    z-index: 20;
+    min-width: 11rem;
+    background: var(--ui-surface);
+    border: 1px solid var(--ui-border-strong);
+    border-radius: var(--ui-radius-sm);
+    box-shadow: var(--ui-shadow);
+    padding: var(--ui-space-xs);
+    display: grid;
+    gap: 2px;
+  }
+
+  &__menu--bottomLeft { top: calc(100% + 0.35rem); left: 0; }
+  &__menu--bottomRight { top: calc(100% + 0.35rem); right: 0; }
+  &__menu--topLeft { bottom: calc(100% + 0.35rem); left: 0; }
+  &__menu--topRight { bottom: calc(100% + 0.35rem); right: 0; }
+
+  &__item {
+    border: 0;
+    background: transparent;
+    border-radius: var(--ui-radius-xs);
+    text-align: left;
+    padding: 0.4rem 0.5rem;
+    color: var(--ui-text);
+    cursor: pointer;
+
+    &:hover:not(:disabled) { background: var(--ui-control-option-hover-bg); }
+    &--danger { color: var(--ui-danger); }
+  }
+}

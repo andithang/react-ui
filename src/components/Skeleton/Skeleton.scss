@@ -1,0 +1,31 @@
+.ui-skeleton {
+  display: flex;
+  gap: var(--ui-space-md);
+
+  &__avatar,
+  &__title,
+  &__line {
+    background: color-mix(in srgb, var(--ui-text-muted) 18%, var(--ui-surface));
+    border-radius: var(--ui-radius-sm);
+  }
+
+  &__avatar { width: 2.5rem; height: 2.5rem; border-radius: 50%; }
+  &__content { flex: 1; display: grid; gap: var(--ui-space-sm); }
+  &__title { width: 40%; height: 1rem; }
+  &__paragraph { display: grid; gap: var(--ui-space-xs); }
+  &__line { width: 100%; height: 0.85rem; }
+
+  &--active &__avatar,
+  &--active &__title,
+  &--active &__line {
+    animation: ui-skeleton-pulse 1.2s ease-in-out infinite;
+  }
+
+  &--round &__title,
+  &--round &__line { border-radius: 999px; }
+}
+
+@keyframes ui-skeleton-pulse {
+  0%,100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
