@@ -1,0 +1,20 @@
+.ui-time-picker {
+  display: grid;
+  gap: var(--ui-space-xs);
+
+  &__wrap { position: relative; }
+  &__clear {
+    position: absolute;
+    top: 50%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: var(--ui-text-muted);
+    cursor: pointer;
+  }
+
+  &--small { min-height: 2rem; }
+  &--large { min-height: 2.75rem; }
+  &--warning { border-color: var(--ui-warning); }
+}
