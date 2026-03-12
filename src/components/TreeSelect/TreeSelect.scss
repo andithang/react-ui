@@ -31,5 +31,29 @@
     &:hover:not(:disabled) { background: var(--ui-control-option-hover-bg); }
   }
 
+  &__checkbox {
+    margin-top: 0;
+    flex: 0 0 auto;
+  }
+
+  &__checkbox--checked {
+    background: var(--ui-primary);
+    border-color: var(--ui-primary);
+
+    &::after {
+      transform: rotate(45deg) scale(1);
+      opacity: 1;
+    }
+  }
+
+  &__checkbox--disabled {
+    background: var(--ui-surface-raised);
+    border-color: var(--ui-border);
+
+    &::after {
+      border-color: var(--ui-text-muted);
+    }
+  }
+
   &__option--selected { background: var(--ui-control-option-selected-bg); }
 }

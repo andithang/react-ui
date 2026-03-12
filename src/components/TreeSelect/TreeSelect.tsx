@@ -95,7 +95,17 @@ export function TreeSelect({
                 emit([option.value]);
               }}
             >
-              {treeCheckable ? <input type="checkbox" checked={checked} readOnly tabIndex={-1} /> : null}
+              {treeCheckable ? (
+                <span
+                  className={cn(
+                    'ui-check__box',
+                    'ui-tree-select__checkbox',
+                    checked && 'ui-tree-select__checkbox--checked',
+                    option.disabled && 'ui-tree-select__checkbox--disabled'
+                  )}
+                  aria-hidden
+                />
+              ) : null}
               <span>{option.title}</span>
             </button>
           );
