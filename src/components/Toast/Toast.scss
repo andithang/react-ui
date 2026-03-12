@@ -1,0 +1,20 @@
+.ui-toast {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--ui-space-md);
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border-strong);
+  border-left: 4px solid var(--ui-primary);
+  border-radius: var(--ui-radius-sm);
+  padding: var(--ui-space-sm) var(--ui-space-md);
+  box-shadow: var(--ui-shadow);
+  max-width: 24rem;
+
+  &--success { border-left-color: var(--ui-success); }
+  &--warning { border-left-color: var(--ui-warning); }
+  &--error { border-left-color: var(--ui-danger); }
+
+  &__content p { margin-top: var(--ui-space-xs); color: var(--ui-text-muted); }
+  &__close { border: 0; background: transparent; color: var(--ui-text-muted); cursor: pointer; }
+}

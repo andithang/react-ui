@@ -1,0 +1,96 @@
+.ui-time-picker {
+  display: grid;
+  gap: var(--ui-space-xs);
+
+  &__wrap {
+    position: relative;
+  }
+
+  &__wrap--small .ui-time-picker__trigger {
+    min-height: 2rem;
+    font-size: 0.85rem;
+  }
+
+  &__wrap--large .ui-time-picker__trigger {
+    min-height: 2.75rem;
+    font-size: 1rem;
+  }
+
+  &__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--ui-space-sm);
+    text-align: left;
+    cursor: pointer;
+    padding-right: 2.2rem;
+  }
+
+  &__trigger--warning {
+    border-color: var(--ui-warning);
+  }
+
+  &__value--placeholder {
+    color: var(--ui-text-muted);
+  }
+
+  &__suffix {
+    color: var(--ui-text-muted);
+    font-size: 0.95rem;
+  }
+
+  &__clear {
+    position: absolute;
+    top: 50%;
+    right: 2rem;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: var(--ui-text-muted);
+    cursor: pointer;
+    z-index: 2;
+  }
+
+  &__panel {
+    position: absolute;
+    top: calc(100% + 0.4rem);
+    left: 0;
+    z-index: 30;
+    border: 1px solid var(--ui-border-strong);
+    border-radius: var(--ui-radius-sm);
+    background: var(--ui-surface);
+    box-shadow: var(--ui-shadow);
+    padding: var(--ui-space-sm);
+  }
+
+  &__lists {
+    display: grid;
+    grid-template-columns: repeat(3, 4rem);
+    gap: var(--ui-space-xs);
+  }
+
+  &__column {
+    max-height: 13rem;
+    overflow: auto;
+    display: grid;
+    gap: 2px;
+  }
+
+  &__cell {
+    border: 0;
+    border-radius: var(--ui-radius-xs);
+    background: transparent;
+    color: var(--ui-text);
+    padding: 0.35rem 0.25rem;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--ui-control-option-hover-bg);
+    }
+  }
+
+  &__cell--selected {
+    background: var(--ui-control-option-selected-bg);
+    color: var(--ui-primary);
+  }
+}

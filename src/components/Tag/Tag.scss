@@ -1,0 +1,26 @@
+.ui-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-xs);
+  border-radius: 999px;
+  padding: 0.2rem 0.5rem;
+  background: var(--ui-control-option-selected-bg);
+  color: var(--ui-control-option-text);
+  max-width: 11rem;
+}
+
+.ui-tag__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ui-tag__close {
+  cursor: pointer;
+  font-size: 0.8rem;
+  line-height: 1;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}

@@ -1,0 +1,27 @@
+.ui-steps {
+  list-style: none;
+  display: flex;
+  gap: var(--ui-space-lg);
+  padding: 0;
+  margin: 0;
+
+  &--vertical { flex-direction: column; }
+
+  &__item { display: flex; gap: var(--ui-space-sm); align-items: flex-start; }
+  &__icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    border: 1px solid var(--ui-border-strong);
+    display: grid;
+    place-items: center;
+    font-size: 0.8rem;
+  }
+
+  &__item--process &__icon { border-color: var(--ui-primary); color: var(--ui-primary); }
+  &__item--finish &__icon { border-color: var(--ui-success); color: var(--ui-success); }
+  &__item--error &__icon { border-color: var(--ui-danger); color: var(--ui-danger); }
+
+  &__content { display: grid; gap: 2px; }
+  &__description { color: var(--ui-text-muted); font-size: 0.85rem; }
+}
