@@ -1,5 +1,5 @@
 import type { SVGProps } from 'react';
-import parsedIcons from '../../../.tmp-antd/antd_icons_parsed.json';
+import parsedIcons from './antd_icons_parsed.json';
 
 type IconPath = Pick<SVGProps<SVGPathElement>, 'd' | 'fillRule' | 'clipRule'>;
 
