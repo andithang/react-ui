@@ -2,6 +2,10 @@
 
 A reusable React UI component library built with TypeScript, SCSS, CSS variables, and Storybook.
 
+## Documentation
+
+- Live docs: `https://react-ui.andithang.org`
+
 ## Tech Stack
 
 - React
@@ -46,37 +50,34 @@ export function App() {
 }
 ```
 
-## Exports
+## Components
 
-Components:
+- Primitives: `Box`, `Flex`, `Grid`, `Typography`
+- Form Controls: `Input`, `InputNumber`, `Textarea`, `Select`, `TreeSelect`, `Checkbox`, `Radio`, `Switch`, `DatePicker`, `TimePicker`
+- Actions & Navigation: `Button`, `Dropdown`, `Tabs`, `Breadcrumb`, `Steps`, `Tag`, `CheckableTag`, `CheckableTagGroup`
+- Feedback & Overlay: `Alert`, `Modal`, `Tooltip`, `Toast`, `Result`, `Skeleton`, `Spinner`
+- Display & Utility: `Icon`, `Avatar`, `Form`, `ThemeSwitch`
 
-- `Button`
-- `Icon`
-- `Input`
-- `Form`
-- `Spinner`
-- `Typography`
-- `Box`
-- `Flex`
-- `Grid`
-- `Checkbox`
-- `Select`
-- `Radio`
-- `Switch`
-- `Textarea`
-- `Modal`
-- `Tooltip`
-- `Tabs`
-- `ThemeSwitch`
+## Docs & Icon Data
 
-Theme:
+- Storybook includes component docs, usage examples, and style states for all components.
+- `Icon` exports catalog helpers:
+  - `ICON_NAMES`
+  - `ICON_NAMES_BY_SOURCE`
+  - `SOURCE_ICON_NAMES`
+  - `LEGACY_ICON_NAMES`
 
-- `ThemeProvider`
-- `useThemeContext`
+## Theme & Styles
 
-Styles:
+- Include package styles once:
 
-- `@andithang/react-ui/styles.css`
+```tsx
+import '@andithang/react-ui/styles.css';
+```
+
+- Theme mode is handled by `ThemeProvider` and `useThemeContext`.
+- Component styles are SCSS-authored and token-driven via CSS variables.
+- Light and dark themes are supported through `data-theme`.
 
 ## Development
 
@@ -94,7 +95,7 @@ Useful scripts:
 - `npm run storybook`
 - `npm run build-storybook`
 
-## Storybook Deployment (GitHub Pages)
+## Storybook Deployment
 
 Build/deploy commands:
 
@@ -106,6 +107,7 @@ Notes:
 - Deployment is executed from your current branch (usually `main`).
 - Static files are published to the `gh-pages` branch automatically.
 - Deploy step creates `.nojekyll` and includes `CNAME` (custom domain flow) to avoid missing underscore-prefixed assets.
+- Production docs domain: `https://react-ui.andithang.org`
 
 ## Publishing
 
