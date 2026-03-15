@@ -1,6 +1,6 @@
 export { Button } from './components/Button/Button';
 export type { BaseButtonProps, ButtonClassNamesType, ButtonColorType, ButtonGroupProps, ButtonHTMLType, ButtonProps, ButtonSemanticClassNames, ButtonSemanticStyles, ButtonShape, ButtonSize, ButtonStylesType, ButtonType, ButtonVariant, ButtonVariantType, LegacyButtonType, SizeType } from './components/Button/Button';
-export { ICON_NAMES, Icon } from './components/Icon/Icon';
+export { ICON_NAMES, ICON_NAMES_BY_SOURCE, LEGACY_ICON_NAMES, SOURCE_ICON_NAMES, Icon } from './components/Icon/Icon';
 export type { IconName, IconProps } from './components/Icon/Icon';
 export { Input } from './components/Input/Input';
 export type { InputAllowClearConfig, InputClassNames, InputProps, InputSemanticDOM, InputShowCountConfig, InputShowCountFormatterInfo, InputSize, InputStatus, InputStyles, InputVariant } from './components/Input/Input';
