@@ -1,9 +1,9 @@
 import { CSSProperties, HTMLAttributes, MouseEvent as ReactMouseEvent, ReactNode } from '../../../node_modules/react';
 import { ButtonGroupProps, ButtonHTMLType, ButtonProps, ButtonType } from '../Button/Button';
-declare const DROPDOWN_PLACEMENTS: readonly ["topLeft", "topCenter", "topRight", "bottomLeft", "bottomCenter", "bottomRight", "top", "bottom"];
-declare const DROPDOWN_TRIGGERS: readonly ["click", "hover", "contextMenu"];
-export type DropdownPlacement = (typeof DROPDOWN_PLACEMENTS)[number];
-export type DropdownTrigger = (typeof DROPDOWN_TRIGGERS)[number];
+declare const _DROPDOWN_PLACEMENTS: readonly ["topLeft", "topCenter", "topRight", "bottomLeft", "bottomCenter", "bottomRight", "top", "bottom"];
+declare const _DROPDOWN_TRIGGERS: readonly ["click", "hover", "contextMenu"];
+export type DropdownPlacement = (typeof _DROPDOWN_PLACEMENTS)[number];
+export type DropdownTrigger = (typeof _DROPDOWN_TRIGGERS)[number];
 export type DataAttributes = {
     [Key in `data-${string}`]?: unknown;
 };

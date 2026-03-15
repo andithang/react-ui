@@ -16,13 +16,13 @@ export interface AbstractCheckboxProps<T> {
     onKeyDown?: KeyboardEventHandler<HTMLElement>;
     onFocus?: FocusEventHandler<HTMLInputElement>;
     onBlur?: FocusEventHandler<HTMLInputElement>;
-    value?: any;
+    value?: unknown;
     tabIndex?: number;
     name?: string;
     children?: ReactNode;
     id?: string;
     autoFocus?: boolean;
-    type?: string;
+    type?: 'checkbox';
     skipGroup?: boolean;
     required?: boolean;
 }
@@ -51,7 +51,7 @@ export interface CheckboxProps extends AbstractCheckboxProps<CheckboxChangeEvent
     classNames?: Partial<CheckboxSemanticClassNames>;
     styles?: Partial<CheckboxSemanticStyles>;
 }
-export interface CheckboxOptionType<T = any> {
+export interface CheckboxOptionType<T = unknown> {
     label: ReactNode;
     value: T;
     style?: CSSProperties;
@@ -62,7 +62,7 @@ export interface CheckboxOptionType<T = any> {
     onChange?: (e: CheckboxChangeEvent) => void;
     required?: boolean;
 }
-export interface AbstractCheckboxGroupProps<T = any> extends Omit<InputHTMLAttributes<HTMLDivElement>, 'defaultValue' | 'value' | 'onChange'> {
+export interface AbstractCheckboxGroupProps<T = unknown> extends Omit<InputHTMLAttributes<HTMLDivElement>, 'defaultValue' | 'value' | 'onChange'> {
     prefixCls?: string;
     className?: string;
     rootClassName?: string;
@@ -70,7 +70,7 @@ export interface AbstractCheckboxGroupProps<T = any> extends Omit<InputHTMLAttri
     disabled?: boolean;
     style?: CSSProperties;
 }
-export interface CheckboxGroupProps<T = any> extends AbstractCheckboxGroupProps<T> {
+export interface CheckboxGroupProps<T = unknown> extends AbstractCheckboxGroupProps<T> {
     name?: string;
     defaultValue?: T[];
     value?: T[];
@@ -78,7 +78,7 @@ export interface CheckboxGroupProps<T = any> extends AbstractCheckboxGroupProps<
     children?: ReactNode;
 }
 declare const InternalCheckbox: import('../../../node_modules/react').ForwardRefExoticComponent<CheckboxProps & import('../../../node_modules/react').RefAttributes<HTMLInputElement>>;
-declare const CheckboxGroup: import('../../../node_modules/react').ForwardRefExoticComponent<CheckboxGroupProps<any> & import('../../../node_modules/react').RefAttributes<HTMLDivElement>>;
+declare const CheckboxGroup: import('../../../node_modules/react').ForwardRefExoticComponent<CheckboxGroupProps<unknown> & import('../../../node_modules/react').RefAttributes<HTMLDivElement>>;
 type CompoundedCheckbox = typeof InternalCheckbox & {
     Group: typeof CheckboxGroup;
 };
