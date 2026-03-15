@@ -50,6 +50,16 @@ const preview: Preview = {
         date: /Date$/i
       }
     },
+    docs: {
+      codePanel: true,
+      source: {
+        type: 'dynamic',
+        language: 'tsx'
+      },
+      canvas: {
+        sourceState: 'hidden'
+      }
+    },
     options: {
       storySort: {
         order: ['Docs', 'Foundation', 'Components']
