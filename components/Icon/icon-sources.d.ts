@@ -1,5 +1,7 @@
 import { SVGProps } from '../../../node_modules/react';
-type IconPath = Pick<SVGProps<SVGPathElement>, 'd' | 'fillRule' | 'clipRule'>;
+type IconPath = Partial<SVGProps<SVGPathElement>> & {
+    d: string;
+};
 export interface IconDefinition {
     viewBox: string;
     paths: readonly IconPath[];
