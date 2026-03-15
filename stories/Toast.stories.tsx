@@ -8,7 +8,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
-  render: (args) => {
+  render: function Render(args) {
     const [open, setOpen] = useState(false);
     return (
       <div style={{ display: 'grid', gap: '0.75rem' }}>

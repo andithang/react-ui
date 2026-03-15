@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { cn } from '../../utils';
 import './TimePicker.scss';
 
@@ -86,24 +86,12 @@ export function TimePicker({
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
   const mergedOpen = isOpenControlled ? open : internalOpen;
 
-  const setOpen = (nextOpen: boolean) => {
+  const setOpen = useCallback((nextOpen: boolean) => {
     if (!isOpenControlled) {
       setInternalOpen(nextOpen);
     }
     onOpenChange?.(nextOpen);
-  };
-
-  const [hour, setHour] = useState(selected?.getHours() ?? 0);
-  const [minute, setMinute] = useState(selected?.getMinutes() ?? 0);
-  const [second, setSecond] = useState(selected?.getSeconds() ?? 0);
-
-  useEffect(() => {
-    if (selected) {
-      setHour(selected.getHours());
-      setMinute(selected.getMinutes());
-      setSecond(selected.getSeconds());
-    }
-  }, [selected]);
+  }, [isOpenControlled, onOpenChange]);
 
   useEffect(() => {
     const onOutside = (event: MouseEvent) => {
@@ -114,7 +102,7 @@ export function TimePicker({
 
     document.addEventListener('mousedown', onOutside);
     return () => document.removeEventListener('mousedown', onOutside);
-  }, []);
+  }, [setOpen]);
 
   const emit = (next: Date | null) => {
     if (!isControlled) {
@@ -127,8 +115,12 @@ export function TimePicker({
   const minutes = useMemo(() => Array.from({ length: 60 }, (_, i) => i).filter((m) => m % Math.max(1, minuteStep) === 0), [minuteStep]);
   const seconds = useMemo(() => Array.from({ length: 60 }, (_, i) => i).filter((s) => s % Math.max(1, secondStep) === 0), [secondStep]);
 
-  const commit = (nextHour = hour, nextMinute = minute, nextSecond = second) => {
-    const next = new Date();
+  const selectedHour = selected?.getHours() ?? 0;
+  const selectedMinute = selected?.getMinutes() ?? 0;
+  const selectedSecond = selected?.getSeconds() ?? 0;
+
+  const commit = (nextHour = selectedHour, nextMinute = selectedMinute, nextSecond = selectedSecond) => {
+    const next = selected ? new Date(selected) : new Date();
     next.setHours(nextHour, nextMinute, nextSecond, 0);
     emit(next);
   };
@@ -178,10 +170,9 @@ export function TimePicker({
                     <button
                       key={h}
                       type="button"
-                      className={cn('ui-time-picker__cell', hour === h && 'ui-time-picker__cell--selected')}
+                      className={cn('ui-time-picker__cell', selectedHour === h && 'ui-time-picker__cell--selected')}
                       onClick={() => {
-                        setHour(h);
-                        commit(h, minute, second);
+                        commit(h, selectedMinute, selectedSecond);
                       }}
                     >
                       {pad(displayHour)}
@@ -195,10 +186,9 @@ export function TimePicker({
                   <button
                     key={m}
                     type="button"
-                    className={cn('ui-time-picker__cell', minute === m && 'ui-time-picker__cell--selected')}
+                    className={cn('ui-time-picker__cell', selectedMinute === m && 'ui-time-picker__cell--selected')}
                     onClick={() => {
-                      setMinute(m);
-                      commit(hour, m, second);
+                      commit(selectedHour, m, selectedSecond);
                     }}
                   >
                     {pad(m)}
@@ -212,10 +202,9 @@ export function TimePicker({
                     <button
                       key={s}
                       type="button"
-                      className={cn('ui-time-picker__cell', second === s && 'ui-time-picker__cell--selected')}
+                      className={cn('ui-time-picker__cell', selectedSecond === s && 'ui-time-picker__cell--selected')}
                       onClick={() => {
-                        setSecond(s);
-                        commit(hour, minute, s);
+                        commit(selectedHour, selectedMinute, s);
                       }}
                     >
                       {pad(s)}

@@ -12,7 +12,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
-  render: (args) => {
+  render: function Render(args) {
     const [value, setValue] = useState<string[]>([]);
     return <TreeSelect {...args} value={value} onChange={(next) => setValue(Array.isArray(next) ? next : [next])} />;
   }

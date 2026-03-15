@@ -138,9 +138,9 @@ const InternalTag = forwardRef<HTMLSpanElement | HTMLAnchorElement, TagProps>(fu
     return nextStyle;
   }, [customColor, disabled, style, styles?.root]);
 
-  const handleCloseClick = (event: MouseEvent<HTMLElement>) => {
+  const closeTag = (event: MouseEvent<HTMLElement> | KeyboardEvent<HTMLElement>) => {
     event.stopPropagation();
-    onClose?.(event);
+    onClose?.(event as unknown as MouseEvent<HTMLElement>);
     const closePrevented = event.defaultPrevented;
 
     if (isLinkTag) {
@@ -150,6 +150,19 @@ const InternalTag = forwardRef<HTMLSpanElement | HTMLAnchorElement, TagProps>(fu
     if (!closePrevented) {
       setVisible(false);
     }
+  };
+
+  const handleCloseClick = (event: MouseEvent<HTMLElement>) => {
+    closeTag(event);
+  };
+
+  const handleCloseKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key !== 'Enter' && event.key !== ' ') {
+      return;
+    }
+
+    event.preventDefault();
+    closeTag(event);
   };
 
   const handleTagKeyDown = (event: KeyboardEvent<HTMLAnchorElement | HTMLSpanElement>) => {
@@ -208,7 +221,6 @@ const InternalTag = forwardRef<HTMLSpanElement | HTMLAnchorElement, TagProps>(fu
     ref: ref as never,
     className: classes,
     style: mergedStyle,
-    onKeyDown: handleTagKeyDown,
     ...(disabled ? { 'aria-disabled': true } : {})
   };
 
@@ -226,6 +238,9 @@ const InternalTag = forwardRef<HTMLSpanElement | HTMLAnchorElement, TagProps>(fu
           <span
             className={cn(`${prefixCls}__close-icon`, classNames?.closeIcon)}
             style={styles?.closeIcon}
+            role="button"
+            tabIndex={disabled ? -1 : 0}
+            onKeyDown={handleCloseKeyDown}
             onClick={handleCloseClick}
           >
             {closeIconNode}
@@ -240,11 +255,19 @@ const InternalTag = forwardRef<HTMLSpanElement | HTMLAnchorElement, TagProps>(fu
       {...commonProps}
       role={isClickable ? 'button' : undefined}
       tabIndex={isClickable ? 0 : restProps.tabIndex}
+      onKeyDown={handleTagKeyDown}
       onClick={disabled ? undefined : onClick}
     >
       {childNode}
       {closeIconNode ? (
-        <span className={cn(`${prefixCls}__close-icon`, classNames?.closeIcon)} style={styles?.closeIcon} onClick={handleCloseClick}>
+        <span
+          className={cn(`${prefixCls}__close-icon`, classNames?.closeIcon)}
+          style={styles?.closeIcon}
+          role="button"
+          tabIndex={disabled ? -1 : 0}
+          onKeyDown={handleCloseKeyDown}
+          onClick={handleCloseClick}
+        >
           {closeIconNode}
         </span>
       ) : null}

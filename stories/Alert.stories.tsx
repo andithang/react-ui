@@ -39,7 +39,7 @@ export const WithDescriptionAndAction: Story = {
 };
 
 export const Closable: Story = {
-  render: () => {
+  render: function Render() {
     const [open, setOpen] = useState(true);
 
     return open ? (
@@ -78,7 +78,7 @@ function Crash({ shouldCrash }: { shouldCrash: boolean }) {
 }
 
 export const ErrorBoundary: Story = {
-  render: () => {
+  render: function Render() {
     const [crash, setCrash] = useState(false);
 
     return (

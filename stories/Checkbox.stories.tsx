@@ -19,7 +19,7 @@ type Story = StoryObj<typeof meta>;
 export const Basic: Story = {};
 
 export const Indeterminate: Story = {
-  render: () => {
+  render: function Render() {
     const options = ['Read', 'Write', 'Deploy'];
     const [value, setValue] = useState<string[]>(['Read']);
     const allChecked = value.length === options.length;

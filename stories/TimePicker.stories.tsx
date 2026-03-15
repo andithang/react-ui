@@ -27,7 +27,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
-  render: (args) => {
+  render: function Render(args) {
     const [value, setValue] = useState<Date | null>(new Date());
     return (
       <TimePicker

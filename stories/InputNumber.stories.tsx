@@ -7,7 +7,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
-  render: (args) => {
+  render: function Render(args) {
     const [value, setValue] = useState<number | null>(2);
     return <InputNumber {...args} value={value ?? undefined} onChange={setValue} />;
   }

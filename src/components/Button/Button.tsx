@@ -22,11 +22,11 @@ import {
 import { cn } from '../../utils';
 import './Button.scss';
 
-const BUTTON_TYPES = ['default', 'primary', 'dashed', 'link', 'text'] as const;
-const BUTTON_SHAPES = ['default', 'circle', 'round', 'square'] as const;
-const BUTTON_HTML_TYPES = ['submit', 'button', 'reset'] as const;
-const BUTTON_VARIANTS = ['outlined', 'dashed', 'solid', 'filled', 'text', 'link'] as const;
-const BUTTON_COLORS = [
+const _BUTTON_TYPES = ['default', 'primary', 'dashed', 'link', 'text'] as const;
+const _BUTTON_SHAPES = ['default', 'circle', 'round', 'square'] as const;
+const _BUTTON_HTML_TYPES = ['submit', 'button', 'reset'] as const;
+const _BUTTON_VARIANTS = ['outlined', 'dashed', 'solid', 'filled', 'text', 'link'] as const;
+const _BUTTON_COLORS = [
   'default',
   'primary',
   'danger',
@@ -45,11 +45,11 @@ const BUTTON_COLORS = [
   'gold'
 ] as const;
 
-export type ButtonType = (typeof BUTTON_TYPES)[number];
-export type ButtonShape = (typeof BUTTON_SHAPES)[number];
-export type ButtonHTMLType = (typeof BUTTON_HTML_TYPES)[number];
-export type ButtonVariantType = (typeof BUTTON_VARIANTS)[number];
-export type ButtonColorType = (typeof BUTTON_COLORS)[number];
+export type ButtonType = (typeof _BUTTON_TYPES)[number];
+export type ButtonShape = (typeof _BUTTON_SHAPES)[number];
+export type ButtonHTMLType = (typeof _BUTTON_HTML_TYPES)[number];
+export type ButtonVariantType = (typeof _BUTTON_VARIANTS)[number];
+export type ButtonColorType = (typeof _BUTTON_COLORS)[number];
 export type LegacyButtonType = ButtonType | 'danger';
 export type SizeType = 'small' | 'medium' | 'middle' | 'large' | undefined;
 export type ButtonSize = SizeType;
@@ -229,16 +229,24 @@ const InternalButton = forwardRef<ButtonElement, ButtonProps>(function InternalB
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
+    let syncTimer: ReturnType<typeof setTimeout> | undefined;
     if (loadingConfig.delay > 0) {
-      setInnerLoading(false);
+      syncTimer = setTimeout(() => {
+        setInnerLoading(false);
+      }, 0);
       timer = setTimeout(() => {
         setInnerLoading(true);
       }, loadingConfig.delay);
     } else {
-      setInnerLoading(loadingConfig.loading);
+      syncTimer = setTimeout(() => {
+        setInnerLoading(loadingConfig.loading);
+      }, 0);
     }
 
     return () => {
+      if (syncTimer) {
+        clearTimeout(syncTimer);
+      }
       if (timer) {
         clearTimeout(timer);
       }

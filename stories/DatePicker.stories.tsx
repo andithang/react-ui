@@ -32,7 +32,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
-  render: (args) => {
+  render: function Render(args) {
     const [value, setValue] = useState<Dayjs | null>(dayjs('2026-03-12'));
 
     return (
@@ -96,7 +96,7 @@ export const RangePicker: Story = {
 };
 
 export const ControlledOpen: Story = {
-  render: (args) => {
+  render: function Render(args) {
     const [open, setOpen] = useState(false);
 
     return (

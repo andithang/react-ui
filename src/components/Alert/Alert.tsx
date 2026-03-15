@@ -126,6 +126,7 @@ export const Alert = forwardRef<AlertRef, AlertProps>(function Alert(
     onMouseEnter,
     onMouseLeave,
     onClick,
+    onKeyDown,
     afterClose,
     showIcon,
     closable,
@@ -218,7 +219,6 @@ export const Alert = forwardRef<AlertRef, AlertProps>(function Alert(
       return undefined;
     }
 
-    setMaxHeight(rootRef.current?.offsetHeight ?? 0);
     const animationFrame = window.requestAnimationFrame(() => {
       setClosingActive(true);
     });
@@ -237,6 +237,7 @@ export const Alert = forwardRef<AlertRef, AlertProps>(function Alert(
       return;
     }
 
+    setMaxHeight(rootRef.current?.offsetHeight ?? 0);
     setClosing(true);
     (closableOnClose ?? onClose)?.(event);
   };
@@ -257,11 +258,12 @@ export const Alert = forwardRef<AlertRef, AlertProps>(function Alert(
   const closeAriaData = closableConfig ? pickAriaDataProps(closableConfig as Record<string, unknown>) : {};
   const closeIconNode = mergedCloseIcon === true || mergedCloseIcon === undefined ? <Icon name="close" /> : mergedCloseIcon;
   const iconNode = icon ?? <Icon name={DEFAULT_ICON_BY_TYPE[type]} />;
+  const collapseHeightVar = '--ui-alert-collapse-height' as const;
   const mergedRootStyle: CSSProperties = {
     ...styles?.root,
     ...style,
     ...(closing && maxHeight !== null
-      ? ({ ['--ui-alert-collapse-height' as '--ui-alert-collapse-height']: `${maxHeight}px` } as CSSProperties)
+      ? ({ [collapseHeightVar]: `${maxHeight}px` } as CSSProperties)
       : {})
   };
 
@@ -286,6 +288,7 @@ export const Alert = forwardRef<AlertRef, AlertProps>(function Alert(
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onClick={onClick}
+      onKeyDown={onKeyDown}
       onTransitionEnd={handleTransitionEnd}
       role={role}
       {...rootAriaData}

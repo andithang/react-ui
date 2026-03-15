@@ -15,7 +15,7 @@ import { Button, type ButtonGroupProps, type ButtonHTMLType, type ButtonProps, t
 import { cn } from '../../utils';
 import './Dropdown.scss';
 
-const DROPDOWN_PLACEMENTS = [
+const _DROPDOWN_PLACEMENTS = [
   'topLeft',
   'topCenter',
   'topRight',
@@ -26,10 +26,10 @@ const DROPDOWN_PLACEMENTS = [
   'bottom'
 ] as const;
 
-const DROPDOWN_TRIGGERS = ['click', 'hover', 'contextMenu'] as const;
+const _DROPDOWN_TRIGGERS = ['click', 'hover', 'contextMenu'] as const;
 
-export type DropdownPlacement = (typeof DROPDOWN_PLACEMENTS)[number];
-export type DropdownTrigger = (typeof DROPDOWN_TRIGGERS)[number];
+export type DropdownPlacement = (typeof _DROPDOWN_PLACEMENTS)[number];
+export type DropdownTrigger = (typeof _DROPDOWN_TRIGGERS)[number];
 
 export type DataAttributes = {
   [Key in `data-${string}`]?: unknown;
@@ -631,7 +631,8 @@ function DropdownBase(rawProps: DropdownProps) {
   );
 
   const renderMenuNodes = useCallback(
-    (menuNodes: DropdownMenuItemNode[], parentPath: React.Key[] = []): ReactNode =>
+    function renderMenuNodes(menuNodes: DropdownMenuItemNode[], parentPath: React.Key[] = []): ReactNode {
+      return (
       menuNodes.map((node, index) => {
         if (!node) {
           return null;
@@ -730,7 +731,9 @@ function DropdownBase(rawProps: DropdownProps) {
             </button>
           </li>
         );
-      }),
+      })
+      );
+    },
     [disabled, handleMenuItemAction, resolvedClassNames?.item, resolvedClassNames?.itemContent, resolvedClassNames?.itemIcon, resolvedClassNames?.itemTitle, resolvedStyles?.item, resolvedStyles?.itemContent, resolvedStyles?.itemIcon, resolvedStyles?.itemTitle, selectedKeySet]
   );
 
@@ -739,6 +742,7 @@ function DropdownBase(rawProps: DropdownProps) {
       className={cn('ui-dropdown__menu', mergedMenu.className)}
       style={mergedMenu.style}
       role="menu"
+      tabIndex={-1}
       aria-activedescendant={mergedMenu.activeKey ? toStringKey(mergedMenu.activeKey) : undefined}
     >
       {renderMenuNodes(mergedMenu.items ?? [])}
@@ -783,7 +787,7 @@ function DropdownBase(rawProps: DropdownProps) {
 
   const triggerContent = children ?? <Button type="default">Open</Button>;
 
-  const handleTriggerClick = (event: ReactMouseEvent<HTMLSpanElement>) => {
+  const handleTriggerClick = () => {
     if (disabled || !triggerActions.has('click')) {
       return;
     }
@@ -800,6 +804,23 @@ function DropdownBase(rawProps: DropdownProps) {
     updateOpenState(true, 'trigger');
   };
 
+  const handleTriggerKeyDown = (event: React.KeyboardEvent<HTMLSpanElement>) => {
+    if (disabled) {
+      return;
+    }
+
+    if ((event.key === 'Enter' || event.key === ' ') && triggerActions.has('click')) {
+      event.preventDefault();
+      updateOpenState(!isOpen, 'trigger');
+      return;
+    }
+
+    if (event.key === 'ContextMenu' && triggerActions.has('contextMenu')) {
+      event.preventDefault();
+      updateOpenState(true, 'trigger');
+    }
+  };
+
   const popupContainer = canUseDOM && triggerRef.current && getPopupContainer ? getPopupContainer(triggerRef.current) : undefined;
 
   return (
@@ -811,10 +832,13 @@ function DropdownBase(rawProps: DropdownProps) {
       <span
         ref={triggerRef}
         className={cn('ui-dropdown__trigger', isOpen && openClassName)}
+        role="button"
+        tabIndex={disabled ? -1 : 0}
         aria-expanded={isOpen}
         aria-controls={isOpen ? popupId : undefined}
         aria-haspopup="menu"
         onClick={handleTriggerClick}
+        onKeyDown={handleTriggerKeyDown}
         onContextMenu={handleTriggerContextMenu}
         onMouseEnter={scheduleOpenFromHover}
         onMouseLeave={scheduleCloseFromHover}

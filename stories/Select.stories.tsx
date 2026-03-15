@@ -85,7 +85,6 @@ export const InfiniteScrollHook: Story = {
     label: 'Data source',
     multiple: true,
     onScrollToLoad: () => {
-      // eslint-disable-next-line no-console
       console.log('load more options...');
     }
   },

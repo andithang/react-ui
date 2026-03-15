@@ -19,7 +19,6 @@ export const Closable: Story = {
   args: {
     closable: true,
     onClose: () => {
-      // eslint-disable-next-line no-console
       console.log('close tag');
     }
   }

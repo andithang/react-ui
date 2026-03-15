@@ -1,6 +1,7 @@
 import {
   createContext,
   forwardRef,
+  useCallback,
   useContext,
   useEffect,
   useId,
@@ -35,13 +36,13 @@ export interface AbstractCheckboxProps<T> {
   onKeyDown?: KeyboardEventHandler<HTMLElement>;
   onFocus?: FocusEventHandler<HTMLInputElement>;
   onBlur?: FocusEventHandler<HTMLInputElement>;
-  value?: any;
+  value?: unknown;
   tabIndex?: number;
   name?: string;
   children?: ReactNode;
   id?: string;
   autoFocus?: boolean;
-  type?: string;
+  type?: 'checkbox';
   skipGroup?: boolean;
   required?: boolean;
 }
@@ -101,7 +102,7 @@ export interface CheckboxProps extends AbstractCheckboxProps<CheckboxChangeEvent
   styles?: Partial<CheckboxSemanticStyles>;
 }
 
-export interface CheckboxOptionType<T = any> {
+export interface CheckboxOptionType<T = unknown> {
   label: ReactNode;
   value: T;
   style?: CSSProperties;
@@ -113,7 +114,7 @@ export interface CheckboxOptionType<T = any> {
   required?: boolean;
 }
 
-export interface AbstractCheckboxGroupProps<T = any> extends Omit<InputHTMLAttributes<HTMLDivElement>, 'defaultValue' | 'value' | 'onChange'> {
+export interface AbstractCheckboxGroupProps<T = unknown> extends Omit<InputHTMLAttributes<HTMLDivElement>, 'defaultValue' | 'value' | 'onChange'> {
   prefixCls?: string;
   className?: string;
   rootClassName?: string;
@@ -122,7 +123,7 @@ export interface AbstractCheckboxGroupProps<T = any> extends Omit<InputHTMLAttri
   style?: CSSProperties;
 }
 
-export interface CheckboxGroupProps<T = any> extends AbstractCheckboxGroupProps<T> {
+export interface CheckboxGroupProps<T = unknown> extends AbstractCheckboxGroupProps<T> {
   name?: string;
   defaultValue?: T[];
   value?: T[];
@@ -130,7 +131,7 @@ export interface CheckboxGroupProps<T = any> extends AbstractCheckboxGroupProps<
   children?: ReactNode;
 }
 
-interface CheckboxGroupContextValue<T = any> {
+interface CheckboxGroupContextValue<T = unknown> {
   name?: string;
   disabled?: boolean;
   value: T[];
@@ -214,6 +215,12 @@ const InternalCheckbox = forwardRef<HTMLInputElement, CheckboxProps>(function Ch
   }, [indeterminate, mergedChecked]);
 
   useEffect(() => {
+    if (autoFocus) {
+      inputRef.current?.focus();
+    }
+  }, [autoFocus]);
+
+  useEffect(() => {
     if (!ref) {
       return;
     }
@@ -236,6 +243,12 @@ const InternalCheckbox = forwardRef<HTMLInputElement, CheckboxProps>(function Ch
     indeterminate && `${checkboxWrapperPrefix}--indeterminate`,
     mergedDisabled && `${checkboxWrapperPrefix}--disabled`
   );
+  const inputValue =
+    typeof value === 'string' || typeof value === 'number'
+      ? value
+      : Array.isArray(value)
+        ? value.map((item) => String(item))
+        : undefined;
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const changeEvent = buildCheckboxChangeEvent(
@@ -295,11 +308,6 @@ const InternalCheckbox = forwardRef<HTMLInputElement, CheckboxProps>(function Ch
       className={wrapperClassName}
       style={style}
       title={title}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onKeyDown={onKeyDown}
-      onKeyPress={onKeyPress}
     >
       <span className={cn(checkboxPrefix, rootClassName, classNames?.root)} style={styles?.root}>
         <input
@@ -309,17 +317,20 @@ const InternalCheckbox = forwardRef<HTMLInputElement, CheckboxProps>(function Ch
           type={type || 'checkbox'}
           className={`${checkboxPrefix}__input`}
           name={mergedName}
-          value={value}
+          value={inputValue}
           checked={mergedChecked}
           defaultChecked={defaultChecked}
           disabled={mergedDisabled}
           tabIndex={tabIndex}
-          autoFocus={autoFocus}
           required={required}
+          onClick={onClick as MouseEventHandler<HTMLInputElement> | undefined}
+          onMouseEnter={onMouseEnter as MouseEventHandler<HTMLInputElement> | undefined}
+          onMouseLeave={onMouseLeave as MouseEventHandler<HTMLInputElement> | undefined}
+          onKeyDown={onKeyDown as KeyboardEventHandler<HTMLInputElement> | undefined}
+          onKeyPress={onKeyPress as KeyboardEventHandler<HTMLInputElement> | undefined}
           onFocus={onFocus}
           onBlur={onBlur}
           onChange={handleChange}
-          aria-checked={indeterminate ? 'mixed' : undefined}
         />
         <span className={cn(`${checkboxPrefix}__inner`, classNames?.icon)} style={styles?.icon} aria-hidden="true" />
       </span>
@@ -363,7 +374,7 @@ const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(function Ch
     });
   }, [options]);
 
-  const toggleOption = (option: CheckboxOptionType) => {
+  const toggleOption = useCallback((option: CheckboxOptionType) => {
     const hasValue = isOptionChecked(mergedValue, option.value);
     const nextValue = hasValue ? mergedValue.filter((item) => !Object.is(item, option.value)) : [...mergedValue, option.value];
 
@@ -372,7 +383,7 @@ const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(function Ch
     }
 
     onChange?.(nextValue);
-  };
+  }, [isControlled, mergedValue, onChange]);
 
   const groupContextValue = useMemo<CheckboxGroupContextValue>(
     () => ({
@@ -381,7 +392,7 @@ const CheckboxGroup = forwardRef<HTMLDivElement, CheckboxGroupProps>(function Ch
       value: mergedValue,
       toggleOption
     }),
-    [disabled, mergedValue, name]
+    [disabled, mergedValue, name, toggleOption]
   );
 
   const checkboxPrefix = prefixCls || 'ui-checkbox';

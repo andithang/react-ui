@@ -181,26 +181,28 @@ export function Select({
     }, 0);
   }, [searchable]);
 
+  const setOpenState = useCallback(
+    (nextOpen: boolean) => {
+      setOpen(nextOpen);
+      if (nextOpen) {
+        focusSearchInput();
+      } else {
+        setQuery('');
+      }
+    },
+    [focusSearchInput]
+  );
 
   useEffect(() => {
     const closeOnOutsideClick = (event: MouseEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) {
-        setOpen(false);
+        setOpenState(false);
       }
     };
 
     document.addEventListener('mousedown', closeOnOutsideClick);
     return () => document.removeEventListener('mousedown', closeOnOutsideClick);
-  }, []);
-
-  useEffect(() => {
-    if (!open) {
-      setQuery('');
-      return;
-    }
-
-    focusSearchInput();
-  }, [focusSearchInput, open]);
+  }, [setOpenState]);
 
   const emitChange = (nextValues: string[]) => {
     const nextValue = multiple ? nextValues : nextValues[0] ?? '';
@@ -231,7 +233,7 @@ export function Select({
     }
 
     updateValues([nextValue]);
-    setOpen(false);
+    setOpenState(false);
   };
 
   const removeTag = (optionValue: string) => {
@@ -249,13 +251,13 @@ export function Select({
 
   const onTriggerKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     if (event.key === 'Escape') {
-      setOpen(false);
+      setOpenState(false);
       return;
     }
 
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      setOpen((prev) => !prev);
+      setOpenState(!open);
     }
   };
 
@@ -296,8 +298,7 @@ export function Select({
           type="button"
           className={cn('ui-control', 'ui-select__trigger', error && 'ui-control--error')}
           onClick={() => {
-            setOpen((prev) => !prev);
-            focusSearchInput();
+            setOpenState(!open);
           }}
           onKeyDown={onTriggerKeyDown}
           aria-haspopup="listbox"
@@ -331,8 +332,7 @@ export function Select({
                     onClick={(event) => {
                       event.preventDefault();
                       event.stopPropagation();
-                      setOpen(true);
-                      focusSearchInput();
+                      setOpenState(true);
                     }}
                   />
                 ) : selectedOptions.length === 0 ? (
@@ -350,8 +350,7 @@ export function Select({
                 onClick={(event) => {
                   event.preventDefault();
                   event.stopPropagation();
-                  setOpen(true);
-                  focusSearchInput();
+                  setOpenState(true);
                 }}
               />
             ) : (
@@ -370,6 +369,13 @@ export function Select({
                   event.preventDefault();
                   event.stopPropagation();
                   clearAll();
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    clearAll();
+                  }
                 }}
               >
                 ×
