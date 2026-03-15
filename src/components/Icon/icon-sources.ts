@@ -20,15 +20,22 @@ export interface IconDefinition {
   paths: readonly IconPath[];
 }
 
+const antdIconSource = antdParsedIcons as Partial<Record<string, RawIconDefinition>>;
+const bootstrapIconSource = bootstrapParsedIcons as Partial<Record<string, RawIconDefinition>>;
+const faIconSource = faParsedIcons as Partial<Record<string, RawIconDefinition>>;
+const matIconSource = matParsedIcons as Partial<Record<string, RawIconDefinition>>;
+const vtIconSource = vtParsedIcons as Partial<Record<string, RawIconDefinition>>;
+
 const rawParsedIconSources = {
-  ...antdParsedIcons,
-  ...bootstrapParsedIcons,
-  ...faParsedIcons,
-  ...matParsedIcons,
-  ...vtParsedIcons
+  ...antdIconSource,
+  ...bootstrapIconSource,
+  ...faIconSource,
+  ...matIconSource,
+  ...vtIconSource
 } as Partial<Record<string, RawIconDefinition>>;
 
 const normalizedIconCache = new Map<string, IconDefinition>();
+const resolvedIconCache = new Map<string, IconDefinition>();
 
 const SOURCE_PREFIXES = ['bt_', 'fa_', 'mat_', 'vt_'] as const;
 const SOURCE_STYLE_SUFFIXES = [
@@ -47,7 +54,34 @@ const SOURCE_STYLE_SUFFIXES = [
 const SOURCE_STRIPPABLE_SUFFIXES = SOURCE_STYLE_SUFFIXES.filter((suffix) => suffix !== '');
 const candidateKeyCache = new Map<string, string[]>();
 
-const LEGACY_ICON_NAMES = [
+function sortIconNames(names: string[]): string[] {
+  return [...names].sort((a, b) => a.localeCompare(b));
+}
+
+const antdIconNames = sortIconNames(Object.keys(antdIconSource));
+const bootstrapIconNames = sortIconNames(Object.keys(bootstrapIconSource));
+const faIconNames = sortIconNames(Object.keys(faIconSource));
+const matIconNames = sortIconNames(Object.keys(matIconSource));
+const vtIconNames = sortIconNames(Object.keys(vtIconSource));
+
+export const ICON_NAMES_BY_SOURCE = {
+  antd: antdIconNames,
+  bootstrap: bootstrapIconNames,
+  fontAwesome: faIconNames,
+  material: matIconNames,
+  vt: vtIconNames
+} as const;
+
+export type IconSourceName = keyof typeof ICON_NAMES_BY_SOURCE;
+export const SOURCE_ICON_NAMES = [
+  ...ICON_NAMES_BY_SOURCE.antd,
+  ...ICON_NAMES_BY_SOURCE.bootstrap,
+  ...ICON_NAMES_BY_SOURCE.fontAwesome,
+  ...ICON_NAMES_BY_SOURCE.material,
+  ...ICON_NAMES_BY_SOURCE.vt
+];
+
+export const LEGACY_ICON_NAMES = [
   'alert',
   'arrowDown',
   'arrowLeft',
@@ -105,7 +139,8 @@ const LEGACY_ICON_NAMES = [
   'warningCircle'
 ] as const;
 
-type LegacyIconName = (typeof LEGACY_ICON_NAMES)[number];
+export type LegacyIconName = (typeof LEGACY_ICON_NAMES)[number];
+const LEGACY_ICON_NAME_SET = new Set<string>(LEGACY_ICON_NAMES as readonly string[]);
 
 const EXPLICIT_ICON_ALIAS: Partial<Record<LegacyIconName, string>> = {
   chevronDown: 'caretDownOutline',
@@ -234,7 +269,14 @@ function resolveCandidate(candidate: string): IconDefinition | undefined {
   return undefined;
 }
 
-function resolveIconSource(name: LegacyIconName): IconDefinition {
+const FALLBACK_ICON =
+  resolveCandidate('questionCircleOutline') ??
+  resolveCandidate('questionOutline') ??
+  resolveCandidate('infoCircleOutline') ??
+  resolveCandidate('infoOutline') ??
+  { viewBox: '0 0 1024 1024', paths: [] };
+
+function resolveLegacyIconSource(name: LegacyIconName): IconDefinition {
   const candidates: string[] = [];
   const explicit = EXPLICIT_ICON_ALIAS[name];
 
@@ -250,19 +292,30 @@ function resolveIconSource(name: LegacyIconName): IconDefinition {
     }
   }
 
-  return (
-    resolveCandidate('questionCircleOutline') ??
-    resolveCandidate('questionOutline') ??
-    resolveCandidate('infoCircleOutline') ??
-    resolveCandidate('infoOutline') ??
-    { viewBox: '0 0 1024 1024', paths: [] }
-  );
+  return FALLBACK_ICON;
 }
 
-export type IconName = LegacyIconName;
-export const ICON_NAMES = [...LEGACY_ICON_NAMES] as IconName[];
+export type IconName = string;
+export const ICON_NAMES = [...SOURCE_ICON_NAMES] as IconName[];
 
-export const icons = LEGACY_ICON_NAMES.reduce<Record<IconName, IconDefinition>>((result, name) => {
-  result[name] = resolveIconSource(name);
+export function getIconDefinition(name: IconName): IconDefinition {
+  const cachedIcon = resolvedIconCache.get(name);
+  if (cachedIcon) {
+    return cachedIcon;
+  }
+
+  let resolvedIcon = getParsedIconSource(name);
+
+  if (!resolvedIcon && LEGACY_ICON_NAME_SET.has(name)) {
+    resolvedIcon = resolveLegacyIconSource(name as LegacyIconName);
+  }
+
+  const finalIcon = resolvedIcon ?? FALLBACK_ICON;
+  resolvedIconCache.set(name, finalIcon);
+  return finalIcon;
+}
+
+export const icons = LEGACY_ICON_NAMES.reduce<Record<LegacyIconName, IconDefinition>>((result, name) => {
+  result[name] = resolveLegacyIconSource(name);
   return result;
-}, {} as Record<IconName, IconDefinition>);
+}, {} as Record<LegacyIconName, IconDefinition>);

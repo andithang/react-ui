@@ -1,9 +1,16 @@
 import type { SVGProps } from 'react';
 import { cn } from '../../utils';
-import { ICON_NAMES, icons, type IconName } from './icon-sources';
+import {
+  ICON_NAMES,
+  ICON_NAMES_BY_SOURCE,
+  LEGACY_ICON_NAMES,
+  SOURCE_ICON_NAMES,
+  getIconDefinition,
+  type IconName
+} from './icon-sources';
 import './Icon.scss';
 
-export { ICON_NAMES };
+export { ICON_NAMES, ICON_NAMES_BY_SOURCE, LEGACY_ICON_NAMES, SOURCE_ICON_NAMES };
 export type { IconName };
 
 export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
@@ -12,7 +19,7 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'name'> {
 }
 
 export function Icon({ name, size = '1em', className, ...props }: IconProps) {
-  const icon = icons[name];
+  const icon = getIconDefinition(name);
 
   return (
     <svg

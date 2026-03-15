@@ -4,64 +4,17 @@
 Render reusable SVG icons from an internal icon map with per-icon `viewBox` support.
 
 ## Available icons
-- alert
-- arrowDown
-- arrowLeft
-- arrowRight
-- arrowUp
-- bell
-- calendar
-- check
-- checkCircle
-- chevronDown
-- chevronLeft
-- chevronRight
-- chevronUp
-- clock
-- close
-- closeCircle
-- copy
-- dotsHorizontal
-- dotsVertical
-- download
-- edit
-- externalLink
-- eye
-- eyeOff
-- file
-- filter
-- folder
-- heart
-- home
-- info
-- link
-- location
-- lock
-- mail
-- menu
-- minus
-- moon
-- pause
-- phone
-- play
-- plus
-- question
-- refresh
-- search
-- settings
-- star
-- stop
-- sun
-- tag
-- trash
-- unlock
-- upload
-- user
-- users
-- warningCircle
+- Raw icon keys from all parsed sources are supported:
+  - Ant Design: 789
+  - Bootstrap: 1,953
+  - Font Awesome: 2,020
+  - Material: 10,605
+  - VT: 1,148
+- Legacy aliases are still supported for backwards compatibility (for example: `search`, `close`, `warningCircle`).
+- Use Storybook `Components/Icon` family pages (`AntDesign`, `Bootstrap`, `FontAwesome`, `Material`, `VT`) to browse the full icon catalog.
 
 ## Props
-- name: `IconName` (required)
+- name: `IconName` (required, accepts raw source key or legacy alias)
 - size?: `number | string`
 - Inherits native SVG props via `SVGProps<SVGSVGElement>`
 
@@ -70,6 +23,10 @@ Render reusable SVG icons from an internal icon map with per-icon `viewBox` supp
 - Uses icon-specific `viewBox` values to keep each glyph fit to its own SVG bounds.
 - Uses `size` for both width and height.
 - Default size is `1em` for CSS-friendly alignment and scaling.
+- Resolution order:
+  1. Exact raw key lookup (for example: `mat_accessAlarmRound`)
+  2. Legacy alias lookup (for example: `search`, `close`)
+  3. Fallback icon for unknown names
 
 ## Accessibility
 - Sets `aria-hidden="true"` by default.
