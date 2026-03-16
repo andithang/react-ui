@@ -175,6 +175,17 @@ export type { InputNumberProps } from './components/InputNumber/InputNumber';
 export { TreeSelect } from './components/TreeSelect/TreeSelect';
 export type { TreeSelectProps, TreeSelectOption } from './components/TreeSelect/TreeSelect';
 
+
+export { Pagination } from './components/Pagination/Pagination';
+export type {
+  PaginationAlign,
+  PaginationItemRender,
+  PaginationPosition,
+  PaginationProps,
+  PaginationShowTotal,
+  PaginationSize
+} from './components/Pagination/Pagination';
+
 export { Table } from './components/Table/Table';
 export type {
   AnyObject,

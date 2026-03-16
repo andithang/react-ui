@@ -126,11 +126,10 @@
   &__filter-item {
     display: inline-flex;
     align-items: center;
-    gap: var(--ui-space-xs);
     color: var(--ui-text-muted);
 
-    input {
-      accent-color: var(--ui-primary);
+    .ui-checkbox {
+      margin-top: 0;
     }
   }
 
@@ -164,38 +163,7 @@
   }
 
   &__pagination {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: var(--ui-space-sm);
     margin-top: var(--ui-space-sm);
-    color: var(--ui-text-muted);
-
-    button,
-    select {
-      border: 1px solid var(--ui-border);
-      border-radius: var(--ui-radius-xs);
-      background: var(--ui-surface);
-      color: var(--ui-text);
-      padding: 0.25rem 0.5rem;
-    }
-
-    button:not(:disabled):hover,
-    select:hover {
-      border-color: var(--ui-primary);
-      color: var(--ui-primary-hover);
-    }
-
-    button:focus-visible,
-    select:focus-visible {
-      outline: none;
-      box-shadow: 0 0 0 3px var(--ui-primary-outline);
-    }
-
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
   }
 
   &__loading {

@@ -1,4 +1,7 @@
 import { Fragment, type CSSProperties, type HTMLAttributes, type ReactNode, type UIEvent, useMemo, useState } from 'react';
+import { Button } from '../Button/Button';
+import { Checkbox } from '../Checkbox/Checkbox';
+import { Pagination, type PaginationProps } from '../Pagination/Pagination';
 import { cn } from '../../utils';
 import './Table.scss';
 
@@ -34,17 +37,7 @@ export type ColumnsType<RecordType = AnyObject> = Array<TableColumnType<RecordTy
 
 export type TablePaginationPosition = 'bottomRight';
 
-export type TablePaginationConfig = {
-  current?: number;
-  defaultCurrent?: number;
-  pageSize?: number;
-  defaultPageSize?: number;
-  total?: number;
-  showSizeChanger?: boolean;
-  pageSizeOptions?: number[];
-  showTotal?: (total: number, range: [number, number]) => ReactNode;
-  onChange?: (page: number, pageSize: number) => void;
-  onShowSizeChange?: (page: number, pageSize: number) => void;
+export type TablePaginationConfig = PaginationProps & {
   position?: TablePaginationPosition[];
 };
 
@@ -217,28 +210,23 @@ export function Table<RecordType extends AnyObject = AnyObject>({
                         {column.filters.map((filter) => {
                           const selected = (column.filteredValue ?? internalFilters[key] ?? []).includes(filter.value);
                           return (
-                            <label key={String(filter.value)} className="ui-table__filter-item">
-                              <input
-                                type="checkbox"
-                                checked={selected}
-                                onChange={(event) => {
-                                  if (column.filteredValue) return;
-                                  const current = [...(internalFilters[key] ?? [])];
-                                  const next = event.target.checked
-                                    ? [...current, filter.value]
-                                    : current.filter((value) => value !== filter.value);
-                                  const nextFilters = { ...internalFilters, [key]: next };
-                                  setInternalFilters(nextFilters);
-                                  triggerChange(
-                                    'filter',
-                                    { ...pagination, current: 1, pageSize: mergedPageSize, total },
-                                    nextFilters,
-                                    internalSort
-                                  );
-                                }}
-                              />
-                              <span>{filter.text}</span>
-                            </label>
+                            <Checkbox
+                              key={String(filter.value)}
+                              className="ui-table__filter-item"
+                              checked={selected}
+                              onChange={(event) => {
+                                if (column.filteredValue) return;
+                                const current = [...(internalFilters[key] ?? [])];
+                                const next = event.target.checked
+                                  ? [...current, filter.value]
+                                  : current.filter((value) => value !== filter.value);
+                                const nextFilters = { ...internalFilters, [key]: next };
+                                setInternalFilters(nextFilters);
+                                triggerChange('filter', { ...pagination, current: 1, pageSize: mergedPageSize, total }, nextFilters, internalSort);
+                              }}
+                            >
+                              {filter.text}
+                            </Checkbox>
                           );
                         })}
                       </div>
@@ -267,9 +255,11 @@ export function Table<RecordType extends AnyObject = AnyObject>({
                       {expandedRowRender ? (
                         <td className="ui-table__expander-cell">
                           {canExpand ? (
-                            <button
-                              type="button"
+                            <Button
+                              type="text"
+                              size="small"
                               className="ui-table__expand-button"
+                              aria-label={expanded ? 'Collapse row' : 'Expand row'}
                               onClick={() => {
                                 const nextExpanded = expanded
                                   ? mergedExpandedRows.filter((row) => row !== key)
@@ -280,7 +270,7 @@ export function Table<RecordType extends AnyObject = AnyObject>({
                               }}
                             >
                               {expanded ? '−' : '+'}
-                            </button>
+                            </Button>
                           ) : null}
                         </td>
                       ) : null}
@@ -312,54 +302,25 @@ export function Table<RecordType extends AnyObject = AnyObject>({
       {loading ? <div className="ui-table__loading">Loading...</div> : null}
 
       {pagination !== false ? (
-        <div className="ui-table__pagination">
-          {pagination.showTotal ? pagination.showTotal(total, [start + 1, Math.min(start + mergedPageSize, total)]) : null}
-          <button
-            type="button"
-            disabled={mergedPage <= 1}
-            onClick={() => {
-              const next = mergedPage - 1;
-              if (!pagination.current) setInternalPage(next);
-              pagination.onChange?.(next, mergedPageSize);
-              triggerChange('paginate', { ...pagination, current: next, pageSize: mergedPageSize, total }, internalFilters, internalSort);
-            }}
-          >
-            Prev
-          </button>
-          <span>
-            {mergedPage} / {Math.max(1, Math.ceil(total / mergedPageSize))}
-          </span>
-          <button
-            type="button"
-            disabled={mergedPage >= Math.ceil(total / mergedPageSize)}
-            onClick={() => {
-              const next = mergedPage + 1;
-              if (!pagination.current) setInternalPage(next);
-              pagination.onChange?.(next, mergedPageSize);
-              triggerChange('paginate', { ...pagination, current: next, pageSize: mergedPageSize, total }, internalFilters, internalSort);
-            }}
-          >
-            Next
-          </button>
-          {pagination.showSizeChanger ? (
-            <select
-              value={mergedPageSize}
-              onChange={(event) => {
-                const nextPageSize = Number(event.target.value);
-                if (!pagination.pageSize) setInternalPageSize(nextPageSize);
-                if (!pagination.current) setInternalPage(1);
-                pagination.onShowSizeChange?.(1, nextPageSize);
-                triggerChange('paginate', { ...pagination, current: 1, pageSize: nextPageSize, total }, internalFilters, internalSort);
-              }}
-            >
-              {(pagination.pageSizeOptions ?? [10, 20, 50]).map((option) => (
-                <option key={option} value={option}>
-                  {option} / page
-                </option>
-              ))}
-            </select>
-          ) : null}
-        </div>
+        <Pagination
+          {...pagination}
+          className={cn('ui-table__pagination', pagination.className)}
+          size={pagination.size ?? 'small'}
+          total={total}
+          current={mergedPage}
+          pageSize={mergedPageSize}
+          onChange={(nextPage, nextPageSize) => {
+            if (!pagination.current) setInternalPage(nextPage);
+            if (!pagination.pageSize) setInternalPageSize(nextPageSize);
+            pagination.onChange?.(nextPage, nextPageSize);
+            triggerChange('paginate', { ...pagination, current: nextPage, pageSize: nextPageSize, total }, internalFilters, internalSort);
+          }}
+          onShowSizeChange={(nextPage, nextPageSize) => {
+            if (!pagination.pageSize) setInternalPageSize(nextPageSize);
+            if (!pagination.current) setInternalPage(nextPage);
+            pagination.onShowSizeChange?.(nextPage, nextPageSize);
+          }}
+        />
       ) : null}
     </div>
   );
