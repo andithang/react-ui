@@ -175,4 +175,48 @@ export type { InputNumberProps } from './components/InputNumber/InputNumber';
 export { TreeSelect } from './components/TreeSelect/TreeSelect';
 export type { TreeSelectProps, TreeSelectOption } from './components/TreeSelect/TreeSelect';
 
+export { Table } from './components/Table/Table';
+export type {
+  AnyObject,
+  ColumnFilterItem,
+  ColumnProps,
+  ColumnTitleProps,
+  ColumnsType,
+  ColumnType,
+  CompareFn,
+  ComponentsSemantic,
+  ComponentsSemanticClassNames,
+  ComponentsSemanticStyles,
+  ExpandType,
+  FilterDropdownProps,
+  FilterKey,
+  FilterSearchType,
+  FilterValue,
+  GetPopupContainer,
+  RowSelectMethod,
+  RowSelectionType,
+  SelectionItem,
+  SelectionItemSelectFn,
+  SelectionSelectFn,
+  SorterResult,
+  SorterTooltipProps,
+  SorterTooltipTarget,
+  SortOrder,
+  TableAction,
+  TableColumnType,
+  TableCurrentDataSource,
+  TableLocale,
+  TableOnChangeExtra,
+  TablePaginationConfig,
+  TablePaginationPlacement,
+  TablePaginationPosition,
+  TableProps,
+  TableRef,
+  TableRowSelection,
+  TableSemanticClassNames,
+  TableSemanticName,
+  TableSemanticStyles,
+  TransformColumns
+} from './components/Table/Table';
+
 import './styles/index.scss';

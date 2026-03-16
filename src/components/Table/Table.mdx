@@ -1,0 +1,20 @@
+# Table spec
+
+## Purpose
+Theme-aware Table wrapper around Ant Design `Table` with full Ant API parity and typed exports for migration-friendly usage.
+
+## API parity
+- `Table` accepts the complete Ant Design `TableProps<RecordType>` surface.
+- All Ant table features are supported through pass-through props, including:
+  - sorting, filtering, pagination, row selection
+  - expandable rows, summary rows, virtual/list rendering controls
+  - sticky/fixed columns, scroll configs, locale, custom components
+  - semantic class/style hooks (`classNames`, `styles`, semantic tokens)
+
+## Exported types
+- `TableProps`, `TableColumnType`, `TablePaginationConfig`, `TableOnChangeExtra`
+- Ant-compatible table utility types (sort, filters, row-selection, semantic types, etc.)
+
+## Styling
+- Root class: `.ui-table`
+- Applies token-based theme overrides on Ant table internals for borders, header, hover, sorting, pagination, and focus states.
