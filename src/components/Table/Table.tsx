@@ -1,4 +1,6 @@
 import { Fragment, type CSSProperties, type HTMLAttributes, type ReactNode, type UIEvent, useMemo, useState } from 'react';
+import { Button } from '../Button/Button';
+import { Checkbox } from '../Checkbox/Checkbox';
 import { cn } from '../../utils';
 import './Table.scss';
 
@@ -217,28 +219,23 @@ export function Table<RecordType extends AnyObject = AnyObject>({
                         {column.filters.map((filter) => {
                           const selected = (column.filteredValue ?? internalFilters[key] ?? []).includes(filter.value);
                           return (
-                            <label key={String(filter.value)} className="ui-table__filter-item">
-                              <input
-                                type="checkbox"
-                                checked={selected}
-                                onChange={(event) => {
-                                  if (column.filteredValue) return;
-                                  const current = [...(internalFilters[key] ?? [])];
-                                  const next = event.target.checked
-                                    ? [...current, filter.value]
-                                    : current.filter((value) => value !== filter.value);
-                                  const nextFilters = { ...internalFilters, [key]: next };
-                                  setInternalFilters(nextFilters);
-                                  triggerChange(
-                                    'filter',
-                                    { ...pagination, current: 1, pageSize: mergedPageSize, total },
-                                    nextFilters,
-                                    internalSort
-                                  );
-                                }}
-                              />
-                              <span>{filter.text}</span>
-                            </label>
+                            <Checkbox
+                              key={String(filter.value)}
+                              className="ui-table__filter-item"
+                              checked={selected}
+                              onChange={(event) => {
+                                if (column.filteredValue) return;
+                                const current = [...(internalFilters[key] ?? [])];
+                                const next = event.target.checked
+                                  ? [...current, filter.value]
+                                  : current.filter((value) => value !== filter.value);
+                                const nextFilters = { ...internalFilters, [key]: next };
+                                setInternalFilters(nextFilters);
+                                triggerChange('filter', { ...pagination, current: 1, pageSize: mergedPageSize, total }, nextFilters, internalSort);
+                              }}
+                            >
+                              {filter.text}
+                            </Checkbox>
                           );
                         })}
                       </div>
@@ -267,9 +264,11 @@ export function Table<RecordType extends AnyObject = AnyObject>({
                       {expandedRowRender ? (
                         <td className="ui-table__expander-cell">
                           {canExpand ? (
-                            <button
-                              type="button"
+                            <Button
+                              type="text"
+                              size="small"
                               className="ui-table__expand-button"
+                              aria-label={expanded ? 'Collapse row' : 'Expand row'}
                               onClick={() => {
                                 const nextExpanded = expanded
                                   ? mergedExpandedRows.filter((row) => row !== key)
@@ -280,7 +279,7 @@ export function Table<RecordType extends AnyObject = AnyObject>({
                               }}
                             >
                               {expanded ? '−' : '+'}
-                            </button>
+                            </Button>
                           ) : null}
                         </td>
                       ) : null}
@@ -314,8 +313,8 @@ export function Table<RecordType extends AnyObject = AnyObject>({
       {pagination !== false ? (
         <div className="ui-table__pagination">
           {pagination.showTotal ? pagination.showTotal(total, [start + 1, Math.min(start + mergedPageSize, total)]) : null}
-          <button
-            type="button"
+          <Button
+            size="small"
             disabled={mergedPage <= 1}
             onClick={() => {
               const next = mergedPage - 1;
@@ -325,12 +324,12 @@ export function Table<RecordType extends AnyObject = AnyObject>({
             }}
           >
             Prev
-          </button>
+          </Button>
           <span>
             {mergedPage} / {Math.max(1, Math.ceil(total / mergedPageSize))}
           </span>
-          <button
-            type="button"
+          <Button
+            size="small"
             disabled={mergedPage >= Math.ceil(total / mergedPageSize)}
             onClick={() => {
               const next = mergedPage + 1;
@@ -340,7 +339,7 @@ export function Table<RecordType extends AnyObject = AnyObject>({
             }}
           >
             Next
-          </button>
+          </Button>
           {pagination.showSizeChanger ? (
             <select
               value={mergedPageSize}
