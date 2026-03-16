@@ -1,6 +1,7 @@
 import { Fragment, type CSSProperties, type HTMLAttributes, type ReactNode, type UIEvent, useMemo, useState } from 'react';
 import { Button } from '../Button/Button';
 import { Checkbox } from '../Checkbox/Checkbox';
+import { Select } from '../Select/Select';
 import { cn } from '../../utils';
 import './Table.scss';
 
@@ -341,8 +342,10 @@ export function Table<RecordType extends AnyObject = AnyObject>({
             Next
           </Button>
           {pagination.showSizeChanger ? (
-            <select
-              value={mergedPageSize}
+            <Select
+              className="ui-table__size-select"
+              aria-label="Rows per page"
+              value={String(mergedPageSize)}
               onChange={(event) => {
                 const nextPageSize = Number(event.target.value);
                 if (!pagination.pageSize) setInternalPageSize(nextPageSize);
@@ -350,13 +353,15 @@ export function Table<RecordType extends AnyObject = AnyObject>({
                 pagination.onShowSizeChange?.(1, nextPageSize);
                 triggerChange('paginate', { ...pagination, current: 1, pageSize: nextPageSize, total }, internalFilters, internalSort);
               }}
+              clearable={false}
+              searchable={false}
             >
               {(pagination.pageSizeOptions ?? [10, 20, 50]).map((option) => (
-                <option key={option} value={option}>
+                <option key={option} value={String(option)}>
                   {option} / page
                 </option>
               ))}
-            </select>
+            </Select>
           ) : null}
         </div>
       ) : null}
