@@ -1,7 +1,7 @@
 import { Fragment, type CSSProperties, type HTMLAttributes, type ReactNode, type UIEvent, useMemo, useState } from 'react';
 import { Button } from '../Button/Button';
 import { Checkbox } from '../Checkbox/Checkbox';
-import { Select } from '../Select/Select';
+import { Pagination, type PaginationProps } from '../Pagination/Pagination';
 import { cn } from '../../utils';
 import './Table.scss';
 
@@ -37,17 +37,7 @@ export type ColumnsType<RecordType = AnyObject> = Array<TableColumnType<RecordTy
 
 export type TablePaginationPosition = 'bottomRight';
 
-export type TablePaginationConfig = {
-  current?: number;
-  defaultCurrent?: number;
-  pageSize?: number;
-  defaultPageSize?: number;
-  total?: number;
-  showSizeChanger?: boolean;
-  pageSizeOptions?: number[];
-  showTotal?: (total: number, range: [number, number]) => ReactNode;
-  onChange?: (page: number, pageSize: number) => void;
-  onShowSizeChange?: (page: number, pageSize: number) => void;
+export type TablePaginationConfig = PaginationProps & {
   position?: TablePaginationPosition[];
 };
 
@@ -312,58 +302,25 @@ export function Table<RecordType extends AnyObject = AnyObject>({
       {loading ? <div className="ui-table__loading">Loading...</div> : null}
 
       {pagination !== false ? (
-        <div className="ui-table__pagination">
-          {pagination.showTotal ? pagination.showTotal(total, [start + 1, Math.min(start + mergedPageSize, total)]) : null}
-          <Button
-            size="small"
-            disabled={mergedPage <= 1}
-            onClick={() => {
-              const next = mergedPage - 1;
-              if (!pagination.current) setInternalPage(next);
-              pagination.onChange?.(next, mergedPageSize);
-              triggerChange('paginate', { ...pagination, current: next, pageSize: mergedPageSize, total }, internalFilters, internalSort);
-            }}
-          >
-            Prev
-          </Button>
-          <span>
-            {mergedPage} / {Math.max(1, Math.ceil(total / mergedPageSize))}
-          </span>
-          <Button
-            size="small"
-            disabled={mergedPage >= Math.ceil(total / mergedPageSize)}
-            onClick={() => {
-              const next = mergedPage + 1;
-              if (!pagination.current) setInternalPage(next);
-              pagination.onChange?.(next, mergedPageSize);
-              triggerChange('paginate', { ...pagination, current: next, pageSize: mergedPageSize, total }, internalFilters, internalSort);
-            }}
-          >
-            Next
-          </Button>
-          {pagination.showSizeChanger ? (
-            <Select
-              className="ui-table__size-select"
-              aria-label="Rows per page"
-              value={String(mergedPageSize)}
-              onChange={(event) => {
-                const nextPageSize = Number(event.target.value);
-                if (!pagination.pageSize) setInternalPageSize(nextPageSize);
-                if (!pagination.current) setInternalPage(1);
-                pagination.onShowSizeChange?.(1, nextPageSize);
-                triggerChange('paginate', { ...pagination, current: 1, pageSize: nextPageSize, total }, internalFilters, internalSort);
-              }}
-              clearable={false}
-              searchable={false}
-            >
-              {(pagination.pageSizeOptions ?? [10, 20, 50]).map((option) => (
-                <option key={option} value={String(option)}>
-                  {option} / page
-                </option>
-              ))}
-            </Select>
-          ) : null}
-        </div>
+        <Pagination
+          {...pagination}
+          className={cn('ui-table__pagination', pagination.className)}
+          size={pagination.size ?? 'small'}
+          total={total}
+          current={mergedPage}
+          pageSize={mergedPageSize}
+          onChange={(nextPage, nextPageSize) => {
+            if (!pagination.current) setInternalPage(nextPage);
+            if (!pagination.pageSize) setInternalPageSize(nextPageSize);
+            pagination.onChange?.(nextPage, nextPageSize);
+            triggerChange('paginate', { ...pagination, current: nextPage, pageSize: nextPageSize, total }, internalFilters, internalSort);
+          }}
+          onShowSizeChange={(nextPage, nextPageSize) => {
+            if (!pagination.pageSize) setInternalPageSize(nextPageSize);
+            if (!pagination.current) setInternalPage(nextPage);
+            pagination.onShowSizeChange?.(nextPage, nextPageSize);
+          }}
+        />
       ) : null}
     </div>
   );

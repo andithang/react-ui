@@ -163,17 +163,7 @@
   }
 
   &__pagination {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: var(--ui-space-sm);
     margin-top: var(--ui-space-sm);
-    color: var(--ui-text-muted);
-
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
   }
 
   &__size-select {
