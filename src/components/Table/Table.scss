@@ -166,6 +166,10 @@
     margin-top: var(--ui-space-sm);
   }
 
+  &__size-select {
+    min-width: 7.5rem;
+  }
+
   &__loading {
     position: absolute;
     inset: 0;
