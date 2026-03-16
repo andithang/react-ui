@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Table, type TableColumnType } from '../src/components/Table/Table';
+import { Button } from '../src/components/Button/Button';
 import { Tag } from '../src/components/Tag/Tag';
 
 type UserRecord = {
@@ -9,15 +10,16 @@ type UserRecord = {
   role: 'Admin' | 'Editor' | 'Viewer';
   status: 'Active' | 'Inactive';
   age: number;
+  action: string;
 };
 
 const records: UserRecord[] = [
-  { key: '1', name: 'Jane Cooper', email: 'jane@company.com', role: 'Admin', status: 'Active', age: 34 },
-  { key: '2', name: 'Arlene McCoy', email: 'arlene@company.com', role: 'Editor', status: 'Active', age: 29 },
-  { key: '3', name: 'Ronald Richards', email: 'ronald@company.com', role: 'Viewer', status: 'Inactive', age: 42 },
-  { key: '4', name: 'Cameron Williamson', email: 'cameron@company.com', role: 'Viewer', status: 'Active', age: 25 },
-  { key: '5', name: 'Savannah Nguyen', email: 'savannah@company.com', role: 'Editor', status: 'Inactive', age: 31 },
-  { key: '6', name: 'Wade Warren', email: 'wade@company.com', role: 'Admin', status: 'Active', age: 38 }
+  { key: '1', name: 'Jane Cooper', email: 'jane@company.com', role: 'Admin', status: 'Active', age: 34, action: 'edit' },
+  { key: '2', name: 'Arlene McCoy', email: 'arlene@company.com', role: 'Editor', status: 'Active', age: 29, action: 'edit' },
+  { key: '3', name: 'Ronald Richards', email: 'ronald@company.com', role: 'Viewer', status: 'Inactive', age: 42, action: 'edit' },
+  { key: '4', name: 'Cameron Williamson', email: 'cameron@company.com', role: 'Viewer', status: 'Active', age: 25, action: 'edit' },
+  { key: '5', name: 'Savannah Nguyen', email: 'savannah@company.com', role: 'Editor', status: 'Inactive', age: 31, action: 'edit' },
+  { key: '6', name: 'Wade Warren', email: 'wade@company.com', role: 'Admin', status: 'Active', age: 38, action: 'edit' }
 ];
 
 const columns: Array<TableColumnType<UserRecord>> = [
@@ -58,6 +60,17 @@ const columns: Array<TableColumnType<UserRecord>> = [
     key: 'age',
     align: 'right',
     sorter: (a, b) => a.age - b.age
+  },
+  {
+    title: 'Actions',
+    dataIndex: 'action',
+    key: 'action',
+    align: 'center',
+    render: () => (
+      <Button type="primary" size="small">
+        Edit
+      </Button>
+    )
   }
 ];
 

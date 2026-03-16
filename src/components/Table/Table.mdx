@@ -21,3 +21,7 @@ Theme-aware data table component rendered with native table markup (`<table>`, `
 - Root class: `.ui-table`.
 - Uses token-based CSS variables for border, surface, hover, focus, and primary interactive states.
 - No runtime styling libraries and no dependency on external table component markup.
+
+## Composition
+- Built with library primitives for interactions: `Checkbox` for column filter options, `Button` for row expansion + pagination nav controls, and `Select` for page-size selection.
+- Cell renderers can compose other UI components such as `Tag`, `Button`, `Avatar`, etc.
