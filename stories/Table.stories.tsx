@@ -64,6 +64,11 @@ const columns: Array<TableColumnType<UserRecord>> = [
 const meta = {
   title: 'Components/Table',
   component: Table<UserRecord>,
+  parameters: {
+    actions: {
+      disable: true
+    }
+  },
   args: {
     columns,
     dataSource: records,
