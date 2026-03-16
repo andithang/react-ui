@@ -175,4 +175,16 @@ export type { InputNumberProps } from './components/InputNumber/InputNumber';
 export { TreeSelect } from './components/TreeSelect/TreeSelect';
 export type { TreeSelectProps, TreeSelectOption } from './components/TreeSelect/TreeSelect';
 
+export { Table } from './components/Table/Table';
+export type {
+  SortOrder,
+  TableColumnTitleProps,
+  TableColumnType,
+  TableCurrentDataSource,
+  TableFilterItem,
+  TableOnChangeExtra,
+  TablePaginationConfig,
+  TableProps
+} from './components/Table/Table';
+
 import './styles/index.scss';
