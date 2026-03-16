@@ -1,28 +1,20 @@
 # Table spec
 
 ## Purpose
-Ant Design-inspired data table with generic typing and column definitions for rendering structured records.
+Theme-aware Table wrapper around Ant Design `Table` with full Ant API parity and typed exports for migration-friendly usage.
 
-## Supported Ant-style API surface
-- `columns`, `dataSource`, `rowKey`
-- `size`, `bordered`, `loading`, `showHeader`, `tableLayout`, `scroll`
-- `pagination` (`current`, `pageSize`, `total`, size changer callbacks)
-- `title`, `summary`, `footer`, `locale.emptyText`
-- `rowClassName`, `onRow`, `onHeaderRow`, `onChange`
+## API parity
+- `Table` accepts the complete Ant Design `TableProps<RecordType>` surface.
+- All Ant table features are supported through pass-through props, including:
+  - sorting, filtering, pagination, row selection
+  - expandable rows, summary rows, virtual/list rendering controls
+  - sticky/fixed columns, scroll configs, locale, custom components
+  - semantic class/style hooks (`classNames`, `styles`, semantic tokens)
 
-## Column capabilities
-- `title`, `key`, `dataIndex`
-- `render`, `align`, width props, `ellipsis`
-- `sorter`, `sortOrder`, `defaultSortOrder`, `sortDirections`
-- `filters`, `filteredValue`, `defaultFilteredValue`, `onFilter`
-- `onCell`, `onHeaderCell`
-
-## Behavior
-- Uses semantic native table structure (`table`, `thead`, `tbody`, `th`, `td`).
-- Supports client-side sorting, filtering, and pagination patterns.
-- Exposes Ant-like callback shape through `onChange`.
+## Exported types
+- `TableProps`, `TableColumnType`, `TablePaginationConfig`, `TableOnChangeExtra`
+- Ant-compatible table utility types (sort, filters, row-selection, semantic types, etc.)
 
 ## Styling
 - Root class: `.ui-table`
-- Internal classes: `.ui-table__native`, `.ui-table__head-cell`, `.ui-table__cell`, `.ui-table__pagination`
-- Uses theme tokens and primary-color interaction states.
+- Applies token-based theme overrides on Ant table internals for borders, header, hover, sorting, pagination, and focus states.
