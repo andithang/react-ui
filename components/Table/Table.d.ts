@@ -1,0 +1,9 @@
+import { AnyObject } from 'antd/es/_util/type';
+import { ColumnProps, ColumnsType, ColumnType, ComponentsSemantic, ComponentsSemanticClassNames, ComponentsSemanticStyles, TablePaginationConfig, TableProps as AntTableProps, TableRef, TableSemanticClassNames, TableSemanticName, TableSemanticStyles } from 'antd/es/table';
+import { ColumnFilterItem, ColumnTitleProps, CompareFn, ExpandType, FilterDropdownProps, FilterKey, FilterSearchType, FilterValue, GetPopupContainer, RowSelectMethod, RowSelectionType, SelectionItem, SelectionItemSelectFn, SelectionSelectFn, SorterResult, SorterTooltipProps, SorterTooltipTarget, SortOrder, TableAction, TableCurrentDataSource, TableLocale, TablePaginationPlacement, TablePaginationPosition, TableRowSelection, TransformColumns } from 'antd/es/table/interface';
+export type { AnyObject, ColumnFilterItem, ColumnProps, ColumnTitleProps, ColumnsType, ColumnType, CompareFn, ComponentsSemantic, ComponentsSemanticClassNames, ComponentsSemanticStyles, ExpandType, FilterDropdownProps, FilterKey, FilterSearchType, FilterValue, GetPopupContainer, RowSelectMethod, RowSelectionType, SelectionItem, SelectionItemSelectFn, SelectionSelectFn, SorterResult, SorterTooltipProps, SorterTooltipTarget, SortOrder, TableAction, TableCurrentDataSource, TableLocale, TablePaginationConfig, TablePaginationPlacement, TablePaginationPosition, TableRef, TableRowSelection, TableSemanticClassNames, TableSemanticName, TableSemanticStyles, TransformColumns };
+export type TableColumnType<RecordType = AnyObject> = ColumnType<RecordType>;
+export type TableOnChangeExtra<RecordType = AnyObject> = TableCurrentDataSource<RecordType>;
+export type TableProps<RecordType = AnyObject> = AntTableProps<RecordType>;
+export declare function Table<RecordType = AnyObject>({ className, ...props }: TableProps<RecordType>): import("react/jsx-runtime").JSX.Element;
+//# sourceMappingURL=Table.d.ts.map
