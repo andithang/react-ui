@@ -58,6 +58,8 @@ export { InputNumber } from './components/InputNumber/InputNumber';
 export type { InputNumberProps } from './components/InputNumber/InputNumber';
 export { TreeSelect } from './components/TreeSelect/TreeSelect';
 export type { TreeSelectProps, TreeSelectOption } from './components/TreeSelect/TreeSelect';
+export { Pagination } from './components/Pagination/Pagination';
+export type { PaginationAlign, PaginationItemRender, PaginationPosition, PaginationProps, PaginationShowTotal, PaginationSize } from './components/Pagination/Pagination';
 export { Table } from './components/Table/Table';
 export type { AnyObject, ColumnFilterItem, ColumnsType, CompareFn, FilterValue, SortOrder, TableColumnType, TableLocale, TableOnChange, TableOnChangeExtra, TableOnExpand, TableOnExpandedRowsChange, TableOnHeaderRow, TableOnRow, TableOnScroll, TablePaginationConfig, TablePaginationPosition, TableProps } from './components/Table/Table';
 //# sourceMappingURL=index.d.ts.map

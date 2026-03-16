@@ -1,4 +1,5 @@
 import { CSSProperties, HTMLAttributes, ReactNode, UIEvent } from '../../../node_modules/react';
+import { PaginationProps } from '../Pagination/Pagination';
 export type AnyObject = Record<string, unknown>;
 export type SortOrder = 'ascend' | 'descend';
 export type FilterValue = Array<string | number | boolean> | null;
@@ -25,17 +26,7 @@ export type TableColumnType<RecordType = AnyObject> = {
 };
 export type ColumnsType<RecordType = AnyObject> = Array<TableColumnType<RecordType>>;
 export type TablePaginationPosition = 'bottomRight';
-export type TablePaginationConfig = {
-    current?: number;
-    defaultCurrent?: number;
-    pageSize?: number;
-    defaultPageSize?: number;
-    total?: number;
-    showSizeChanger?: boolean;
-    pageSizeOptions?: number[];
-    showTotal?: (total: number, range: [number, number]) => ReactNode;
-    onChange?: (page: number, pageSize: number) => void;
-    onShowSizeChange?: (page: number, pageSize: number) => void;
+export type TablePaginationConfig = PaginationProps & {
     position?: TablePaginationPosition[];
 };
 export type TableLocale = {
