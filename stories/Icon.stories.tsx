@@ -36,7 +36,7 @@ function renderFamilyPage(title: string, names: readonly string[]) {
         normalizedQuery
           ? names.filter((iconName) => iconName.toLowerCase().includes(normalizedQuery))
           : names,
-      [names, normalizedQuery]
+      [normalizedQuery]
     );
     const visibleIcons = filteredIcons.slice(0, visibleCount);
     const hasMore = visibleCount < filteredIcons.length;

@@ -134,7 +134,7 @@ export function Pagination({
     <div className={cn('ui-pagination', `ui-pagination--${size}`, `ui-pagination--align-${align}`, className)} style={style}>
       {showTotal ? <span className="ui-pagination__total">{showTotal(total, [start, end])}</span> : null}
 
-      <ul className="ui-pagination__list" aria-disabled={disabled}>
+      <ul className="ui-pagination__list">
         <li>
           <Button
             type="text"
