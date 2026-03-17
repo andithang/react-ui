@@ -305,7 +305,7 @@ export function Table<RecordType extends AnyObject = AnyObject>({
         <Pagination
           {...pagination}
           className={cn('ui-table__pagination', pagination.className)}
-          size={pagination.size ?? 'small'}
+          size={pagination.size ?? 'default'}
           total={total}
           current={mergedPage}
           pageSize={mergedPageSize}

@@ -1,5 +1,6 @@
 .ui-pagination {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--ui-space-sm);
   color: var(--ui-text-muted);
@@ -11,14 +12,14 @@
   &__list {
     display: inline-flex;
     align-items: center;
-    gap: var(--ui-space-2xs);
+    gap: var(--ui-space-sm);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
   &__item,
-  &__control { min-width: 2rem; }
+  &__control { min-width: 2rem; padding: 0.5rem; }
 
   &__item.is-active { font-weight: 600; }
 

@@ -1,5 +1,5 @@
 .ui-select {
-  width: 100%;
+  width: fit-content;
   display: grid;
   gap: var(--ui-space-xs);
 }
@@ -46,6 +46,7 @@
   gap: var(--ui-space-xs);
   padding-left: var(--ui-space-2xs);
   flex-shrink: 0;
+  margin-top: 0.125rem;
 }
 
 .ui-select__clear {

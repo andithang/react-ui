@@ -4,6 +4,7 @@ import { Input } from '../Input/Input';
 import { Select } from '../Select/Select';
 import { cn } from '../../utils';
 import './Pagination.scss';
+import { Icon } from '../Icon/Icon';
 
 export type PaginationAlign = 'start' | 'center' | 'end';
 export type PaginationPosition = 'top' | 'bottom' | 'both';
@@ -144,7 +145,7 @@ export function Pagination({
             title={showTitle ? prevText : undefined}
             className="ui-pagination__control"
           >
-            {renderItem(effectiveCurrent - 1, 'prev', '‹')}
+            {renderItem(effectiveCurrent - 1, 'prev', <Icon name='leftOutline' />)}
           </Button>
         </li>
 
@@ -215,7 +216,7 @@ export function Pagination({
             title={showTitle ? nextText : undefined}
             className="ui-pagination__control"
           >
-            {renderItem(effectiveCurrent + 1, 'next', '›')}
+            {renderItem(effectiveCurrent + 1, 'next', <Icon name='rightOutline' />)}
           </Button>
         </li>
       </ul>
@@ -231,7 +232,7 @@ export function Pagination({
         >
           {pageSizeOptions.map((option) => (
             <option key={String(option)} value={String(option)}>
-              {option} {locale?.items_per_page ?? '/ page'}
+              {`${option} ${locale?.items_per_page ?? '/ page'}`}
             </option>
           ))}
         </Select>
