@@ -2,6 +2,15 @@
   width: fit-content;
   display: grid;
   gap: var(--ui-space-xs);
+  --ui-select-trigger-border-hover: var(--ui-control-border-hover);
+  --ui-select-trigger-border-focus: var(--ui-primary);
+  --ui-select-trigger-focus-outline: var(--ui-primary-outline);
+}
+
+[data-theme='dark'] .ui-select {
+  --ui-select-trigger-border-hover: var(--ui-control-border-hover);
+  --ui-select-trigger-border-focus: var(--ui-focus);
+  --ui-select-trigger-focus-outline: var(--ui-focus-outline);
 }
 
 .ui-select__wrap {
@@ -43,7 +52,7 @@
 .ui-select__actions {
   display: inline-flex;
   align-items: center;
-  gap: var(--ui-space-xs);
+  gap: var(--ui-space-sm);
   padding-left: var(--ui-space-2xs);
   flex-shrink: 0;
   margin-top: 0.125rem;
@@ -53,12 +62,9 @@
   color: var(--ui-text-muted);
   cursor: pointer;
   line-height: 1;
-  font-size: 1rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1rem;
-  height: 1rem;
 
   &:hover {
     color: var(--ui-primary);
@@ -76,9 +82,13 @@
   margin-top: -0.2rem;
 }
 
-.ui-select__trigger:hover:not(:disabled) .ui-select__icon,
-.ui-select__trigger:focus-visible .ui-select__icon {
-  border-color: var(--ui-primary);
+.ui-select__trigger.ui-control:hover:not(:disabled):not(.ui-control--error) {
+  border-color: var(--ui-select-trigger-border-hover);
+}
+
+.ui-select__trigger.ui-control:focus-visible:not(.ui-control--error) {
+  border-color: var(--ui-select-trigger-border-focus);
+  box-shadow: 0 0 0 3px var(--ui-select-trigger-focus-outline);
 }
 
 .ui-select__icon--open {

@@ -17,6 +17,7 @@ import {
 import { Tag } from '../Tag/Tag';
 import { cn } from '../../utils';
 import './Select.scss';
+import { Icon } from '../Icon/Icon';
 
 interface SelectOption {
   value: string;
@@ -360,7 +361,8 @@ export function Select({
 
           <span className="ui-select__actions">
             {clearable && hasSelection ? (
-              <span
+              <Icon
+                name="closeOutline"
                 className="ui-select__clear"
                 role="button"
                 tabIndex={0}
@@ -371,15 +373,14 @@ export function Select({
                   clearAll();
                 }}
                 onKeyDown={(event) => {
-                  if (event.key === 'Enter' || event.key === ' ') {
+                  if (event.key === "Enter" || event.key === " ") {
                     event.preventDefault();
                     event.stopPropagation();
                     clearAll();
                   }
                 }}
-              >
-                ×
-              </span>
+                size='0.75rem'
+              />
             ) : null}
             <span className={cn('ui-select__icon', open && 'ui-select__icon--open')} aria-hidden="true" />
           </span>

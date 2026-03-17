@@ -30,7 +30,7 @@
   --ui-control-bg-active: var(--ui-surface);
   --ui-control-text: var(--ui-text);
   --ui-control-border: var(--ui-border-strong);
-  --ui-control-border-hover: color-mix(in srgb, var(--ui-border-strong) 82%, var(--ui-text));
+  --ui-control-border-hover: color-mix(in srgb, var(--ui-border-strong) 50%, var(--ui-text));
   --ui-control-border-active: var(--ui-focus);
   --ui-control-option-bg: var(--ui-surface);
   --ui-control-option-hover-bg: color-mix(in srgb, var(--ui-primary) 14%, var(--ui-surface));
