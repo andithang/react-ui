@@ -12,6 +12,7 @@ import { cn } from '../../utils';
 import { CheckableTag, type CheckableTagProps } from './CheckableTag';
 import { CheckableTagGroup, type CheckableTagGroupProps } from './CheckableTagGroup';
 import './Tag.scss';
+import { Icon } from '../Icon/Icon';
 
 const PRESET_COLORS = new Set([
   'magenta',
@@ -184,7 +185,7 @@ const InternalTag = forwardRef<HTMLSpanElement | HTMLAnchorElement, TagProps>(fu
 
   const closeIconNode = (() => {
     if (!shouldRenderClose) return null;
-    if (closeIcon === true || closeIcon === undefined) return <span aria-hidden="true">x</span>;
+    if (closeIcon === true || closeIcon === undefined) return <Icon name='closeOutline' />;
     return closeIcon;
   })();
 

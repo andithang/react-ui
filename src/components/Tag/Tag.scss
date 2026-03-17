@@ -50,15 +50,12 @@ $ui-tag-preset-colors: (
 .ui-tag__close-icon {
   width: 0.9rem;
   height: 0.9rem;
-  margin-inline-start: 0.125rem;
-  border-radius: 999px;
   color: var(--ui-text-muted);
   cursor: pointer;
   transition: color var(--ui-transition-fast), background var(--ui-transition-fast);
 
   &:hover {
     color: var(--ui-primary-hover);
-    background: color-mix(in srgb, var(--ui-primary) 18%, transparent);
   }
 
   &:active {

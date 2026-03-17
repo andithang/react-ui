@@ -23,8 +23,14 @@ export const Basic: Story = {
     children: null
   },
   render: ({ children: _children, ...args }) => (
-    <Tooltip {...args}>
-      <Button variant="outlined">Hover me</Button>
-    </Tooltip>
+    <div style={{
+      height: '300px',
+      display: 'flex',
+      alignItems: 'center'
+    }}>
+      <Tooltip {...args}>
+        <Button variant="outlined">Hover me</Button>
+      </Tooltip>
+    </div>
   )
 };
