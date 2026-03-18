@@ -1,4 +1,4 @@
-import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{useMDXComponents as s}from"./index-_tug67E6.js";import{M as o}from"./index-CFpV50kC.js";import"./index-oxIuDU2I.js";import"./_commonjsHelpers-CqkleIqs.js";import"./iframe-DL0HMwJp.js";import"./index-Dn0hWNo5.js";import"./index-ChhEEol8.js";import"./index-DgH-xKnr.js";import"./index-DrFu-skq.js";function r(i){const n={a:"a",code:"code",h1:"h1",h2:"h2",li:"li",p:"p",pre:"pre",ul:"ul",...s(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(o,{title:"Docs/Introduction"}),`
+import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{useMDXComponents as s}from"./index-_tug67E6.js";import{M as l}from"./index-BooAeFfY.js";import"./index-oxIuDU2I.js";import"./_commonjsHelpers-CqkleIqs.js";import"./iframe-B6YQT860.js";import"./index-Dn0hWNo5.js";import"./index-ChhEEol8.js";import"./index-DgH-xKnr.js";import"./index-DrFu-skq.js";function r(i){const n={a:"a",code:"code",h1:"h1",h2:"h2",li:"li",p:"p",pre:"pre",ul:"ul",...s(),...i.components};return e.jsxs(e.Fragment,{children:[e.jsx(l,{title:"Docs/Introduction"}),`
 `,e.jsx(n.h1,{id:"react-ui-library",children:"React UI Library"}),`
 `,e.jsxs(n.p,{children:["A React component library built around SCSS and global CSS variables. Every component consumes shared design tokens from ",e.jsx(n.a,{href:"../src/styles/index.scss",children:e.jsx(n.code,{children:"src/styles/index.scss"})}),"."]}),`
 `,e.jsx(n.h2,{id:"included-components",children:"Included components"}),`
@@ -19,6 +19,10 @@ import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{useMDXComponents as s}from"
 `,e.jsx(n.li,{children:"Tooltip"}),`
 `,e.jsx(n.li,{children:"Tabs"}),`
 `,e.jsx(n.li,{children:"Theme switch"}),`
+`,e.jsx(n.li,{children:"Badge"}),`
+`,e.jsx(n.li,{children:"Divider"}),`
+`,e.jsx(n.li,{children:"Progress"}),`
+`,e.jsx(n.li,{children:"Empty"}),`
 `]}),`
 `,e.jsx(n.h2,{id:"theming-strategy",children:"Theming strategy"}),`
 `,e.jsxs(n.ul,{children:[`
