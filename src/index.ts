@@ -175,6 +175,30 @@ export type { InputNumberProps } from './components/InputNumber/InputNumber';
 export { TreeSelect } from './components/TreeSelect/TreeSelect';
 export type { TreeSelectProps, TreeSelectOption } from './components/TreeSelect/TreeSelect';
 
+export { Menu } from './components/Menu/Menu';
+export type {
+  ItemType as MenuItemNode,
+  MenuInfo,
+  MenuItemGroupType,
+  MenuItemType,
+  MenuMode,
+  MenuProps,
+  MenuTheme,
+  SubMenuType
+} from './components/Menu/Menu';
+
+export { Anchor } from './components/Anchor/Anchor';
+export type { AnchorLinkItemProps, AnchorProps } from './components/Anchor/Anchor';
+
+export { Drawer } from './components/Drawer/Drawer';
+export type { DrawerClassNames, DrawerPlacement, DrawerProps, DrawerStyles } from './components/Drawer/Drawer';
+
+export { AutoComplete } from './components/AutoComplete/AutoComplete';
+export type { AutoCompleteOption, AutoCompleteProps } from './components/AutoComplete/AutoComplete';
+
+export { Upload } from './components/Upload/Upload';
+export type { UploadChangeParam, UploadFile, UploadFileStatus, UploadProps, UploadRequestOption } from './components/Upload/Upload';
+
 
 export { Pagination } from './components/Pagination/Pagination';
 export type {
