@@ -1,0 +1,111 @@
+.ui-menu {
+  --ui-menu-bg: var(--ui-surface);
+  --ui-menu-border: var(--ui-border);
+  --ui-menu-item-hover: color-mix(in srgb, var(--ui-primary) 12%, var(--ui-surface));
+  --ui-menu-item-active: color-mix(in srgb, var(--ui-primary) 22%, var(--ui-surface));
+  --ui-menu-item-color: var(--ui-text);
+  --ui-menu-item-muted: var(--ui-text-muted);
+
+  background: var(--ui-menu-bg);
+  color: var(--ui-menu-item-color);
+}
+
+.ui-menu--dark {
+  --ui-menu-bg: var(--ui-surface-raised);
+}
+
+.ui-menu__list,
+.ui-menu__group-list,
+.ui-menu__submenu-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ui-menu__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-space-2xs);
+  padding: var(--ui-space-xs);
+  border: 1px solid var(--ui-menu-border);
+  border-radius: var(--ui-radius-sm);
+}
+
+.ui-menu--horizontal .ui-menu__list {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.ui-menu__item {
+  width: 100%;
+  border: 0;
+  border-radius: var(--ui-radius-xs);
+  background: transparent;
+  color: var(--ui-menu-item-color);
+  padding: 0.45rem 0.625rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ui-space-sm);
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: var(--ui-menu-item-hover);
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--ui-primary-outline);
+  }
+
+  &:active:not(:disabled) {
+    background: var(--ui-menu-item-active);
+  }
+
+  &:disabled {
+    color: var(--ui-menu-item-muted);
+    cursor: not-allowed;
+  }
+}
+
+.ui-menu__item.is-selected {
+  background: var(--ui-menu-item-active);
+  color: var(--ui-primary);
+}
+
+.ui-menu__item.is-danger {
+  color: var(--ui-danger);
+}
+
+.ui-menu__item-content {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ui-space-sm);
+}
+
+.ui-menu__submenu-list {
+  display: grid;
+  gap: var(--ui-space-2xs);
+  margin-top: var(--ui-space-2xs);
+  margin-left: var(--ui-space-md);
+}
+
+.ui-menu__group-title {
+  color: var(--ui-text-muted);
+  font-size: 0.78rem;
+  padding: 0.25rem 0.625rem;
+}
+
+.ui-menu__divider {
+  height: 1px;
+  margin: var(--ui-space-2xs) 0;
+  background: var(--ui-border);
+}
+
+.ui-menu__divider--dashed {
+  background: repeating-linear-gradient(to right, var(--ui-border), var(--ui-border) 4px, transparent 4px, transparent 8px);
+}
+
+.ui-menu--collapsed .ui-menu__label {
+  display: none;
+}

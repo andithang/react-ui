@@ -1,0 +1,13 @@
+# Upload spec
+
+## Purpose
+File picker and file-list primitive following Ant Design Upload prop model.
+
+## Props
+- Supports Ant-like upload configuration: `action`, `accept`, `multiple`, `directory`, `headers`, `withCredentials`, `beforeUpload`, `customRequest`, `fileList/defaultFileList`, `maxCount`, and list callbacks.
+- Works in controlled and uncontrolled file list mode.
+
+## Behavior
+- Drag-and-drop and click-to-select file flow.
+- Emits `onChange` with `{ file, fileList }` shape.
+- Uses brand primary token for interactive states.
