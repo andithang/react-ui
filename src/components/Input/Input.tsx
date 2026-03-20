@@ -8,6 +8,7 @@ import {
   type KeyboardEventHandler,
   type ReactNode
 } from 'react';
+import { Icon } from '../Icon/Icon';
 import { cn } from '../../utils';
 import './Input.scss';
 
@@ -243,7 +244,7 @@ export function Input({
               onClick={handleClear}
               aria-label="Clear input"
             >
-              {clearIcon ?? <span aria-hidden="true">&#10005;</span>}
+              {clearIcon ?? <Icon name="closeOutline" size="0.75rem" />}
             </button>
           ) : null}
 

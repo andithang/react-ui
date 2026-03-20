@@ -72,14 +72,9 @@
 }
 
 .ui-select__icon {
-  width: 0.46rem;
-  height: 0.46rem;
-  border-right: 2px solid var(--ui-text-muted);
-  border-bottom: 2px solid var(--ui-text-muted);
-  transform: rotate(45deg);
+  color: var(--ui-text-muted);
+  transition: color var(--ui-transition-fast), transform var(--ui-transition-fast);
   transform-origin: center;
-  transition: border-color var(--ui-transition-fast), transform var(--ui-transition-fast);
-  margin-top: -0.2rem;
 }
 
 .ui-select__trigger.ui-control:hover:not(:disabled):not(.ui-control--error) {
@@ -92,8 +87,7 @@
 }
 
 .ui-select__icon--open {
-  transform: rotate(225deg);
-  margin-top: 0.2rem;
+  transform: rotate(180deg);
 }
 
 .ui-select__tags {

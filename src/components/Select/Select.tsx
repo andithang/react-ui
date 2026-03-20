@@ -382,7 +382,7 @@ export function Select({
                 size='0.75rem'
               />
             ) : null}
-            <span className={cn('ui-select__icon', open && 'ui-select__icon--open')} aria-hidden="true" />
+            <Icon name="chevronDown" className={cn('ui-select__icon', open && 'ui-select__icon--open')} size="0.75rem" aria-hidden="true" />
           </span>
         </button>
 

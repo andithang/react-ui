@@ -23,7 +23,6 @@
     gap: var(--ui-space-sm);
     text-align: left;
     cursor: pointer;
-    padding-right: 2.2rem;
   }
 
   &__trigger--warning {
@@ -34,21 +33,36 @@
     color: var(--ui-text-muted);
   }
 
-  &__suffix {
+  &__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--ui-space-sm);
+    padding-left: var(--ui-space-2xs);
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+  }
+
+  &__icon {
     color: var(--ui-text-muted);
-    font-size: 0.95rem;
+    transition: transform var(--ui-transition-fast), color var(--ui-transition-fast);
+    transform-origin: center;
+  }
+
+  &__icon--open {
+    transform: rotate(180deg);
   }
 
   &__clear {
-    position: absolute;
-    top: 50%;
-    right: 2rem;
-    transform: translateY(-50%);
-    border: 0;
-    background: transparent;
     color: var(--ui-text-muted);
     cursor: pointer;
-    z-index: 2;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      color: var(--ui-primary);
+    }
   }
 
   &__panel {

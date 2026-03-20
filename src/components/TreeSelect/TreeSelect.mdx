@@ -1,18 +1,49 @@
 # TreeSelect spec
 
 ## Purpose
-Provide an Ant Design-inspired `TreeSelect` primitive for common application flows.
+`TreeSelect` provides an Ant Design-like tree selector with theme-aware styling, keyboard interaction, and controlled/uncontrolled usage.
 
-## Props
-- Includes common props aligned with Ant Design patterns (status/size/disabled/className and behavior-specific options).
-- Refer to `TreeSelect.tsx` for the complete TypeScript prop interface used by this library build.
+## Public API
+`TreeSelect` aligns its prop surface with Ant Design `TreeSelectProps` naming.
+
+### Core value props
+- `value`, `defaultValue`
+- `onChange(value, labelList, extra)`
+- `multiple`, `treeCheckable`, `labelInValue`
+- `showCheckedStrategy` (`SHOW_CHILD`, `SHOW_PARENT`, `SHOW_ALL`)
+
+### Search/open props
+- `showSearch`, `searchValue`, `onSearch`
+- `open`, `defaultOpen`, `onOpenChange`, `onDropdownVisibleChange`
+
+### Tree props
+- `treeData`
+- `fieldNames`
+- `treeDataSimpleMode`
+- `treeExpandedKeys`, `treeDefaultExpandedKeys`, `treeDefaultExpandAll`, `onTreeExpand`
+- `filterTreeNode`, `treeNodeFilterProp`, `treeNodeLabelProp`
+
+### Visual/state props
+- `placeholder`, `allowClear`, `disabled`
+- `size`, `status`
+- `showArrow`, `suffixIcon`, `switcherIcon`
+- `popupClassName`, `dropdownClassName`, `dropdownStyle`
+- `popupMatchSelectWidth`, `dropdownMatchSelectWidth`
+- `maxTagCount`, `maxTagPlaceholder`
+- `notFoundContent`
+
+## Exports
+- `TreeSelect`
+- `SHOW_CHILD`, `SHOW_PARENT`, `SHOW_ALL`
+- `TreeSelectProps`, `TreeSelectOption`, `TreeSelectValue`, `TreeSelectLabeledValue`, `TreeSelectChangeExtra`
 
 ## Behavior
-- Uses token-based styling and supports light/dark themes.
-- Supports controlled/uncontrolled patterns where applicable.
+- Native implementation (no internal Ant Design component usage).
+- Supports controlled/uncontrolled value, open state, search value, and expanded keys.
+- Supports single, multiple, checkable, and `labelInValue` flows.
+- Uses shared `ui-` class tokens and respects light/dark themes.
 
 ## Accessibility
-- Uses semantic HTML and keyboard-friendly interactions for interactive controls.
-
-## Styling
-- Main class follows the `ui-` prefix convention via the component stylesheet.
+- Combobox trigger with keyboard support (`Enter`, `Space`, `ArrowDown`, `Escape`).
+- Tree popup uses tree/treeitem semantics.
+- Interactive controls remain keyboard reachable.

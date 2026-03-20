@@ -23,6 +23,7 @@ Build reusable, accessible, theme-aware UI components that can be published as `
 - All hover, active, focus,... states of every component must based on the primary color, based on the current theme.
 - Dark mode button styling should follow Ant Design button behavior, while keeping the brand primary color at `#e03`.
 - Dark mode control components (`Input`, `Select`, `Textarea`, `Checkbox`, `Radio`, `Switch`) must keep neutral/light border contrast on hover/active/focus; control borders should not be primary-tinted.
+- The default clear icon, chevron down icon for control components (`Input`, `Select`, `TreeSelect`, `Autocomplete`, `Textarea`, `DatePicker`, `TimePicker`, `Tree`) should use the same Icon components across the whole project.
 
 ## Component rules
 - Every public component/type must be exported from `src/index.ts`.

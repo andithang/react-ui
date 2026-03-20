@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { Icon } from '../Icon/Icon';
 import { cn } from '../../utils';
 import './TimePicker.scss';
 
@@ -133,7 +134,12 @@ export function TimePicker({
         <button
           id={inputId}
           type="button"
-          className={cn('ui-control', 'ui-time-picker__trigger', (error || status === 'error') && 'ui-control--error', status === 'warning' && 'ui-time-picker__trigger--warning')}
+          className={cn(
+            'ui-control',
+            'ui-time-picker__trigger',
+            (error || status === 'error') && 'ui-control--error',
+            status === 'warning' && 'ui-time-picker__trigger--warning'
+          )}
           onClick={() => !disabled && setOpen(!mergedOpen)}
           disabled={disabled}
           aria-haspopup="dialog"
@@ -142,23 +148,32 @@ export function TimePicker({
           <span className={cn('ui-time-picker__value', !selected && 'ui-time-picker__value--placeholder')}>
             {selected ? formatTime(selected, format, use12Hours) : placeholder}
           </span>
-          <span className="ui-time-picker__suffix">🕒</span>
+          <span className="ui-time-picker__actions">
+            {allowClear && selected && !disabled ? (
+              <Icon
+                name="closeOutline"
+                className="ui-time-picker__clear"
+                role="button"
+                tabIndex={0}
+                aria-label="Clear time"
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  emit(null);
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    emit(null);
+                  }
+                }}
+                size="0.75rem"
+              />
+            ) : null}
+            <Icon name="chevronDown" className={cn('ui-time-picker__icon', mergedOpen && 'ui-time-picker__icon--open')} size="0.75rem" />
+          </span>
         </button>
-
-        {allowClear && selected && !disabled ? (
-          <button
-            type="button"
-            className="ui-time-picker__clear"
-            onClick={(event) => {
-              event.preventDefault();
-              event.stopPropagation();
-              emit(null);
-            }}
-            aria-label="Clear time"
-          >
-            ×
-          </button>
-        ) : null}
 
         {mergedOpen ? (
           <div className="ui-time-picker__panel" role="dialog" aria-label="Time picker panel">

@@ -37,6 +37,12 @@
   .ant-picker-clear {
     background: var(--ui-control-bg);
   }
+
+  .ui-date-picker__suffix-icon,
+  .ui-date-picker__clear-icon {
+    color: var(--ui-text-muted);
+    transition: color var(--ui-transition-fast), transform var(--ui-transition-fast);
+  }
 }
 
 .ant-picker.ant-picker-disabled {

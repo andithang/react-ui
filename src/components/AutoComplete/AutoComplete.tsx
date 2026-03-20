@@ -4,7 +4,6 @@ import {
   useRef,
   useState,
   type CSSProperties,
-  type HTMLAttributes,
   type KeyboardEvent,
   type ReactNode
 } from 'react';

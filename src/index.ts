@@ -181,8 +181,19 @@ export type {
   InputNumberVariant
 } from './components/InputNumber/InputNumber';
 
-export { TreeSelect } from './components/TreeSelect/TreeSelect';
-export type { TreeSelectProps, TreeSelectOption } from './components/TreeSelect/TreeSelect';
+export { SHOW_ALL, SHOW_CHILD, SHOW_PARENT, TreeSelect } from './components/TreeSelect/TreeSelect';
+export type {
+  TreeSelectChangeExtra,
+  TreeSelectFieldNames,
+  TreeSelectLabeledValue,
+  TreeSelectOption,
+  TreeSelectProps,
+  TreeSelectShowCheckedStrategy,
+  TreeSelectSimpleModeConfig,
+  TreeSelectSize,
+  TreeSelectStatus,
+  TreeSelectValue
+} from './components/TreeSelect/TreeSelect';
 
 export { Menu } from './components/Menu/Menu';
 export type {
