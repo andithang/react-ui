@@ -1,1 +1,0 @@
-.ui-input-number{display:grid;gap:var(--ui-space-xs)}.ui-input-number__wrap{display:grid;grid-template-columns:auto 1fr auto}.ui-input-number__btn{width:2rem;border:1px solid var(--ui-control-border);background:var(--ui-control-bg);color:var(--ui-text);cursor:pointer}.ui-input-number--small{min-height:2rem}.ui-input-number--large{min-height:2.75rem}
