@@ -4,49 +4,71 @@ import { Meta } from '@storybook/blocks';
 
 # Ant Design Component Gap Roadmap
 
-This document lists the components missing from the current React UI library compared to the latest Ant Design version, grouped by priority to guide development.
+This roadmap tracks what is already covered and what is still missing for practical parity goals.
 
----
+## Completed in Library
 
-# 1. Must-have Components
-
-These components unlock **80–90% of real-world application UIs**, especially dashboards, admin panels, and complex forms.
-
-## Data Display
-- Table
-- Card
-- Badge
-- Divider
-- Progress
-- Empty
-
-## Navigation
-- Menu
-- Pagination
+- Alert
 - Anchor
-
-## Feedback
-- Drawer
-- Popconfirm
-- Spin (if Spinner is not equivalent)
-
-## Data Entry
 - AutoComplete
+- Avatar
+- Badge
+- Breadcrumb
+- Button
+- Checkbox
+- DatePicker
+- Divider
+- Drawer
+- Dropdown
+- Empty
+- Form
+- Icon
+- Input
+- InputNumber
+- Menu
+- Modal
+- Pagination
+- Progress
+- Radio
+- Result
+- Select
+- Skeleton
+- Spinner
+- Steps
+- Switch
+- Table
+- Tabs
+- Tag
+- Textarea
+- ThemeSwitch
+- TimePicker
+- Toast
+- Tooltip
+- TreeSelect
+- Typography
 - Upload
+
+## Remaining Must-have Components
+
+These components are the highest priority remaining gaps for broad app coverage.
+
+### Data Display
+- Card
+
+### Feedback
+- Popconfirm
+
+### Data Entry
 - Slider
 - Rate
 
-## Layout
+### Layout
 - Space
 - Layout
 
----
+## Remaining Should-have Components
 
-# 2. Should-have Components
-
-These components are useful in **feature-rich enterprise applications** but are not strictly required for most projects.
-
-## Data Display
+### Data Display
 - Collapse
 - Descriptions
 - List
@@ -54,68 +76,54 @@ These components are useful in **feature-rich enterprise applications** but are 
 - Timeline
 - Image
 
-## Data Entry
+### Data Entry
 - Cascader
 - Transfer
 - Mentions
 - ColorPicker
 
-## Feedback
+### Feedback
 - Notification
 - Message
 - Tour
 
-## Navigation
+### Navigation
 - FloatButton
 
----
+## Remaining Nice-to-have Components
 
-# 3. Nice-to-have Components
-
-These components are **specialized or rarely required**, but help achieve full parity with Ant Design.
-
-## Data Display
+### Data Display
 - Calendar
 - Carousel
 - QRCode
 - Tree
 - Segmented
 
-## Layout
+### Layout
 - Splitter
 - Masonry
 
-## Feedback
+### Feedback
 - Watermark
 
-## Other
+### Other
 - Affix
 - ConfigProvider
 - App
 - Util
 
----
+## Development Phases
 
-# Development Phases
+### Phase 1 (Core remaining gaps)
 
-## Phase 1 (Core library readiness)
-
-Table  
-Menu  
-Pagination  
 Card  
-Drawer  
 Popconfirm  
-Upload  
-Badge  
-Divider  
+Slider  
+Rate  
 Space  
 Layout  
-Progress  
 
----
-
-## Phase 2 (Enterprise completeness)
+### Phase 2 (Enterprise completeness)
 
 Collapse  
 Descriptions  
@@ -128,9 +136,7 @@ Message
 Cascader  
 Transfer  
 
----
-
-## Phase 3 (Full Ant Design parity)
+### Phase 3 (Extended parity)
 
 Calendar  
 Carousel  
@@ -140,12 +146,10 @@ Affix
 Watermark  
 Tour  
 
----
+## Recommendation
 
-# Recommendation
+If implementing incrementally from here, prioritize:
 
-If implementing components incrementally, prioritize:
+**Card**
 
-**Table**
-
-It is the most widely used enterprise component and a major driver for library adoption.
+It is still one of the most frequently used missing primitives across dashboard and admin interfaces.

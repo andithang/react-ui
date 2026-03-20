@@ -62,6 +62,7 @@ Build reusable, accessible, theme-aware UI components that can be published as `
   - `npm run build-storybook` (or `npm run storybook` for interactive checks)
   - `npm run lint`
 - If/when unit tests are added, prefer Vitest-compatible component behavior tests.
+- When new components are added, update `stories/Roadmap.mdx` and `stories/Introduction.mdx`.
 
 ## File structure
 - `src/components/Button/Button.tsx`
@@ -77,3 +78,4 @@ When building a new component, create:
 4. Public export entry in `src/index.ts`
 5. Component spec markdown in its component directory
 6. Verification via typecheck, build, and Storybook build
+7. Update `stories/Roadmap.mdx` and `stories/Introduction.mdx`
