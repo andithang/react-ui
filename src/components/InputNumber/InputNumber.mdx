@@ -1,18 +1,32 @@
 # InputNumber spec
 
 ## Purpose
-Provide an Ant Design-inspired `InputNumber` primitive for common application flows.
+Provide an in-repo `InputNumber` implementation with Ant Design-like input behavior and token-driven theme styling.
 
 ## Props
-- Includes common props aligned with Ant Design patterns (status/size/disabled/className and behavior-specific options).
-- Refer to `InputNumber.tsx` for the complete TypeScript prop interface used by this library build.
+- `InputNumberProps` is implemented locally (no `antd` component dependency) and supports Ant Design-like props for common usage:
+  - `min`, `max`, `step`, `precision`
+  - `formatter`, `parser`
+  - `controls` (boolean or icon config)
+  - `size`, `status`, `variant`, `bordered`
+  - `prefix`, `suffix`, `addonBefore`, `addonAfter`
+  - `stringMode`, `changeOnWheel`, `keyboard`
+- Library-specific field helpers are also supported:
+  - `label?: string`
+  - `hint?: string`
+  - `error?: string` (maps to error status styling)
+  - `wrapperClassName?: string` (for the optional field wrapper)
 
 ## Behavior
-- Uses token-based styling and supports light/dark themes.
-- Supports controlled/uncontrolled patterns where applicable.
+- Supports controlled/uncontrolled value management.
+- Supports keyboard stepping and wheel stepping when enabled.
+- Supports parser/formatter and step controls for Ant Design-like number entry flows.
+- Keeps token-based styling for light/dark themes and shared control states.
 
 ## Accessibility
-- Uses semantic HTML and keyboard-friendly interactions for interactive controls.
+- Uses a native `<input>` and native `<button>` controls.
+- Optional `label` renders a visible associated label tied to input `id`.
 
 ## Styling
-- Main class follows the `ui-` prefix convention via the component stylesheet.
+- Main wrapper class: `ui-input-number`
+- Control structure classes: `ui-input-number__group-wrapper`, `ui-input-number__affix-wrapper`, `ui-input-number__input`, `ui-input-number__actions`

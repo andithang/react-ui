@@ -170,7 +170,16 @@ export { Steps } from './components/Steps/Steps';
 export type { StepsProps, StepItem, StepStatus } from './components/Steps/Steps';
 
 export { InputNumber } from './components/InputNumber/InputNumber';
-export type { InputNumberProps } from './components/InputNumber/InputNumber';
+export type {
+  InputNumberControlsConfig,
+  InputNumberFormatterInfo,
+  InputNumberProps,
+  InputNumberSize,
+  InputNumberStatus,
+  InputNumberStepInfo,
+  InputNumberValue,
+  InputNumberVariant
+} from './components/InputNumber/InputNumber';
 
 export { TreeSelect } from './components/TreeSelect/TreeSelect';
 export type { TreeSelectProps, TreeSelectOption } from './components/TreeSelect/TreeSelect';

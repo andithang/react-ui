@@ -32,6 +32,8 @@ Build reusable, accessible, theme-aware UI components that can be published as `
 - Support controlled and uncontrolled patterns where applicable.
 - Prefer `children`/composition over special-case props.
 - Reuse `cn` utility for class merging.
+- Except `src/components/DatePicker/DatePicker.tsx`, never import and use `antd` components as internal sources.
+- Prefer in-repo component code and shared primitives/utilities over third-party component composition.
 - Do not introduce runtime styling libraries.
 - Do not use styled-components or emotion.
 - Always write a mdx file for each component.
@@ -58,6 +60,7 @@ Build reusable, accessible, theme-aware UI components that can be published as `
   - `npm run typecheck`
   - `npm run build`
   - `npm run build-storybook` (or `npm run storybook` for interactive checks)
+  - `npm run lint`
 - If/when unit tests are added, prefer Vitest-compatible component behavior tests.
 
 ## File structure
