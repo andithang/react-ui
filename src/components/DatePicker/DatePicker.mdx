@@ -1,27 +1,36 @@
 # DatePicker spec
 
 ## Purpose
-Ant Design DatePicker wrapper with full AntD picker behavior and configurable props.
+Token-driven DatePicker built in-repo (no Ant Design DatePicker runtime dependency), while preserving AntD-like API signatures and interaction patterns.
 
-## API parity
-- `DatePicker` now uses Ant Design's DatePicker implementation directly.
-- Supports AntD date value model (`dayjs`) and all AntD configurable props.
-- Includes static pickers from AntD:
-  - `DatePicker.RangePicker`
-  - `DatePicker.WeekPicker`
-  - `DatePicker.MonthPicker`
-  - `DatePicker.YearPicker`
-  - `DatePicker.QuarterPicker`
+## API compatibility
+- Keeps exported `DatePickerProps` / picker variant types from AntD type definitions for easier migration.
+- Supports controlled/uncontrolled usage:
+  - `value` / `defaultValue`
+  - `open` / `defaultOpen`
+- Supports key interactive props:
+  - `picker` (`date`, `week`, `month`, `quarter`, `year`)
+  - `format`
+  - `allowClear` (including custom clear icon object)
+  - `disabledDate`
+  - `presets`
+  - `status`, `size`, `placeholder`, `disabled`
+  - `onChange`, `onOpenChange`
 
-## Exported types
-- `DatePickerProps`
-- `RangePickerProps`
-- `MonthPickerProps`
-- `WeekPickerProps`
-- `YearPickerProps`
-- `QuarterPickerProps`
+## Exposed static pickers
+- `DatePicker.RangePicker`
+- `DatePicker.MonthPicker`
+- `DatePicker.WeekPicker`
+- `DatePicker.YearPicker`
+- `DatePicker.QuarterPicker`
 
-## Styling
-- Uses Ant Design structural behavior.
-- Applies library token overrides for colors, borders, focus ring, selected states, and dropdown surfaces.
-- Primary interactive highlight is `var(--ui-primary)` (`#e03` in light theme).
+## UI/UX behavior
+- Trigger uses shared Icon chevron and clear icon.
+- Popup supports keyboard Escape to close and outside click closing.
+- RangePicker supports start/end selection flow with auto-ordering when end < start.
+- Preset quick actions supported in both single and range modes.
+
+## Theming
+- Uses semantic tokens only (`--ui-*`) for surfaces, text, borders, focus ring, hover and selected states.
+- Primary active/selected states stay theme-driven and map to `--ui-primary` (`#e03` in light mode).
+- Control border hover/active/focus remain neutral in dark mode, aligning with project control contrast guidance.

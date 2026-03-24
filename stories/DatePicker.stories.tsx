@@ -17,7 +17,6 @@ const meta = {
     picker: { control: 'select', options: ['date', 'week', 'month', 'quarter', 'year'] },
     size: { control: 'select', options: ['small', 'middle', 'large'] },
     status: { control: 'select', options: [undefined, 'warning', 'error'] },
-    variant: { control: 'select', options: [undefined, 'outlined', 'borderless', 'filled', 'underlined'] },
     value: { control: false },
     defaultValue: { control: false },
     disabledDate: { control: false },
@@ -33,14 +32,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Basic: Story = {
   render: function Render(args) {
-    const [value, setValue] = useState<Dayjs | null>(dayjs('2026-03-12'));
+    const [value, setValue] = useState<Dayjs | undefined>(dayjs('2026-03-12'));
 
     return (
       <DatePicker
         {...args}
         value={value}
         onChange={(nextValue, dateString) => {
-          setValue(nextValue as Dayjs | null);
+          setValue((nextValue as Dayjs | null) ?? undefined);
           args.onChange?.(nextValue as never, dateString as never);
         }}
       />
