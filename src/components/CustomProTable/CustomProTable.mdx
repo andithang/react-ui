@@ -1,0 +1,21 @@
+# CustomProTable
+
+`CustomProTable` is a high-level data table that includes search, selection, tabs, action dispatching, and responsive card mode.
+
+## Exports
+
+- `CustomProTable`
+- `CustomSpin`
+- `CustomIndicator`
+- `NoPermissionTable`
+- `useDropdownButtonDecision`
+- Type exports from `types.ts`
+
+## Notes
+
+- Uses permission adapter via `hasPermission`.
+- Uses translation adapter via `t`.
+- Search supports debounce + immediate trigger patterns.
+- Selection emits both ID set and row set.
+- Header sorting toggles `ascend -> descend -> none` and emits `columns.onSort`.
+- Columns support drag-resize using header resize handles.
