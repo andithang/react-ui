@@ -74,6 +74,23 @@
     color: var(--ui-color-text, #111);
   }
 
+  th {
+    position: relative;
+  }
+
+  &__resize-handle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 8px;
+    height: 100%;
+    cursor: col-resize;
+    user-select: none;
+    border: 0;
+    background: transparent;
+    padding: 0;
+  }
+
   &__row-actions {
     display: flex;
     align-items: center;

@@ -96,10 +96,14 @@ export function CustomProTable<TData extends Record<string, unknown>, TStatus, T
   const [selectedTabIndex, setSelectedTabIndex] = useState(tabGroup?.tabIndexDefault ?? 0);
   const [responsiveSortField, setResponsiveSortField] = useState<string>('');
   const [responsiveSortDirection, setResponsiveSortDirection] = useState<SortType>(SortType.ASC);
+  const [sortField, setSortField] = useState<string>('');
+  const [sortDirection, setSortDirection] = useState<SortType | null>(null);
+  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
   const [stopChangeIndexFromSize, setStopChangeIndexFromSize] = useState(false);
   const searchTimer = useRef<number | undefined>(undefined);
   const skipDebounceRef = useRef(false);
   const actionThrottleRef = useRef(0);
+  const resizingRef = useRef<{ colKey: string; startX: number; startWidth: number } | null>(null);
 
   const rowHeightNumberPixel = Number(rowHeight.replace('px', '')) || 48;
   const checkedAll = data.length > 0 && data.every((item, index) => setOfCheckedId.has(getRowId(item, index, itemKey as string)));
@@ -190,6 +194,52 @@ export function CustomProTable<TData extends Record<string, unknown>, TStatus, T
     }
   }, [responsiveSortableColumns, responsiveSortField]);
 
+  useEffect(() => {
+    if (!responsiveSortableColumns.length || sortField) return;
+    setSortField(String(responsiveSortableColumns[0].useField));
+  }, [responsiveSortableColumns, sortField]);
+
+  useEffect(() => {
+    const onMouseMove = (event: MouseEvent) => {
+      if (!resizingRef.current) return;
+      const { colKey, startX, startWidth } = resizingRef.current;
+      const nextWidth = Math.max(80, startWidth + (event.clientX - startX));
+      setColumnWidths((prev) => ({ ...prev, [colKey]: nextWidth }));
+    };
+
+    const onMouseUp = () => {
+      resizingRef.current = null;
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseup', onMouseUp);
+    return () => {
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseup', onMouseUp);
+    };
+  }, []);
+
+  const displayedData = useMemo(() => {
+    if (!sortField || !sortDirection) return data;
+    const sorted = [...data];
+    sorted.sort((left, right) => {
+      const leftValue = left[sortField as keyof TData];
+      const rightValue = right[sortField as keyof TData];
+      if (leftValue === rightValue) return 0;
+      if (leftValue === undefined || leftValue === null) return 1;
+      if (rightValue === undefined || rightValue === null) return -1;
+      if (typeof leftValue === 'number' && typeof rightValue === 'number') {
+        return sortDirection === SortType.ASC ? leftValue - rightValue : rightValue - leftValue;
+      }
+      const leftText = String(leftValue).toLowerCase();
+      const rightText = String(rightValue).toLowerCase();
+      return sortDirection === SortType.ASC ? leftText.localeCompare(rightText) : rightText.localeCompare(leftText);
+    });
+    return sorted;
+  }, [data, sortDirection, sortField]);
+
   const isResponsiveCardMode = responsiveConfig.mode === 'card' && isBelowResponsiveBreakpoint;
   const actualAutoResize = autoResize.enable && (pagingParams?.pageSize ?? 0) > 10 && data.length > 10;
   const actualVtsScroll = actualAutoResize
@@ -232,8 +282,8 @@ export function CustomProTable<TData extends Record<string, unknown>, TStatus, T
       clearSelection();
       return;
     }
-    setSetOfCheckedId(new Set(data.map((item, index) => getRowId(item, index, itemKey as string))));
-    setSetOfCheckedRowData(new Set(data));
+    setSetOfCheckedId(new Set(displayedData.map((item, index) => getRowId(item, index, itemKey as string))));
+    setSetOfCheckedRowData(new Set(displayedData));
   };
 
   const onToggleRow = (checked: boolean, item: TData, index: number) => {
@@ -375,6 +425,7 @@ export function CustomProTable<TData extends Record<string, unknown>, TStatus, T
               onChange={(event) => {
                 const field = event.target.value;
                 setResponsiveSortField(field);
+                setSortField(field);
                 columns.onSort?.(responsiveSortDirection, field);
               }}
             >
@@ -390,6 +441,7 @@ export function CustomProTable<TData extends Record<string, unknown>, TStatus, T
               onChange={(event) => {
                 const next = event.target.value as SortType;
                 setResponsiveSortDirection(next);
+                setSortDirection(next);
                 columns.onSort?.(next, responsiveSortField);
               }}
             >
@@ -409,7 +461,23 @@ export function CustomProTable<TData extends Record<string, unknown>, TStatus, T
                   </th>
                 ) : null}
                 <th>#</th>
-                {columns.cols.filter((col) => !col.hidden).map((col) => renderHeader(col, columns.onSort))}
+                {columns.cols
+                  .filter((col) => !col.hidden)
+                  .map((col) =>
+                    renderHeader(col, {
+                      onSort: columns.onSort,
+                      sortField,
+                      sortDirection,
+                      onSortChange: (field, direction) => {
+                        setSortField(field);
+                        setSortDirection(direction);
+                      },
+                      onResizeStart: (colKey, startX, startWidth) => {
+                        resizingRef.current = { colKey, startX, startWidth };
+                      },
+                      width: columnWidths[columnKeyFromColumn(col)]
+                    })
+                  )}
                 {!columns.hideStatusCol ? <th>Status</th> : null}
                 {actionOptions.actions.length ? <th>Action</th> : null}
               </tr>
@@ -420,7 +488,7 @@ export function CustomProTable<TData extends Record<string, unknown>, TStatus, T
                   <td colSpan={columns.cols.length + 3}>{noDataRender ?? 'No data'}</td>
                 </tr>
               ) : (
-                data.map((item, index) => {
+                displayedData.map((item, index) => {
                   const id = getRowId(item, index, itemKey as string);
                   const rowHighlight =
                     highlightOnClick && focusRowId !== undefined && focusRowId === item[itemKey as keyof TData]
@@ -446,8 +514,9 @@ export function CustomProTable<TData extends Record<string, unknown>, TStatus, T
                           key={`${col.title}-${colIndex}`}
                           data-col-title={String(col.title)}
                           className={cn('ui-custom-pro-table__cell', actionOptions.actions.length > 0 && colIndex === columns.cols.length - 1 && 'utility')}
+                          style={{ width: columnWidths[columnKeyFromColumn(col)] ?? col.width }}
                         >
-                          {renderCell(col, item, index, data)}
+                          {renderCell(col, item, index, displayedData)}
                         </td>
                       ))}
                       {!columns.hideStatusCol ? (
@@ -485,19 +554,62 @@ function getRowId(item: Record<string, unknown>, index: number, itemKey: string)
   return String(key ?? index);
 }
 
-function renderHeader<TData>(column: ColumnConfig<TData>, onSort?: (event: SortType | null, key: string) => void) {
+function columnKeyFromColumn<TData>(column: ColumnConfig<TData>) {
+  return String(column.useField ?? column.title);
+}
+
+function renderHeader<TData>(
+  column: ColumnConfig<TData>,
+  options: {
+    onSort?: (event: SortType | null, key: string) => void;
+    sortField: string;
+    sortDirection: SortType | null;
+    onSortChange: (field: string, direction: SortType | null) => void;
+    onResizeStart: (colKey: string, startX: number, startWidth: number) => void;
+    width?: number;
+  }
+) {
+  const columnKey = columnKeyFromColumn(column);
+  const isSortedColumn = options.sortField === String(column.useField);
+  const sortIcon = isSortedColumn ? (options.sortDirection === SortType.ASC ? '↑' : options.sortDirection === SortType.DESC ? '↓' : '↕') : '↕';
   return (
-    <th key={column.title} style={{ width: column.width, minWidth: column.minWidth, maxWidth: column.maxWidth, textAlign: column.alignTitle ?? undefined }}>
+    <th
+      key={column.title}
+      style={{
+        width: options.width ?? column.width,
+        minWidth: column.minWidth,
+        maxWidth: column.maxWidth,
+        textAlign: column.alignTitle ?? undefined
+      }}
+    >
       <button
         type="button"
         className="ui-custom-pro-table__th-btn"
         onClick={() => {
           if (!column.sort || !column.useField) return;
-          onSort?.(SortType.ASC, String(column.useField));
+          const field = String(column.useField);
+          const nextDirection =
+            !isSortedColumn || options.sortDirection === null
+              ? SortType.ASC
+              : options.sortDirection === SortType.ASC
+                ? SortType.DESC
+                : null;
+          options.onSortChange(field, nextDirection);
+          options.onSort?.(nextDirection, field);
         }}
       >
-        {column.title}
+        {column.title} {column.sort ? <span aria-hidden="true">{sortIcon}</span> : null}
       </button>
+      <button
+        type="button"
+        className="ui-custom-pro-table__resize-handle"
+        aria-label={`Resize ${String(column.title)} column`}
+        onMouseDown={(event) => {
+          event.preventDefault();
+          const startWidth = options.width ?? event.currentTarget.parentElement?.getBoundingClientRect().width ?? 120;
+          options.onResizeStart(columnKey, event.clientX, startWidth);
+        }}
+      />
     </th>
   );
 }
