@@ -282,4 +282,42 @@ export type {
 export { Empty } from './components/Empty/Empty';
 export type { EmptyProps } from './components/Empty/Empty';
 
+
+export {
+  CustomIndicator,
+  CustomProTable,
+  CustomSpin,
+  ItemActionEventName,
+  NoPermissionTable,
+  SortType,
+  useDropdownButtonDecision
+} from './components/CustomProTable';
+export type {
+  ActionColAction,
+  ActionColDropdown,
+  ActionColOptions,
+  CellTemplateContext,
+  ChangePagingParamsType,
+  ClickRowEventType,
+  ColumnConfig,
+  ColumnGroupConfig,
+  CustomIndicatorProps,
+  CustomProTableProps,
+  CustomSpinProps,
+  ItemStatus,
+  ItemStatusConfig,
+  NoPermissionTableProps,
+  PageSizeAndIndex,
+  PagingParameters,
+  ProTableAutoResize,
+  ProTableResponsiveCellRole,
+  ProTableResponsiveConfig,
+  ProTableResponsiveMode,
+  RowTableSize,
+  TableRowHeight,
+  TableStyleConfig,
+  TabGroupConfig,
+  TabValueConfig
+} from './components/CustomProTable';
+
 import './styles/index.scss';
