@@ -26,6 +26,7 @@ export type YearPickerProps<ValueType = Dayjs | Dayjs> = Omit<DatePickerProps<Va
 export type QuarterPickerProps<ValueType = Dayjs | Dayjs> = Omit<DatePickerProps<ValueType>, 'picker'>;
 
 type PickerMode = 'date' | 'week' | 'month' | 'quarter' | 'year';
+type CalendarPanelMode = 'date' | 'month' | 'year';
 type PickerSize = 'small' | 'middle' | 'large';
 type AllowClear = boolean | { clearIcon?: ReactNode };
 type DateValue = Dayjs | null;
@@ -109,6 +110,23 @@ function matchByPicker(candidate: Dayjs, current: Dayjs, picker: PickerMode) {
 
 function formatValue(value: Dayjs | null, format: string) {
   return value ? value.format(format) : '';
+}
+
+function getPanelStepUnit(mode: CalendarPanelMode): 'month' | 'year' {
+  return mode === 'date' ? 'month' : 'year';
+}
+
+function getHeaderLabel(panelDate: Dayjs, mode: CalendarPanelMode) {
+  if (mode === 'year') {
+    const start = Math.floor(panelDate.year() / 12) * 12;
+    return `${start}-${start + 11}`;
+  }
+
+  if (mode === 'month') {
+    return panelDate.format('YYYY');
+  }
+
+  return panelDate.format('MMMM YYYY');
 }
 
 function DatePanel({
@@ -240,6 +258,7 @@ function PickerShell({
         <span className="ui-date-picker__actions">
           {clearEnabled && showClear && !disabled ? (
             <span
+              className="ui-date-picker__clear"
               role="button"
               tabIndex={0}
               aria-label="Clear value"
@@ -307,6 +326,7 @@ const DatePickerBase = forwardRef<HTMLButtonElement, SinglePickerInternalProps>(
   const mergedOpen = isOpenControlled ? open : internalOpen;
 
   const [panelDate, setPanelDate] = useState((mergedValue ?? dayjs()).startOf('month'));
+  const [panelMode, setPanelMode] = useState<CalendarPanelMode>('date');
   const rootRef = useRef<HTMLDivElement | null>(null);
 
   const setOpen = useCallback((nextOpen: boolean) => {
@@ -334,6 +354,12 @@ const DatePickerBase = forwardRef<HTMLButtonElement, SinglePickerInternalProps>(
     onChange?.(next, formatValue(next, pickerFormat));
   };
 
+  const allowsCalendarPanelSwitch = picker === 'date' || picker === 'week';
+  const effectivePanelMode: CalendarPanelMode = allowsCalendarPanelSwitch ? panelMode : picker === 'year' ? 'year' : 'month';
+  const panelPicker: PickerMode = effectivePanelMode === 'date' ? picker : effectivePanelMode;
+  const stepUnit = getPanelStepUnit(effectivePanelMode);
+  const stepAmount = effectivePanelMode === 'year' ? 12 : 1;
+
   return (
     <div ref={rootRef}>
       <PickerShell
@@ -357,20 +383,53 @@ const DatePickerBase = forwardRef<HTMLButtonElement, SinglePickerInternalProps>(
         panel={
           <>
             <div className="ui-date-picker__header">
-              <button type="button" onClick={() => setPanelDate(panelDate.subtract(1, picker === 'year' ? 'year' : 'month'))}>
+              <button type="button" onClick={() => setPanelDate(panelDate.subtract(stepAmount, stepUnit))}>
                 <Icon name="chevronDown" className="ui-date-picker__nav ui-date-picker__nav--left" size="0.75rem" />
               </button>
-              <span>{panelDate.format(picker === 'year' ? 'YYYY' : 'MMMM YYYY')}</span>
-              <button type="button" onClick={() => setPanelDate(panelDate.add(1, picker === 'year' ? 'year' : 'month'))}>
+              <span className="ui-date-picker__header-title">
+                {allowsCalendarPanelSwitch ? (
+                  <>
+                    <button
+                      type="button"
+                      className="ui-date-picker__header-switch"
+                      onClick={() => setPanelMode((prev) => (prev === 'year' ? 'year' : 'month'))}
+                    >
+                      {panelDate.format('MMMM')}
+                    </button>
+                    <button
+                      type="button"
+                      className="ui-date-picker__header-switch"
+                      onClick={() => setPanelMode('year')}
+                    >
+                      {panelDate.format('YYYY')}
+                    </button>
+                  </>
+                ) : (
+                  getHeaderLabel(panelDate, effectivePanelMode)
+                )}
+              </span>
+              <button type="button" onClick={() => setPanelDate(panelDate.add(stepAmount, stepUnit))}>
                 <Icon name="chevronDown" className="ui-date-picker__nav ui-date-picker__nav--right" size="0.75rem" />
               </button>
             </div>
             <DatePanel
               panelValue={panelDate}
-              picker={picker}
+              picker={panelPicker}
               selected={mergedValue}
               disabledDate={disabledDate}
               onSelect={(nextValue) => {
+                if (effectivePanelMode === 'year') {
+                  setPanelDate(nextValue);
+                  setPanelMode('month');
+                  return;
+                }
+
+                if (effectivePanelMode === 'month' && allowsCalendarPanelSwitch) {
+                  setPanelDate(nextValue);
+                  setPanelMode('date');
+                  return;
+                }
+
                 emitChange(nextValue);
                 setOpen(false);
               }}
@@ -436,6 +495,7 @@ const RangePickerBase = forwardRef<HTMLButtonElement, RangePickerInternalProps>(
   const mergedOpen = isOpenControlled ? open : internalOpen;
 
   const [panelDate, setPanelDate] = useState((mergedValue[0] ?? dayjs()).startOf('month'));
+  const [panelMode, setPanelMode] = useState<CalendarPanelMode>('date');
   const [activeIndex, setActiveIndex] = useState<0 | 1>(0);
   const rootRef = useRef<HTMLDivElement | null>(null);
 
@@ -474,6 +534,12 @@ const RangePickerBase = forwardRef<HTMLButtonElement, RangePickerInternalProps>(
     ? `${mergedValue[0].format(pickerFormat)} ~ ${mergedValue[1].format(pickerFormat)}`
     : '';
 
+  const allowsCalendarPanelSwitch = picker === 'date' || picker === 'week';
+  const effectivePanelMode: CalendarPanelMode = allowsCalendarPanelSwitch ? panelMode : picker === 'year' ? 'year' : 'month';
+  const panelPicker: PickerMode = effectivePanelMode === 'date' ? picker : effectivePanelMode;
+  const stepUnit = getPanelStepUnit(effectivePanelMode);
+  const stepAmount = effectivePanelMode === 'year' ? 12 : 1;
+
   return (
     <div ref={rootRef}>
       <PickerShell
@@ -497,20 +563,53 @@ const RangePickerBase = forwardRef<HTMLButtonElement, RangePickerInternalProps>(
         panel={
           <>
             <div className="ui-date-picker__header">
-              <button type="button" onClick={() => setPanelDate(panelDate.subtract(1, 'month'))}>
+              <button type="button" onClick={() => setPanelDate(panelDate.subtract(stepAmount, stepUnit))}>
                 <Icon name="chevronDown" className="ui-date-picker__nav ui-date-picker__nav--left" size="0.75rem" />
               </button>
-              <span>{panelDate.format('MMMM YYYY')}</span>
-              <button type="button" onClick={() => setPanelDate(panelDate.add(1, 'month'))}>
+              <span className="ui-date-picker__header-title">
+                {allowsCalendarPanelSwitch ? (
+                  <>
+                    <button
+                      type="button"
+                      className="ui-date-picker__header-switch"
+                      onClick={() => setPanelMode((prev) => (prev === 'year' ? 'year' : 'month'))}
+                    >
+                      {panelDate.format('MMMM')}
+                    </button>
+                    <button
+                      type="button"
+                      className="ui-date-picker__header-switch"
+                      onClick={() => setPanelMode('year')}
+                    >
+                      {panelDate.format('YYYY')}
+                    </button>
+                  </>
+                ) : (
+                  getHeaderLabel(panelDate, effectivePanelMode)
+                )}
+              </span>
+              <button type="button" onClick={() => setPanelDate(panelDate.add(stepAmount, stepUnit))}>
                 <Icon name="chevronDown" className="ui-date-picker__nav ui-date-picker__nav--right" size="0.75rem" />
               </button>
             </div>
             <DatePanel
               panelValue={panelDate}
-              picker={picker}
+              picker={panelPicker}
               range={mergedValue}
               disabledDate={disabledDate}
               onSelect={(nextValue) => {
+                if (effectivePanelMode === 'year') {
+                  setPanelDate(nextValue);
+                  setPanelMode('month');
+                  return;
+                }
+
+                if (effectivePanelMode === 'month' && allowsCalendarPanelSwitch) {
+                  setPanelDate(nextValue);
+                  setPanelMode('date');
+                  return;
+                }
+
                 const next: [Dayjs | null, Dayjs | null] = [...mergedValue] as [Dayjs | null, Dayjs | null];
                 next[activeIndex] = nextValue;
 
